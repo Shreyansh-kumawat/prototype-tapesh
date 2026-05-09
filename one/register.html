@@ -3,302 +3,134 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSVP — Bride &amp; Groom</title>
+  <title>RSVP &mdash; Bride &amp; Groom</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-      --gold:#c9a84c;
-      --gold-light:#f0d080;
-      --cream:#faf7f2;
-      --dark:#0d0d0d;
-      --dark2:#1a1510;
-      --text:#3a2e1e;
-      --serif:'Playfair Display',serif;
-      --script:'Great Vibes',cursive;
-      --sans:'Inter',sans-serif;
-      --border:rgba(201,168,76,0.25);
-      --input-bg:#ffffff;
+      --gold:#c9a84c;--gold-light:#f0d080;--cream:#faf7f2;
+      --dark:#0d0d0d;--dark2:#1a1510;--text:#3a2e1e;
+      --serif:'Playfair Display',serif;--script:'Great Vibes',cursive;--sans:'Inter',sans-serif;
+      --border:rgba(201,168,76,0.25);--input-bg:#ffffff;
     }
     html{scroll-behavior:smooth}
     body{font-family:var(--sans);background:var(--cream);color:var(--text);min-height:100vh}
 
-    /* TOP NAV */
-    .topnav{
-      position:sticky;top:0;z-index:100;
-      background:rgba(250,247,242,0.92);backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border);
-      padding:0 2rem;
-      display:flex;align-items:center;justify-content:space-between;
-      height:64px;
-    }
-    .nav-back{
-      display:flex;align-items:center;gap:0.5rem;
-      text-decoration:none;color:var(--text);
-      font-size:0.75rem;font-weight:500;letter-spacing:0.1rem;
-      transition:color 0.2s;
-    }
+    /* SVG icon base */
+    .ico{display:inline-flex;align-items:center;justify-content:center}
+    .ico svg{stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+    .topnav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .nav-back{display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--text);font-size:0.75rem;font-weight:500;letter-spacing:0.1rem;transition:color 0.2s}
     .nav-back:hover{color:var(--gold)}
-    .nav-brand{
-      font-family:var(--script);font-size:1.6rem;color:var(--gold);
-    }
+    .nav-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .nav-brand{font-family:var(--script);font-size:1.6rem;color:var(--gold)}
     .nav-steps{font-size:0.65rem;color:#aaa;letter-spacing:0.1rem}
 
-    /* PROGRESS */
-    .progress-wrap{
-      background:#fff;border-bottom:1px solid var(--border);
-      padding:1.2rem 2rem 0;
-    }
-    .steps-row{
-      display:flex;max-width:760px;margin:0 auto;
-    }
-    .step-item{
-      flex:1;text-align:center;position:relative;
-    }
-    .step-item::after{
-      content:'';position:absolute;
-      top:14px;left:50%;right:-50%;
-      height:2px;background:#e8e0d0;z-index:0;
-    }
+    .progress-wrap{background:#fff;border-bottom:1px solid var(--border);padding:1.2rem 2rem 0}
+    .steps-row{display:flex;max-width:760px;margin:0 auto}
+    .step-item{flex:1;text-align:center;position:relative}
+    .step-item::after{content:'';position:absolute;top:14px;left:50%;right:-50%;height:2px;background:#e8e0d0;z-index:0}
     .step-item:last-child::after{display:none}
     .step-item.done::after,.step-item.active::after{background:var(--gold)}
-    .step-dot{
-      width:28px;height:28px;border-radius:50%;
-      border:2px solid #ddd;background:#fff;
-      display:flex;align-items:center;justify-content:center;
-      font-size:0.6rem;font-weight:600;color:#ccc;
-      margin:0 auto 0.5rem;position:relative;z-index:1;
-      transition:all 0.3s;
-    }
+    .step-dot{width:28px;height:28px;border-radius:50%;border:2px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:600;color:#ccc;margin:0 auto 0.5rem;position:relative;z-index:1;transition:all 0.3s}
     .step-item.done .step-dot{background:var(--gold);border-color:var(--gold);color:#fff}
-    .step-item.active .step-dot{
-      background:var(--dark2);border-color:var(--dark2);color:var(--gold);
-      box-shadow:0 0 0 4px rgba(201,168,76,0.15);
-    }
+    .step-item.active .step-dot{background:var(--dark2);border-color:var(--dark2);color:var(--gold);box-shadow:0 0 0 4px rgba(201,168,76,0.15)}
     .step-lbl{font-size:0.55rem;letter-spacing:0.1rem;text-transform:uppercase;color:#bbb}
     .step-item.active .step-lbl{color:var(--gold);font-weight:600}
     .step-item.done .step-lbl{color:var(--gold)}
-    .progress-bar-track{
-      height:3px;background:#f0ece4;
-      max-width:760px;margin:0 auto;
-      position:relative;overflow:hidden;
-    }
-    .progress-bar-fill{
-      height:100%;background:linear-gradient(to right,var(--gold),var(--gold-light));
-      transition:width 0.5s ease;
-    }
+    .progress-bar-track{height:3px;background:#f0ece4;max-width:760px;margin:0 auto;position:relative;overflow:hidden}
+    .progress-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--gold-light));transition:width 0.5s ease}
 
-    /* LAYOUT */
-    .page-body{
-      display:grid;
-      grid-template-columns:1fr 340px;
-      gap:0;
-      max-width:1100px;
-      margin:0 auto;
-      padding:3rem 2rem;
-      align-items:start;
-    }
-    @media(max-width:900px){.page-body{grid-template-columns:1fr;}.sidebar-info{display:none}}
-
-    /* FORM AREA */
-    .form-area{
-      padding-right:3rem;
-    }
+    .page-body{display:grid;grid-template-columns:1fr 340px;gap:0;max-width:1100px;margin:0 auto;padding:3rem 2rem;align-items:start}
+    @media(max-width:900px){.page-body{grid-template-columns:1fr}.sidebar-info{display:none}}
+    .form-area{padding-right:3rem}
     @media(max-width:900px){.form-area{padding-right:0}}
 
     .step-panel{display:none;animation:panelIn 0.35s ease}
     .step-panel.active{display:block}
     @keyframes panelIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
 
-    .step-title{
-      font-family:var(--serif);
-      font-size:clamp(1.8rem,3vw,2.4rem);
-      font-weight:400;color:var(--dark);
-      margin-bottom:0.4rem;
-    }
+    .step-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:400;color:var(--dark);margin-bottom:0.4rem}
     .step-title em{font-style:italic;color:var(--gold)}
     .step-desc{font-size:0.82rem;color:#9a8870;line-height:1.7;margin-bottom:2.5rem}
 
-    /* FIELDS */
     .field{margin-bottom:1.6rem}
-    .field label{
-      display:block;font-size:0.65rem;font-weight:600;
-      letter-spacing:0.18rem;text-transform:uppercase;
-      color:var(--gold);margin-bottom:0.5rem;
-    }
-    .field input,.field select,.field textarea{
-      width:100%;
-      padding:0.85rem 1.1rem;
-      border:1.5px solid var(--border);
-      background:var(--input-bg);
-      font-family:var(--sans);font-size:0.88rem;
-      color:var(--text);border-radius:4px;
-      outline:none;transition:border-color 0.25s,box-shadow 0.25s;
-      appearance:none;
-    }
-    .field input:focus,.field select:focus,.field textarea:focus{
-      border-color:var(--gold);
-      box-shadow:0 0 0 3px rgba(201,168,76,0.12);
-    }
+    .field label{display:block;font-size:0.65rem;font-weight:600;letter-spacing:0.18rem;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem}
+    .field input,.field select,.field textarea{width:100%;padding:0.85rem 1.1rem;border:1.5px solid var(--border);background:var(--input-bg);font-family:var(--sans);font-size:0.88rem;color:var(--text);border-radius:4px;outline:none;transition:border-color 0.25s,box-shadow 0.25s;appearance:none}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.12)}
     .field textarea{resize:vertical;min-height:110px;line-height:1.6}
-    .field select{
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-      background-repeat:no-repeat;background-position:right 1rem center;
-      padding-right:2.5rem;cursor:pointer;
-    }
+    .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer}
     .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
     @media(max-width:500px){.field-row{grid-template-columns:1fr}}
     .field-hint{font-size:0.72rem;color:#b0a08a;margin-top:0.35rem;line-height:1.5}
 
-    /* INFO BOX */
-    .info-box{
-      display:flex;gap:1rem;align-items:flex-start;
-      background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02));
-      border:1.5px solid rgba(201,168,76,0.25);
-      border-left:4px solid var(--gold);
-      padding:1.3rem 1.5rem;border-radius:4px;
-      font-size:0.85rem;line-height:1.7;color:#6b5030;
-    }
-    .info-box .ib-icon{font-size:1.5rem;flex-shrink:0}
+    .info-box{display:flex;gap:1rem;align-items:flex-start;background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02));border:1.5px solid rgba(201,168,76,0.25);border-left:4px solid var(--gold);padding:1.3rem 1.5rem;border-radius:4px;font-size:0.85rem;line-height:1.7;color:#6b5030}
+    .info-box .ib-icon{flex-shrink:0;margin-top:2px}
+    .info-box .ib-icon svg{width:22px;height:22px;stroke:var(--gold);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
-    /* TOGGLE */
     .toggle-wrap{display:flex;gap:0.8rem}
-    .tog{
-      flex:1;padding:0.75rem;
-      border:1.5px solid var(--border);
-      background:#fff;cursor:pointer;
-      font-family:var(--sans);font-size:0.75rem;
-      font-weight:500;letter-spacing:0.1rem;
-      text-transform:uppercase;color:#aaa;
-      border-radius:4px;transition:all 0.25s;
-      text-align:center;
-    }
+    .tog{flex:1;padding:0.75rem;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-family:var(--sans);font-size:0.75rem;font-weight:500;letter-spacing:0.1rem;text-transform:uppercase;color:#aaa;border-radius:4px;transition:all 0.25s;text-align:center}
     .tog.on{background:var(--dark2);border-color:var(--dark2);color:var(--gold)}
 
-    /* PASSENGER CARD */
-    .pax-card{
-      background:#fff;
-      border:1.5px solid var(--border);
-      border-radius:6px;
-      padding:1.5rem;
-      margin-bottom:1rem;
-      position:relative;
-    }
-    .pax-title{
-      font-family:var(--serif);font-size:1rem;font-weight:400;
-      color:var(--dark);margin-bottom:1rem;
-      display:flex;align-items:center;gap:0.5rem;
-    }
+    .pax-card{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:1rem;position:relative}
+    .pax-title{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
     .pax-title::before{content:'';display:block;width:3px;height:16px;background:var(--gold)}
-    .pax-remove{
-      position:absolute;top:1rem;right:1rem;
-      width:28px;height:28px;border-radius:50%;
-      background:#fff5f5;border:1px solid #ffcccc;
-      color:#e05555;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
-      font-size:1rem;transition:all 0.2s;
-    }
+    .pax-remove{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:#fff5f5;border:1px solid #ffcccc;color:#e05555;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
     .pax-remove:hover{background:#ffe0e0}
-    .add-pax-btn{
-      display:inline-flex;align-items:center;gap:0.5rem;
-      padding:0.6rem 1.2rem;
-      border:1.5px dashed var(--gold);background:none;
-      color:var(--gold);cursor:pointer;
-      font-family:var(--sans);font-size:0.72rem;
-      font-weight:500;letter-spacing:0.15rem;text-transform:uppercase;
-      border-radius:4px;transition:all 0.25s;margin-top:0.5rem;
-    }
+    .pax-remove svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+    .add-pax-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border:1.5px dashed var(--gold);background:none;color:var(--gold);cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.15rem;text-transform:uppercase;border-radius:4px;transition:all 0.25s;margin-top:0.5rem}
     .add-pax-btn:hover{background:rgba(201,168,76,0.06)}
+    .add-pax-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
 
-    /* REVIEW */
     .review-block{margin-bottom:1.5rem}
-    .review-block h4{
-      font-family:var(--serif);font-size:1rem;font-weight:400;
-      color:var(--gold);margin-bottom:0.8rem;
-      padding-bottom:0.5rem;
-      border-bottom:1px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;
-    }
-    .review-block h4 button{
-      font-family:var(--sans);font-size:0.6rem;letter-spacing:0.15rem;
-      text-transform:uppercase;color:#aaa;background:none;border:none;
-      cursor:pointer;transition:color 0.2s;
-    }
+    .review-block h4{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--gold);margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .review-block h4 button{font-family:var(--sans);font-size:0.6rem;letter-spacing:0.15rem;text-transform:uppercase;color:#aaa;background:none;border:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;gap:0.3rem}
     .review-block h4 button:hover{color:var(--gold)}
+    .review-block h4 button svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
     .review-row{display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.83rem;border-bottom:1px solid rgba(0,0,0,0.04)}
-    .rk{color:#a08060}
-    .rv{font-weight:500;color:var(--dark);text-align:right;flex:0 0 55%}
+    .rk{color:#a08060}.rv{font-weight:500;color:var(--dark);text-align:right;flex:0 0 55%}
 
-    /* BUTTONS */
     .nav-btns{display:flex;gap:1rem;margin-top:2.5rem}
-    .btn-back{
-      padding:0.85rem 1.8rem;
-      border:1.5px solid var(--border);
-      background:#fff;color:var(--text);
-      cursor:pointer;font-family:var(--sans);
-      font-size:0.72rem;font-weight:500;
-      letter-spacing:0.15rem;text-transform:uppercase;
-      border-radius:4px;transition:all 0.25s;
-    }
+    .btn-back{padding:0.85rem 1.8rem;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.15rem;text-transform:uppercase;border-radius:4px;transition:all 0.25s;display:flex;align-items:center;gap:0.4rem}
     .btn-back:hover{border-color:var(--gold);color:var(--gold)}
-    .btn-next{
-      flex:1;padding:0.9rem 2rem;
-      background:var(--dark2);color:var(--gold);
-      border:none;cursor:pointer;
-      font-family:var(--sans);font-size:0.72rem;
-      font-weight:600;letter-spacing:0.2rem;text-transform:uppercase;
-      border-radius:4px;transition:all 0.3s;
-      display:flex;align-items:center;justify-content:center;gap:0.5rem;
-    }
+    .btn-back svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .btn-next{flex:1;padding:0.9rem 2rem;background:var(--dark2);color:var(--gold);border:none;cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:600;letter-spacing:0.2rem;text-transform:uppercase;border-radius:4px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
     .btn-next:hover{background:#2a1f0a;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
-    .btn-submit{
-      flex:1;padding:1rem 2rem;
-      background:linear-gradient(135deg,#1a6b2a,#2a9c40);
-      color:#fff;border:none;cursor:pointer;
-      font-family:var(--sans);font-size:0.72rem;
-      font-weight:600;letter-spacing:0.2rem;text-transform:uppercase;
-      border-radius:4px;transition:all 0.3s;
-      display:flex;align-items:center;justify-content:center;gap:0.5rem;
-    }
+    .btn-next svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.3s}
+    .btn-next:hover svg{transform:translateX(3px)}
+    .btn-submit{flex:1;padding:1rem 2rem;background:linear-gradient(135deg,#1a6b2a,#2a9c40);color:#fff;border:none;cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:600;letter-spacing:0.2rem;text-transform:uppercase;border-radius:4px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
     .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(26,107,42,0.3)}
+    .btn-submit svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
-    /* ERROR */
-    .err-box{
-      background:#fff5f5;border:1.5px solid #ffcccc;
-      color:#d03030;padding:0.9rem 1.2rem;
-      border-radius:4px;font-size:0.8rem;
-      margin-bottom:1.5rem;display:none;
-      align-items:center;gap:0.5rem;
-    }
+    .err-box{background:#fff5f5;border:1.5px solid #ffcccc;color:#d03030;padding:0.9rem 1.2rem;border-radius:4px;font-size:0.8rem;margin-bottom:1.5rem;display:none;align-items:center;gap:0.5rem}
     .err-box.show{display:flex}
+    .err-box svg{width:16px;height:16px;stroke:#d03030;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
-    /* SIDEBAR */
-    .sidebar-info{
-      position:sticky;top:100px;
-      background:#fff;border:1.5px solid var(--border);
-      border-radius:8px;overflow:hidden;
-    }
+    .sidebar-info{position:sticky;top:100px;background:#fff;border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
     .sidebar-img{width:100%;height:200px;object-fit:cover;display:block}
     .sidebar-body{padding:1.5rem}
     .sb-title{font-family:var(--script);font-size:2rem;color:var(--gold);margin-bottom:0.3rem}
     .sb-date{font-size:0.7rem;letter-spacing:0.2rem;text-transform:uppercase;color:#bbb;margin-bottom:1.2rem}
     .sb-items{display:flex;flex-direction:column;gap:0.8rem}
     .sb-item{display:flex;align-items:center;gap:0.8rem;font-size:0.8rem;color:#6b5a40}
-    .sb-item .si-icon{width:32px;height:32px;background:rgba(201,168,76,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .sb-item .si-icon{width:32px;height:32px;background:rgba(201,168,76,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .sb-item .si-icon svg{width:15px;height:15px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
     .sb-divider{height:1px;background:var(--border);margin:1rem 0}
     .sb-note{font-size:0.75rem;color:#aaa;line-height:1.6;text-align:center}
   </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
 <nav class="topnav">
-  <a href="index1.html" class="nav-back">&larr; Back to Home</a>
+  <a href="index1.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Home
+  </a>
   <span class="nav-brand">Bride &amp; Groom</span>
   <span class="nav-steps" id="nav-step-count">Step 1 of 7</span>
 </nav>
 
-<!-- PROGRESS -->
 <div class="progress-wrap">
   <div class="steps-row">
     <div class="step-item active" id="si-1"><div class="step-dot">1</div><div class="step-lbl">You</div></div>
@@ -307,60 +139,49 @@
     <div class="step-item" id="si-4"><div class="step-dot">4</div><div class="step-lbl">Food</div></div>
     <div class="step-item" id="si-5"><div class="step-dot">5</div><div class="step-lbl">Guests</div></div>
     <div class="step-item" id="si-6"><div class="step-dot">6</div><div class="step-lbl">Notes</div></div>
-    <div class="step-item" id="si-7"><div class="step-dot">✓</div><div class="step-lbl">Review</div></div>
+    <div class="step-item" id="si-7">
+      <div class="step-dot">
+        <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="step-lbl">Review</div>
+    </div>
   </div>
   <div class="progress-bar-track"><div class="progress-bar-fill" id="prog-fill" style="width:14%"></div></div>
 </div>
 
-<!-- BODY -->
 <div class="page-body">
   <div class="form-area">
-    <div class="err-box" id="err-box">⚠️ <span id="err-msg"></span></div>
+    <div class="err-box" id="err-box">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span id="err-msg"></span>
+    </div>
 
     <!-- STEP 1 -->
     <div class="step-panel active" id="step-1">
       <h2 class="step-title">About <em>You</em></h2>
       <p class="step-desc">Let us know who you are. We'll use your email to send a confirmation.</p>
-      <div class="field">
-        <label>Full Name</label>
-        <input type="text" id="s1-name" placeholder="e.g. Rahul Sharma">
-      </div>
+      <div class="field"><label>Full Name</label><input type="text" id="s1-name" placeholder="e.g. Rahul Sharma"></div>
       <div class="field-row">
-        <div class="field">
-          <label>Age</label>
-          <input type="number" id="s1-age" placeholder="e.g. 28" min="1" max="120">
-        </div>
-        <div class="field">
-          <label>Email Address</label>
-          <input type="email" id="s1-email" placeholder="you@example.com">
-          <p class="field-hint">We'll send your RSVP confirmation here</p>
-        </div>
+        <div class="field"><label>Age</label><input type="number" id="s1-age" placeholder="e.g. 28" min="1" max="120"></div>
+        <div class="field"><label>Email Address</label><input type="email" id="s1-email" placeholder="you@example.com"><p class="field-hint">We'll send your RSVP confirmation here</p></div>
       </div>
-      <div class="nav-btns"><div></div><button class="btn-next" onclick="go(2)">Continue <span>→</span></button></div>
+      <div class="nav-btns"><div></div>
+        <button class="btn-next" onclick="go(2)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      </div>
     </div>
 
     <!-- STEP 2 -->
     <div class="step-panel" id="step-2">
       <h2 class="step-title">Your <em>Travel</em></h2>
       <p class="step-desc">Help us understand your journey to Jaipur so we can plan accordingly.</p>
-      <div class="field">
-        <label>Flying From (Departure City)</label>
-        <select id="s2-from">
-          <option value="">Select your city</option>
-          <option>Mumbai</option><option>Delhi</option><option>Bangalore</option>
-          <option>Chennai</option><option>Hyderabad</option><option>Kolkata</option>
-          <option>Pune</option><option>Ahmedabad</option><option>Surat</option>
-          <option>Lucknow</option><option>Chandigarh</option><option>Kochi</option>
-          <option>Goa</option><option>Nagpur</option><option>Other</option>
+      <div class="field"><label>Flying From (Departure City)</label>
+        <select id="s2-from"><option value="">Select your city</option>
+          <option>Mumbai</option><option>Delhi</option><option>Bangalore</option><option>Chennai</option><option>Hyderabad</option><option>Kolkata</option><option>Pune</option><option>Ahmedabad</option><option>Surat</option><option>Lucknow</option><option>Chandigarh</option><option>Kochi</option><option>Goa</option><option>Nagpur</option><option>Other</option>
         </select>
       </div>
-      <div class="field">
-        <label>Landing At (Arrival City)</label>
-        <select id="s2-to">
-          <option value="">Select arrival city</option>
-          <option>Jaipur</option><option>Delhi</option><option>Mumbai</option>
-          <option>Chennai</option><option>Bangalore</option><option>Hyderabad</option>
-          <option>Kolkata</option><option>Other</option>
+      <div class="field"><label>Landing At (Arrival City)</label>
+        <select id="s2-to"><option value="">Select arrival city</option>
+          <option>Jaipur</option><option>Delhi</option><option>Mumbai</option><option>Chennai</option><option>Bangalore</option><option>Hyderabad</option><option>Kolkata</option><option>Other</option>
         </select>
       </div>
       <div class="field-row">
@@ -368,8 +189,8 @@
         <div class="field"><label>Date of Landing</label><input type="date" id="s2-ldate"></div>
       </div>
       <div class="nav-btns">
-        <button class="btn-back" onclick="go(1)">&larr; Back</button>
-        <button class="btn-next" onclick="go(3)">Continue <span>→</span></button>
+        <button class="btn-back" onclick="go(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn-next" onclick="go(3)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </div>
     </div>
 
@@ -379,8 +200,8 @@
       <p class="step-desc">Based on where you're landing, here's what we've arranged for you.</p>
       <div id="transport-content"></div>
       <div class="nav-btns">
-        <button class="btn-back" onclick="go(2)">&larr; Back</button>
-        <button class="btn-next" onclick="go(4)">Continue <span>→</span></button>
+        <button class="btn-back" onclick="go(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn-next" onclick="go(4)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </div>
     </div>
 
@@ -388,13 +209,10 @@
     <div class="step-panel" id="step-4">
       <h2 class="step-title">Food <em>Preferences</em></h2>
       <p class="step-desc">Your comfort matters to us. Tell us about any dietary needs or allergies.</p>
-      <div class="field">
-        <label>Dietary Restrictions / Allergies</label>
-        <textarea id="s4-food" placeholder="E.g. Vegetarian, nut allergy, gluten-free. Write 'None' if no restrictions." rows="5"></textarea>
-      </div>
+      <div class="field"><label>Dietary Restrictions / Allergies</label><textarea id="s4-food" placeholder="E.g. Vegetarian, nut allergy, gluten-free. Write 'None' if no restrictions." rows="5"></textarea></div>
       <div class="nav-btns">
-        <button class="btn-back" onclick="go(3)">&larr; Back</button>
-        <button class="btn-next" onclick="go(5)">Continue <span>→</span></button>
+        <button class="btn-back" onclick="go(3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn-next" onclick="go(5)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </div>
     </div>
 
@@ -402,8 +220,7 @@
     <div class="step-panel" id="step-5">
       <h2 class="step-title">Co-<em>Passengers</em></h2>
       <p class="step-desc">Is anyone joining you? Add their details here.</p>
-      <div class="field">
-        <label>Is anyone travelling with you?</label>
+      <div class="field"><label>Is anyone travelling with you?</label>
         <div class="toggle-wrap">
           <button class="tog" id="cx-yes" onclick="setCopax(true)">Yes, adding guests</button>
           <button class="tog on" id="cx-no" onclick="setCopax(false)">No, just me</button>
@@ -413,25 +230,30 @@
         <div style="margin-bottom:2rem">
           <div style="font-family:var(--serif);font-size:1.1rem;color:var(--dark);margin-bottom:1rem;font-style:italic">Adults</div>
           <div id="adults-wrap"></div>
-          <button class="add-pax-btn" onclick="addAdult()">+ Add Adult</button>
+          <button class="add-pax-btn" onclick="addAdult()">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Adult
+          </button>
         </div>
         <div style="height:1px;background:var(--border);margin:1.5rem 0"></div>
         <div>
           <div style="font-family:var(--serif);font-size:1.1rem;color:var(--dark);margin-bottom:1rem;font-style:italic">Kids</div>
-          <div class="field">
-            <label>Are you bringing kids?</label>
+          <div class="field"><label>Are you bringing kids?</label>
             <div class="toggle-wrap">
               <button class="tog" id="kd-yes" onclick="setKids(true)">Yes</button>
               <button class="tog on" id="kd-no" onclick="setKids(false)">No</button>
             </div>
           </div>
           <div id="kids-wrap"></div>
-          <button class="add-pax-btn" id="add-kid-btn" onclick="addKid()" style="display:none">+ Add Kid</button>
+          <button class="add-pax-btn" id="add-kid-btn" onclick="addKid()" style="display:none">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Kid
+          </button>
         </div>
       </div>
       <div class="nav-btns">
-        <button class="btn-back" onclick="go(4)">&larr; Back</button>
-        <button class="btn-next" onclick="go(6)">Continue <span>→</span></button>
+        <button class="btn-back" onclick="go(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn-next" onclick="go(6)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </div>
     </div>
 
@@ -439,13 +261,10 @@
     <div class="step-panel" id="step-6">
       <h2 class="step-title">Anything <em>Else?</em></h2>
       <p class="step-desc">Got questions about travel, stay, or anything at all? We're here to help.</p>
-      <div class="field">
-        <label>Open Message (Optional)</label>
-        <textarea id="s6-notes" placeholder="Write anything — accommodation queries, special needs, concerns, or just a warm message for the couple ❤️" rows="7"></textarea>
-      </div>
+      <div class="field"><label>Open Message (Optional)</label><textarea id="s6-notes" placeholder="Write anything &mdash; accommodation queries, special needs, or just a warm message for the couple" rows="7"></textarea></div>
       <div class="nav-btns">
-        <button class="btn-back" onclick="go(5)">&larr; Back</button>
-        <button class="btn-next" onclick="go(7)">Review RSVP →</button>
+        <button class="btn-back" onclick="go(5)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn-next" onclick="go(7)">Review RSVP <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </div>
     </div>
 
@@ -455,22 +274,33 @@
       <p class="step-desc">Everything looks good? Hit confirm to lock in your spot!</p>
       <div id="review-body"></div>
       <div class="nav-btns">
-        <button class="btn-back" onclick="go(6)">&larr; Edit</button>
-        <button class="btn-submit" onclick="submitRSVP()">✓ Confirm My RSVP</button>
+        <button class="btn-back" onclick="go(6)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Edit</button>
+        <button class="btn-submit" onclick="submitRSVP()">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirm My RSVP
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar-info">
     <img class="sidebar-img" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&q=80" alt="wedding">
     <div class="sidebar-body">
       <div class="sb-title">Bride &amp; Groom</div>
       <div class="sb-date">25 &ndash; 26 November 2025</div>
       <div class="sb-items">
-        <div class="sb-item"><div class="si-icon">📅</div><div>25–26 November 2025</div></div>
-        <div class="sb-item"><div class="si-icon">📍</div><div>Jaipur, Rajasthan</div></div>
-        <div class="sb-item"><div class="si-icon">⏰</div><div>RSVP by 15 August 2025</div></div>
+        <div class="sb-item">
+          <div class="si-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div>25&ndash;26 November 2025</div>
+        </div>
+        <div class="sb-item">
+          <div class="si-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div>Jaipur, Rajasthan</div>
+        </div>
+        <div class="sb-item">
+          <div class="si-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>RSVP by 15 August 2025</div>
+        </div>
       </div>
       <div class="sb-divider"></div>
       <p class="sb-note">For queries: <strong>contact@bride-groom.com</strong></p>
@@ -479,36 +309,25 @@
 </div>
 
 <script>
-  let cur=1, hasCopax=false, hasKids=false, adultCnt=0, kidCnt=0;
+  let cur=1,hasCopax=false,hasKids=false,adultCnt=0,kidCnt=0;
   const TOTAL=7;
-
-  function showErr(msg){
-    const b=document.getElementById('err-box');
-    document.getElementById('err-msg').textContent=msg;
-    b.classList.add('show');
-    b.scrollIntoView({behavior:'smooth',block:'center'});
-  }
+  function showErr(msg){const b=document.getElementById('err-box');document.getElementById('err-msg').textContent=msg;b.classList.add('show');b.scrollIntoView({behavior:'smooth',block:'center'})}
   function hideErr(){document.getElementById('err-box').classList.remove('show')}
-
   function go(n){
     hideErr();
-    if(n>cur && !validate(cur)) return;
+    if(n>cur&&!validate(cur))return;
     document.getElementById('step-'+cur).classList.remove('active');
-    const si=document.getElementById('si-'+cur);
-    si.classList.remove('active');
-    if(n>cur) si.classList.add('done');
-    else si.classList.remove('done');
+    const si=document.getElementById('si-'+cur);si.classList.remove('active');
+    if(n>cur)si.classList.add('done');else si.classList.remove('done');
     cur=n;
     document.getElementById('step-'+n).classList.add('active');
-    const ni=document.getElementById('si-'+n);
-    ni.classList.remove('done');ni.classList.add('active');
+    const ni=document.getElementById('si-'+n);ni.classList.remove('done');ni.classList.add('active');
     document.getElementById('prog-fill').style.width=(cur/TOTAL*100)+'%';
     document.getElementById('nav-step-count').textContent='Step '+cur+' of '+TOTAL;
-    if(n===3) buildTransport();
-    if(n===7) buildReview();
+    if(n===3)buildTransport();
+    if(n===7)buildReview();
     window.scrollTo({top:0,behavior:'smooth'});
   }
-
   function validate(s){
     if(s===1){
       const name=document.getElementById('s1-name').value.trim();
@@ -518,9 +337,7 @@
       if(!age||+age<1){showErr('Please enter a valid age.');return false}
       if(!email||!email.includes('@')){showErr('Please enter a valid email address.');return false}
       const existing=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
-      if(existing.find(r=>r.email.toLowerCase()===email.toLowerCase())){
-        showErr('You have already RSVPed with this email. Contact us to make changes.');return false
-      }
+      if(existing.find(r=>r.email.toLowerCase()===email.toLowerCase())){showErr('You have already RSVPed with this email.');return false}
     }
     if(s===2){
       if(!document.getElementById('s2-from').value){showErr('Please select your departure city.');return false}
@@ -528,46 +345,28 @@
       if(!document.getElementById('s2-fdate').value){showErr('Please pick your flying date.');return false}
       if(!document.getElementById('s2-ldate').value){showErr('Please pick your landing date.');return false}
     }
-    if(s===4){
-      if(!document.getElementById('s4-food').value.trim()){showErr("Please fill food preferences or write 'None'.");return false}
-    }
+    if(s===4){if(!document.getElementById('s4-food').value.trim()){showErr("Please fill food preferences or write 'None'.");return false}}
     return true;
   }
-
   function buildTransport(){
     const city=document.getElementById('s2-to').value;
     const el=document.getElementById('transport-content');
     if(city==='Jaipur'){
-      el.innerHTML=`<div class="info-box"><div class="ib-icon">🚗</div><div><strong>Great news!</strong> We'll arrange your pickup from Jaipur Airport. No action needed — just share your flight details and we'll have someone waiting for you!</div></div>`
+      el.innerHTML=`<div class="info-box"><div class="ib-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><strong>Great news!</strong> We'll arrange your pickup from Jaipur Airport. No action needed &mdash; just share your flight details and we'll have someone waiting!</div></div>`
     } else {
-      el.innerHTML=`<div class="field"><label>Assistance from ${city||'your arrival city'}</label><p class="field-hint" style="margin-bottom:0.8rem">You're landing at <strong>${city}</strong>. If you need help reaching the venue, describe your needs below. <em>(Travel costs are borne by the guest.)</em></p><textarea id="s3-transport" placeholder="Describe your requirements here..." rows="5"></textarea></div>`
+      el.innerHTML=`<div class="field"><label>Assistance from ${city||'your arrival city'}</label><p class="field-hint" style="margin-bottom:0.8rem">You're landing at <strong>${city}</strong>. Describe your needs below. <em>(Travel costs borne by the guest.)</em></p><textarea id="s3-transport" placeholder="Describe your requirements here..." rows="5"></textarea></div>`
     }
   }
-
-  function setCopax(v){
-    hasCopax=v;
-    document.getElementById('cx-yes').className='tog'+(v?' on':'');
-    document.getElementById('cx-no').className='tog'+(v?'':' on');
-    document.getElementById('copax-section').style.display=v?'block':'none';
-  }
-  function setKids(v){
-    hasKids=v;
-    document.getElementById('kd-yes').className='tog'+(v?' on':'');
-    document.getElementById('kd-no').className='tog'+(v?'':' on');
-    document.getElementById('add-kid-btn').style.display=v?'inline-flex':'none';
-    if(!v){document.getElementById('kids-wrap').innerHTML='';kidCnt=0}
-  }
+  function setCopax(v){hasCopax=v;document.getElementById('cx-yes').className='tog'+(v?' on':'');document.getElementById('cx-no').className='tog'+(v?'':' on');document.getElementById('copax-section').style.display=v?'block':'none'}
+  function setKids(v){hasKids=v;document.getElementById('kd-yes').className='tog'+(v?' on':'');document.getElementById('kd-no').className='tog'+(v?'':' on');document.getElementById('add-kid-btn').style.display=v?'inline-flex':'none';if(!v){document.getElementById('kids-wrap').innerHTML='';kidCnt=0}}
   function addAdult(){
     if(adultCnt>=10){showErr('Max 10 adults.');return}
     adultCnt++;
     const w=document.getElementById('adults-wrap');
     const d=document.createElement('div');d.className='pax-card';d.id='a'+adultCnt;
     d.innerHTML=`<div class="pax-title">Adult ${adultCnt}</div>
-      <button class="pax-remove" onclick="document.getElementById('a${adultCnt}').remove()">&times;</button>
-      <div class="field-row">
-        <div class="field"><label>Name</label><input type="text" class="an" placeholder="Full name"></div>
-        <div class="field"><label>Age</label><input type="number" class="aa" placeholder="Age" min="18"></div>
-      </div>
+      <button class="pax-remove" onclick="document.getElementById('a${adultCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="field-row"><div class="field"><label>Name</label><input type="text" class="an" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="aa" placeholder="Age" min="18"></div></div>
       <div class="field"><label>Food Allergies</label><textarea class="af" rows="2" placeholder="Vegetarian, nut allergy, etc. or 'None'"></textarea></div>`;
     w.appendChild(d);
   }
@@ -577,75 +376,29 @@
     const w=document.getElementById('kids-wrap');
     const d=document.createElement('div');d.className='pax-card';d.id='k'+kidCnt;
     d.innerHTML=`<div class="pax-title">Kid ${kidCnt}</div>
-      <button class="pax-remove" onclick="document.getElementById('k${kidCnt}').remove()">&times;</button>
-      <div class="field-row">
-        <div class="field"><label>Name</label><input type="text" class="kn" placeholder="Full name"></div>
-        <div class="field"><label>Age</label><input type="number" class="ka" placeholder="Age" min="0" max="17"></div>
-      </div>
+      <button class="pax-remove" onclick="document.getElementById('k${kidCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="field-row"><div class="field"><label>Name</label><input type="text" class="kn" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="ka" placeholder="Age" min="0" max="17"></div></div>
       <div class="field"><label>Food Allergies</label><textarea class="kf" rows="2" placeholder="Any food concerns?"></textarea></div>`;
     w.appendChild(d);
   }
-
   function gather(){
     const adults=[...document.querySelectorAll('#adults-wrap .pax-card')].map(c=>({name:c.querySelector('.an')?.value,age:c.querySelector('.aa')?.value,food:c.querySelector('.af')?.value,type:'adult'}));
     const kids=[...document.querySelectorAll('#kids-wrap .pax-card')].map(c=>({name:c.querySelector('.kn')?.value,age:c.querySelector('.ka')?.value,food:c.querySelector('.kf')?.value,type:'kid'}));
     const arrCity=document.getElementById('s2-to').value;
     const tEl=document.getElementById('s3-transport');
-    return{
-      name:document.getElementById('s1-name').value.trim(),
-      age:document.getElementById('s1-age').value,
-      email:document.getElementById('s1-email').value.trim(),
-      from_city:document.getElementById('s2-from').value,
-      to_city:arrCity,
-      fly_date:document.getElementById('s2-fdate').value,
-      land_date:document.getElementById('s2-ldate').value,
-      transport_help:arrCity!=='Jaipur',
-      transport_desc:tEl?tEl.value:'',
-      food:document.getElementById('s4-food').value,
-      adults,kids,
-      notes:document.getElementById('s6-notes').value,
-      submitted_at:new Date().toISOString()
-    }
+    return{name:document.getElementById('s1-name').value.trim(),age:document.getElementById('s1-age').value,email:document.getElementById('s1-email').value.trim(),from_city:document.getElementById('s2-from').value,to_city:arrCity,fly_date:document.getElementById('s2-fdate').value,land_date:document.getElementById('s2-ldate').value,transport_help:arrCity!=='Jaipur',transport_desc:tEl?tEl.value:'',food:document.getElementById('s4-food').value,adults,kids,notes:document.getElementById('s6-notes').value,submitted_at:new Date().toISOString()}
   }
-
   function buildReview(){
     const d=gather();
-    let html=`
-    <div class="review-block">
-      <h4>Personal Details <button onclick="go(1)">Edit</button></h4>
-      <div class="review-row"><span class="rk">Name</span><span class="rv">${d.name}</span></div>
-      <div class="review-row"><span class="rk">Age</span><span class="rv">${d.age}</span></div>
-      <div class="review-row"><span class="rk">Email</span><span class="rv">${d.email}</span></div>
-    </div>
-    <div class="review-block">
-      <h4>Travel <button onclick="go(2)">Edit</button></h4>
-      <div class="review-row"><span class="rk">Flying From</span><span class="rv">${d.from_city}</span></div>
-      <div class="review-row"><span class="rk">Landing At</span><span class="rv">${d.to_city}</span></div>
-      <div class="review-row"><span class="rk">Flying Date</span><span class="rv">${d.fly_date}</span></div>
-      <div class="review-row"><span class="rk">Landing Date</span><span class="rv">${d.land_date}</span></div>
-    </div>
-    <div class="review-block">
-      <h4>Food <button onclick="go(4)">Edit</button></h4>
-      <div class="review-row"><span class="rk">Preferences</span><span class="rv">${d.food||'None'}</span></div>
-    </div>`;
-    if(d.adults.length||d.kids.length){
-      html+=`<div class="review-block"><h4>Co-Passengers <button onclick="go(5)">Edit</button></h4>`;
-      d.adults.forEach((a,i)=>html+=`<div class="review-row"><span class="rk">Adult ${i+1}</span><span class="rv">${a.name}, Age ${a.age}</span></div>`);
-      d.kids.forEach((k,i)=>html+=`<div class="review-row"><span class="rk">Kid ${i+1}</span><span class="rv">${k.name}, Age ${k.age}</span></div>`);
-      html+=`</div>`
-    }
-    if(d.notes) html+=`<div class="review-block"><h4>Message <button onclick="go(6)">Edit</button></h4><p style="font-size:0.85rem;line-height:1.7;color:#6b5040">${d.notes}</p></div>`;
+    const editBtn=(s,label)=>`<button onclick="go(${s})"><svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ${label}</button>`;
+    let html=`<div class="review-block"><h4>Personal Details ${editBtn(1,'Edit')}<div class="review-row"><span class="rk">Name</span><span class="rv">${d.name}</span></div><div class="review-row"><span class="rk">Age</span><span class="rv">${d.age}</span></div><div class="review-row"><span class="rk">Email</span><span class="rv">${d.email}</span></div></h4></div>`;
+    html+=`<div class="review-block"><h4>Travel ${editBtn(2,'Edit')}<div class="review-row"><span class="rk">Flying From</span><span class="rv">${d.from_city}</span></div><div class="review-row"><span class="rk">Landing At</span><span class="rv">${d.to_city}</span></div><div class="review-row"><span class="rk">Flying Date</span><span class="rv">${d.fly_date}</span></div><div class="review-row"><span class="rk">Landing Date</span><span class="rv">${d.land_date}</span></div></h4></div>`;
+    html+=`<div class="review-block"><h4>Food ${editBtn(4,'Edit')}<div class="review-row"><span class="rk">Preferences</span><span class="rv">${d.food||'None'}</span></div></h4></div>`;
+    if(d.adults.length||d.kids.length){html+=`<div class="review-block"><h4>Co-Passengers ${editBtn(5,'Edit')}`;d.adults.forEach((a,i)=>html+=`<div class="review-row"><span class="rk">Adult ${i+1}</span><span class="rv">${a.name}, Age ${a.age}</span></div>`);d.kids.forEach((k,i)=>html+=`<div class="review-row"><span class="rk">Kid ${i+1}</span><span class="rv">${k.name}, Age ${k.age}</span></div>`);html+=`</h4></div>`}
+    if(d.notes)html+=`<div class="review-block"><h4>Message ${editBtn(6,'Edit')}<p style="font-size:0.85rem;line-height:1.7;color:#6b5040;margin-top:0.5rem">${d.notes}</p></h4></div>`;
     document.getElementById('review-body').innerHTML=html;
   }
-
-  function submitRSVP(){
-    const data=gather();
-    const all=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
-    all.push(data);
-    localStorage.setItem('rsvp_submissions',JSON.stringify(all));
-    localStorage.setItem('last_rsvp',JSON.stringify(data));
-    window.location.href='thankyou.html';
-  }
+  function submitRSVP(){const data=gather();const all=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');all.push(data);localStorage.setItem('rsvp_submissions',JSON.stringify(all));localStorage.setItem('last_rsvp',JSON.stringify(data));window.location.href='thankyou.html'}
 </script>
 </body>
 </html>
