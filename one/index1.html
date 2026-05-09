@@ -128,6 +128,88 @@
     .rsvp-big-btn:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(201,168,76,0.4)}
     .rsvp-big-btn:hover svg{transform:translateX(4px)}
     .deadline-note{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:1.5rem;letter-spacing:0.2rem;text-transform:uppercase}
+
+    /* ── PORTAL SECTION ── */
+    .portal-section{
+      padding:5rem 2rem;
+      background:linear-gradient(135deg,#0d0d0d 0%,#1a1510 60%,#0f0b05 100%);
+      text-align:center;
+    }
+    .portal-eyebrow{
+      font-size:0.6rem;letter-spacing:0.45rem;text-transform:uppercase;
+      color:var(--gold);opacity:0.8;margin-bottom:0.8rem;
+    }
+    .portal-title{
+      font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);
+      font-weight:400;color:#fff;margin-bottom:0.6rem;
+    }
+    .portal-sub{
+      font-size:0.78rem;color:rgba(255,255,255,0.35);
+      letter-spacing:0.05em;margin-bottom:3rem;
+    }
+    .portal-cards{
+      display:flex;gap:1.5rem;justify-content:center;
+      flex-wrap:wrap;max-width:680px;margin:0 auto;
+    }
+    .portal-card{
+      flex:1;min-width:240px;max-width:300px;
+      border:1px solid rgba(201,168,76,0.2);
+      padding:2.2rem 1.8rem 2rem;
+      text-decoration:none;
+      position:relative;overflow:hidden;
+      transition:all 0.35s ease;
+      background:rgba(255,255,255,0.03);
+    }
+    .portal-card::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent);
+      opacity:0;transition:opacity 0.35s;
+    }
+    .portal-card:hover{border-color:rgba(201,168,76,0.55);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.4)}
+    .portal-card:hover::before{opacity:1}
+    .portal-card-icon{
+      width:48px;height:48px;margin:0 auto 1.1rem;
+      border:1px solid rgba(201,168,76,0.3);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      transition:border-color 0.3s;
+    }
+    .portal-card:hover .portal-card-icon{border-color:rgba(201,168,76,0.7)}
+    .portal-card-icon svg{width:20px;height:20px;stroke:var(--gold);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .portal-card-label{
+      font-size:0.55rem;letter-spacing:0.3rem;text-transform:uppercase;
+      color:var(--gold);opacity:0.7;margin-bottom:0.5rem;
+    }
+    .portal-card-title{
+      font-family:var(--serif);font-size:1.25rem;font-weight:400;
+      color:#fff;margin-bottom:0.6rem;
+    }
+    .portal-card-desc{
+      font-size:0.74rem;color:rgba(255,255,255,0.4);
+      line-height:1.65;
+    }
+    .portal-card-arrow{
+      display:inline-flex;align-items:center;gap:0.35rem;
+      margin-top:1.2rem;font-size:0.65rem;letter-spacing:0.2rem;
+      text-transform:uppercase;color:var(--gold);opacity:0.7;
+      transition:opacity 0.2s,gap 0.2s;
+    }
+    .portal-card:hover .portal-card-arrow{opacity:1;gap:0.55rem}
+    .portal-card-arrow svg{width:11px;height:11px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    /* admin card subtle tint */
+    .portal-card.admin-card{border-color:rgba(255,255,255,0.08)}
+    .portal-card.admin-card .portal-card-icon{border-color:rgba(255,255,255,0.2)}
+    .portal-card.admin-card .portal-card-icon svg{stroke:rgba(255,255,255,0.55)}
+    .portal-card.admin-card .portal-card-label,.portal-card.admin-card .portal-card-arrow{color:rgba(255,255,255,0.4)}
+    .portal-card.admin-card .portal-card-title{color:rgba(255,255,255,0.7)}
+    .portal-card.admin-card:hover{border-color:rgba(255,255,255,0.25)}
+    .portal-divider{
+      display:flex;align-items:center;gap:1rem;
+      max-width:200px;margin:3rem auto 0;
+    }
+    .portal-divider .dl{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.25))}
+    .portal-divider .dl.r{background:linear-gradient(to left,transparent,rgba(201,168,76,0.25))}
+    .portal-divider span{font-size:0.55rem;letter-spacing:0.2rem;color:rgba(255,255,255,0.2);text-transform:uppercase}
+
     footer{background:var(--dark);padding:2rem;text-align:center}
     footer p{font-size:0.65rem;color:rgba(255,255,255,0.25);letter-spacing:0.2rem;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:0.5rem}
     footer svg{width:12px;height:12px;fill:rgba(255,255,255,0.2)}
@@ -140,7 +222,11 @@
       .gitem{grid-column:auto!important;grid-row:auto!important;aspect-ratio:1}
       .countdown{gap:1rem}.cd-sep{display:none}
     }
-    @media(max-width:480px){.story{padding:3rem 1.2rem}.venue-cards{flex-direction:column}}
+    @media(max-width:480px){
+      .story{padding:3rem 1.2rem}.venue-cards{flex-direction:column}
+      .portal-cards{flex-direction:column;align-items:center}
+      .portal-card{max-width:100%}
+    }
   </style>
 </head>
 <body>
@@ -159,7 +245,6 @@
     </div>
     <p class="hero-date">25th &amp; 26th November 2025</p>
     <p class="hero-location">
-      <!-- pin icon -->
       <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
       Jaipur &nbsp;&middot;&middot;&middot;&middot;&nbsp; Rajasthan, India
     </p>
@@ -174,9 +259,7 @@
     </div>
     <a href="register.html" class="rsvp-btn">
       <span>RSVP Now</span>
-      <span class="arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </span>
+      <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
     </a>
   </div>
   <div class="scroll-down" onclick="document.querySelector('.story-wrap').scrollIntoView({behavior:'smooth'})">
@@ -209,30 +292,21 @@
   <div class="events-grid reveal">
     <div class="event-card">
       <div class="event-num">01</div>
-      <div class="event-icon">
-        <!-- music / sangeet icon -->
-        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      </div>
+      <div class="event-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
       <div class="event-badge">25 November &bull; Evening</div>
       <h3>Sangeet &amp; Mehendi</h3>
       <p>An enchanting evening of music, dance, and the beautiful art of henna with our closest loved ones.</p>
     </div>
     <div class="event-card">
       <div class="event-num">02</div>
-      <div class="event-icon">
-        <!-- rings / wedding icon -->
-        <svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/></svg>
-      </div>
+      <div class="event-icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/></svg></div>
       <div class="event-badge">26 November &bull; Morning</div>
       <h3>Wedding Ceremony</h3>
       <p>The sacred union, conducted with timeless rituals, heartfelt vows, and the blessings of everyone we love.</p>
     </div>
     <div class="event-card">
       <div class="event-num">03</div>
-      <div class="event-icon">
-        <!-- star / celebration icon -->
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
+      <div class="event-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
       <div class="event-badge">26 November &bull; Evening</div>
       <h3>Grand Reception</h3>
       <p>An evening of celebration, fine dining, and dancing under the stars to mark the beginning of forever.</p>
@@ -262,24 +336,15 @@
     <p class="subtitle">Jaipur, the Pink City of Rajasthan</p>
     <div class="venue-cards">
       <div class="venue-card">
-        <div class="vc-icon">
-          <!-- building icon -->
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M9 21V9h6v12"/><path d="M3 9h18"/></svg>
-        </div>
+        <div class="vc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M9 21V9h6v12"/><path d="M3 9h18"/></svg></div>
         <div class="vc-label">Venue</div><div class="vc-val">To be announced</div>
       </div>
       <div class="venue-card">
-        <div class="vc-icon">
-          <!-- calendar icon -->
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </div>
+        <div class="vc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
         <div class="vc-label">Dates</div><div class="vc-val">25&ndash;26 Nov 2025</div>
       </div>
       <div class="venue-card">
-        <div class="vc-icon">
-          <!-- location pin icon -->
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        </div>
+        <div class="vc-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
         <div class="vc-label">City</div><div class="vc-val">Jaipur, Rajasthan</div>
       </div>
     </div>
@@ -301,6 +366,51 @@
       <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
     <p class="deadline-note">RSVP Deadline &nbsp;&middot;&nbsp; 15 August 2025</p>
+  </div>
+</section>
+
+<!-- PORTAL SECTION -->
+<section class="portal-section">
+  <div class="reveal">
+    <p class="portal-eyebrow">Quick Access</p>
+    <h2 class="portal-title">Portals</h2>
+    <p class="portal-sub">Access the guest form or the admin dashboard</p>
+    <div class="portal-cards">
+
+      <!-- Guest -->
+      <a href="register.html" class="portal-card">
+        <div class="portal-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="portal-card-label">For Guests</div>
+        <div class="portal-card-title">RSVP Form</div>
+        <div class="portal-card-desc">Fill your travel details, food preferences, and co-passenger info.</div>
+        <div class="portal-card-arrow">
+          Open
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+
+      <!-- Admin -->
+      <a href="admin.html" class="portal-card admin-card">
+        <div class="portal-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <div class="portal-card-label">For Organisers</div>
+        <div class="portal-card-title">Admin Panel</div>
+        <div class="portal-card-desc">View all RSVPs, guest counts, search &amp; export data.</div>
+        <div class="portal-card-arrow">
+          Open
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+
+    </div>
+    <div class="portal-divider">
+      <span class="dl"></span>
+      <span>2025</span>
+      <span class="dl r"></span>
+    </div>
   </div>
 </section>
 
