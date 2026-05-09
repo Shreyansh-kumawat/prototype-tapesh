@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tapesh & Priya — Wedding 2025</title>
+  <title>Bride & Groom — Wedding 2025</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -23,8 +23,6 @@
       color: var(--dark);
       overflow-x: hidden;
     }
-
-    /* HERO */
     .hero {
       min-height: 100vh;
       position: relative;
@@ -108,8 +106,6 @@
       text-transform: uppercase;
       color: rgba(255,255,255,0.6);
     }
-
-    /* COUNTDOWN */
     .countdown {
       display: flex;
       gap: 1.5rem;
@@ -117,10 +113,7 @@
       margin: 2.5rem 0;
       animation: fadeUp 1s ease 0.7s both;
     }
-    .countdown-box {
-      text-align: center;
-      min-width: 70px;
-    }
+    .countdown-box { text-align: center; min-width: 70px; }
     .countdown-num {
       font-family: var(--font-serif);
       font-size: 2.5rem;
@@ -143,8 +136,6 @@
       align-self: center;
       padding-bottom: 1rem;
     }
-
-    /* CTA */
     .cta-btn {
       display: inline-block;
       padding: 1rem 3rem;
@@ -172,13 +163,7 @@
     }
     .cta-btn:hover::before { transform: translateX(0); }
     .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(184,134,11,0.4); }
-
-    /* ABOUT SECTION */
-    .about-section {
-      padding: 6rem 2rem;
-      background: var(--secondary);
-      text-align: center;
-    }
+    .about-section { padding: 6rem 2rem; background: var(--secondary); text-align: center; }
     .section-tag {
       font-size: 0.65rem;
       letter-spacing: 0.4rem;
@@ -201,12 +186,7 @@
       color: #5a4a30;
       opacity: 0.85;
     }
-
-    /* EVENT CARDS */
-    .events-section {
-      padding: 5rem 2rem;
-      background: var(--light);
-    }
+    .events-section { padding: 5rem 2rem; background: var(--light); }
     .events-section h2 {
       font-family: var(--font-serif);
       font-size: clamp(2rem, 5vw, 3rem);
@@ -254,8 +234,6 @@
       margin-bottom: 1rem;
     }
     .event-card p { font-size: 0.85rem; color: #6b5a3a; line-height: 1.6; }
-
-    /* GALLERY */
     .gallery-section { padding: 5rem 2rem; background: var(--secondary); }
     .gallery-section h2 {
       font-family: var(--font-serif);
@@ -271,20 +249,12 @@
       max-width: 1100px;
       margin: 0 auto;
     }
-    .gallery-item {
-      aspect-ratio: 1;
-      overflow: hidden;
-      border-radius: 2px;
-    }
+    .gallery-item { aspect-ratio: 1; overflow: hidden; border-radius: 2px; }
     .gallery-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-      filter: sepia(20%);
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease; filter: sepia(20%);
     }
     .gallery-item:hover img { transform: scale(1.05); filter: sepia(0%); }
-
-    /* FOOTER CTA */
     .footer-cta {
       padding: 6rem 2rem;
       background: linear-gradient(135deg, var(--dark), #4a3520);
@@ -312,10 +282,8 @@
       letter-spacing: 0.2rem;
       text-transform: uppercase;
     }
-
     @keyframes fadeDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
     @keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
-
     @media (max-width: 600px) {
       .countdown { gap: 0.8rem; }
       .countdown-box { min-width: 55px; }
@@ -324,8 +292,6 @@
   </style>
 </head>
 <body>
-
-<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
@@ -333,9 +299,9 @@
     <div class="ornament">✦ ✦ ✦</div>
     <p class="hero-subtitle">You are cordially invited to celebrate</p>
     <h1 class="couple-name">
-      Tapesh
+      Bride
       <span class="ampersand">&amp;</span>
-      Priya
+      Groom
     </h1>
     <div class="wedding-date">
       <div class="divider"></div>
@@ -355,15 +321,11 @@
     <a href="register.html" class="cta-btn">RSVP Now &rarr;</a>
   </div>
 </section>
-
-<!-- ABOUT -->
 <section class="about-section">
   <p class="section-tag">Our Story</p>
   <h2 class="section-title">Two hearts, one beautiful journey</h2>
   <p class="section-body">We are overjoyed to invite you to witness and celebrate our union. Your presence will make our wedding truly unforgettable. Join us as we begin this new chapter of love, laughter, and lifelong togetherness.</p>
 </section>
-
-<!-- EVENTS -->
 <section class="events-section">
   <p class="section-tag" style="text-align:center">Schedule</p>
   <h2>Wedding Events</h2>
@@ -388,8 +350,6 @@
     </div>
   </div>
 </section>
-
-<!-- GALLERY -->
 <section class="gallery-section">
   <h2>A Glimpse of Love</h2>
   <div class="gallery-grid">
@@ -401,20 +361,15 @@
     <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80" alt="wedding"></div>
   </div>
 </section>
-
-<!-- FOOTER CTA -->
 <section class="footer-cta">
   <h2>Will you join us?</h2>
   <p>RSVP before 15th August 2025 &bull; Seats are limited</p>
   <a href="register.html" class="cta-btn">Confirm Your Attendance</a>
 </section>
-
 <div class="footer-bottom">
-  &copy; 2025 Tapesh &amp; Priya &nbsp;&bull;&nbsp; Made with ♥ in Jaipur
+  &copy; 2025 Bride &amp; Groom &nbsp;&bull;&nbsp; Made with ♥ in Jaipur
 </div>
-
 <script>
-  // Countdown to Nov 25, 2025
   const weddingDate = new Date('2025-11-25T00:00:00').getTime();
   function updateCountdown() {
     const now = new Date().getTime();
