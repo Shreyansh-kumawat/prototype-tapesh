@@ -5,11 +5,499 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RSVP — Bride &amp; Groom</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>body{font-family:Arial,sans-serif;padding:40px;} </style>
+  <style>
+    :root {
+      --primary: #b8860b;
+      --secondary: #f5f0e8;
+      --dark: #2c2416;
+      --light: #fdfaf4;
+      --accent: #d4a843;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-sans: 'Montserrat', sans-serif;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-sans); background: var(--light); color: var(--dark); min-height: 100vh; }
+
+    .page-header {
+      background: linear-gradient(135deg, var(--dark), #4a3520);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .page-header a {
+      position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%);
+      color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.7rem;
+      letter-spacing: 0.2rem; text-transform: uppercase;
+    }
+    .page-header a:hover { color: var(--accent); }
+    .page-header h1 { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 300; color: #fff; font-style: italic; }
+    .page-header p { font-size: 0.65rem; letter-spacing: 0.3rem; color: var(--accent); text-transform: uppercase; margin-top: 0.3rem; }
+
+    .progress-bar-wrap { background: var(--secondary); padding: 1.5rem 2rem 0; }
+    .progress-steps { display: flex; justify-content: center; gap: 0; max-width: 700px; margin: 0 auto; }
+    .step-item { flex: 1; text-align: center; position: relative; }
+    .step-item::before {
+      content: ''; position: absolute; top: 15px; left: -50%; right: 50%;
+      height: 2px; background: #ddd; z-index: 0;
+    }
+    .step-item:first-child::before { display: none; }
+    .step-item.done::before, .step-item.active::before { background: var(--primary); }
+    .step-dot {
+      width: 30px; height: 30px; border-radius: 50%; border: 2px solid #ddd;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 500; margin: 0 auto 0.5rem;
+      position: relative; z-index: 1; transition: all 0.3s; color: #aaa;
+    }
+    .step-item.done .step-dot { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .step-item.active .step-dot { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px rgba(212,168,67,0.2); }
+    .step-label { font-size: 0.6rem; letter-spacing: 0.1rem; text-transform: uppercase; color: #aaa; }
+    .step-item.active .step-label { color: var(--primary); font-weight: 500; }
+    .step-item.done .step-label { color: var(--primary); }
+
+    .form-container { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .step-panel { display: none; animation: fadeIn 0.4s ease; }
+    .step-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+    .step-heading { font-family: var(--font-serif); font-size: 2rem; font-weight: 300; color: var(--dark); margin-bottom: 0.5rem; }
+    .step-sub { font-size: 0.8rem; color: #8a7355; margin-bottom: 2rem; line-height: 1.6; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    label { display: block; font-size: 0.7rem; letter-spacing: 0.15rem; text-transform: uppercase; color: var(--primary); margin-bottom: 0.5rem; font-weight: 500; }
+    input, select, textarea {
+      width: 100%; padding: 0.9rem 1rem;
+      border: 1px solid rgba(184,134,11,0.25);
+      background: #fff; font-family: var(--font-sans); font-size: 0.9rem;
+      color: var(--dark); border-radius: 2px; transition: border-color 0.3s; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212,168,67,0.1); }
+    textarea { resize: vertical; min-height: 100px; }
+    select { cursor: pointer; }
+
+    .info-box {
+      background: linear-gradient(135deg, rgba(184,134,11,0.08), rgba(212,168,67,0.05));
+      border: 1px solid rgba(184,134,11,0.3); border-left: 4px solid var(--primary);
+      padding: 1.2rem 1.5rem; border-radius: 2px; font-size: 0.85rem; line-height: 1.7; color: #5a4020;
+    }
+    .info-box .info-icon { font-size: 1.2rem; margin-bottom: 0.5rem; display: block; }
+
+    .toggle-group { display: flex; gap: 1rem; }
+    .toggle-btn {
+      flex: 1; padding: 0.8rem; border: 1px solid rgba(184,134,11,0.3);
+      background: #fff; cursor: pointer; font-family: var(--font-sans);
+      font-size: 0.8rem; letter-spacing: 0.1rem; text-transform: uppercase;
+      color: #8a7355; border-radius: 2px; transition: all 0.3s;
+    }
+    .toggle-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .passenger-card {
+      border: 1px solid rgba(184,134,11,0.2); padding: 1.5rem;
+      margin-bottom: 1rem; background: rgba(245,240,232,0.5);
+      border-radius: 2px; position: relative;
+    }
+    .passenger-card .card-title { font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 1rem; color: var(--dark); }
+    .remove-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #cc4444; cursor: pointer; font-size: 1.2rem; }
+
+    .add-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.2rem; border: 1px dashed var(--primary);
+      background: none; color: var(--primary); cursor: pointer;
+      font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.15rem;
+      text-transform: uppercase; border-radius: 2px; transition: all 0.3s; margin-top: 0.5rem;
+    }
+    .add-btn:hover { background: rgba(184,134,11,0.08); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .review-section { margin-bottom: 2rem; }
+    .review-section h3 {
+      font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400;
+      color: var(--primary); margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(184,134,11,0.2);
+    }
+    .review-row { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.85rem; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .review-row .rk { color: #8a7355; flex: 0 0 40%; }
+    .review-row .rv { color: var(--dark); font-weight: 500; flex: 0 0 58%; text-align: right; }
+
+    .nav-btns { display: flex; gap: 1rem; margin-top: 2.5rem; justify-content: space-between; }
+    .btn-back {
+      padding: 0.9rem 2rem; border: 1px solid rgba(184,134,11,0.4);
+      background: none; color: var(--primary); cursor: pointer;
+      font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.2rem;
+      text-transform: uppercase; border-radius: 2px; transition: all 0.3s;
+    }
+    .btn-back:hover { background: rgba(184,134,11,0.08); }
+    .btn-next {
+      flex: 1; padding: 0.9rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; border: none; cursor: pointer;
+      font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.2rem;
+      text-transform: uppercase; border-radius: 2px; transition: all 0.3s;
+    }
+    .btn-next:hover { transform: translateY(-1px); box-shadow: 0 5px 20px rgba(184,134,11,0.3); }
+    .btn-submit {
+      flex: 1; padding: 1rem 2rem;
+      background: linear-gradient(135deg, #1a5c2a, #2a8c40);
+      color: #fff; border: none; cursor: pointer;
+      font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.2rem;
+      text-transform: uppercase; border-radius: 2px; transition: all 0.3s;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 5px 20px rgba(26,92,42,0.3); }
+
+    .error-msg {
+      background: #fff0f0; border: 1px solid #ffaaaa;
+      color: #cc2222; padding: 0.8rem 1rem;
+      font-size: 0.8rem; border-radius: 2px; margin-bottom: 1rem; display: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>RSVP — Bride &amp; Groom</h1>
-  <p>This page now uses generic placeholder names.</p>
-  <p><a href="index1.html">Back to home</a></p>
+
+<div class="page-header">
+  <a href="index1.html">&larr; Back to Home</a>
+  <h1>RSVP</h1>
+  <p>Bride &amp; Groom &bull; 25–26 November 2025</p>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-steps">
+    <div class="step-item active" id="si-1"><div class="step-dot">1</div><div class="step-label">You</div></div>
+    <div class="step-item" id="si-2"><div class="step-dot">2</div><div class="step-label">Travel</div></div>
+    <div class="step-item" id="si-3"><div class="step-dot">3</div><div class="step-label">Transport</div></div>
+    <div class="step-item" id="si-4"><div class="step-dot">4</div><div class="step-label">Food</div></div>
+    <div class="step-item" id="si-5"><div class="step-dot">5</div><div class="step-label">Guests</div></div>
+    <div class="step-item" id="si-6"><div class="step-dot">6</div><div class="step-label">Notes</div></div>
+    <div class="step-item" id="si-7"><div class="step-dot">✓</div><div class="step-label">Review</div></div>
+  </div>
+</div>
+
+<div class="form-container">
+  <div id="error-box" class="error-msg"></div>
+
+  <!-- STEP 1 -->
+  <div class="step-panel active" id="step-1">
+    <h2 class="step-heading">Tell us about yourself</h2>
+    <p class="step-sub">Please fill in your personal details. Your email will be used to send your RSVP confirmation.</p>
+    <div class="form-group">
+      <label>Full Name *</label>
+      <input type="text" id="s1-name" placeholder="Your full name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Age *</label>
+        <input type="number" id="s1-age" placeholder="Your age" min="1" max="120">
+      </div>
+      <div class="form-group">
+        <label>Official Email *</label>
+        <input type="email" id="s1-email" placeholder="your@email.com">
+      </div>
+    </div>
+    <div class="nav-btns"><div></div><button class="btn-next" onclick="goToStep(2)">Next &rarr;</button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-panel" id="step-2">
+    <h2 class="step-heading">Your travel details</h2>
+    <p class="step-sub">Help us understand how you're getting to Jaipur for the wedding.</p>
+    <div class="form-group">
+      <label>Departure City (Flying From) *</label>
+      <select id="s2-from">
+        <option value="">Select city</option>
+        <option>Mumbai</option><option>Delhi</option><option>Bangalore</option>
+        <option>Chennai</option><option>Hyderabad</option><option>Kolkata</option>
+        <option>Pune</option><option>Ahmedabad</option><option>Surat</option>
+        <option>Lucknow</option><option>Chandigarh</option><option>Kochi</option>
+        <option>Goa</option><option>Nagpur</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Arrival City (Landing At) *</label>
+      <select id="s2-to">
+        <option value="">Select city</option>
+        <option>Jaipur</option><option>Delhi</option><option>Mumbai</option>
+        <option>Chennai</option><option>Bangalore</option><option>Hyderabad</option>
+        <option>Kolkata</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Date of Flying *</label><input type="date" id="s2-fly-date"></div>
+      <div class="form-group"><label>Date of Landing *</label><input type="date" id="s2-land-date"></div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goToStep(1)">&larr; Back</button>
+      <button class="btn-next" onclick="goToStep(3)">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-panel" id="step-3">
+    <h2 class="step-heading">Transport assistance</h2>
+    <p class="step-sub">Based on your arrival city, we've customised this step for you.</p>
+    <div id="transport-content"></div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goToStep(2)">&larr; Back</button>
+      <button class="btn-next" onclick="goToStep(4)">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-panel" id="step-4">
+    <h2 class="step-heading">Food preferences</h2>
+    <p class="step-sub">We want to make sure everyone is comfortable. Please let us know about any dietary needs.</p>
+    <div class="form-group">
+      <label>Food Allergies / Dietary Restrictions *</label>
+      <textarea id="s4-food" placeholder="E.g. I am allergic to nuts, I am vegetarian, I avoid gluten, etc. Write 'None' if no restrictions." rows="5"></textarea>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goToStep(3)">&larr; Back</button>
+      <button class="btn-next" onclick="goToStep(5)">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-panel" id="step-5">
+    <h2 class="step-heading">Co-passengers</h2>
+    <p class="step-sub">Is anyone travelling with you? Add their details so we can plan accordingly.</p>
+    <div class="form-group">
+      <label>Is anyone travelling with you?</label>
+      <div class="toggle-group">
+        <button class="toggle-btn" id="copax-yes" onclick="setCopax(true)">Yes</button>
+        <button class="toggle-btn selected" id="copax-no" onclick="setCopax(false)">No</button>
+      </div>
+    </div>
+    <div id="copax-section" style="display:none">
+      <div style="margin-bottom:2rem">
+        <h3 style="font-family:var(--font-serif);font-size:1.3rem;font-weight:400;margin-bottom:1rem;color:var(--dark)">Adults</h3>
+        <div id="adults-container"></div>
+        <button class="add-btn" onclick="addAdult()" id="add-adult-btn">+ Add Adult</button>
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-serif);font-size:1.3rem;font-weight:400;margin-bottom:1rem;color:var(--dark)">Kids</h3>
+        <div class="form-group">
+          <label>Are you bringing any kids?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn" id="kids-yes" onclick="setKids(true)">Yes</button>
+            <button class="toggle-btn selected" id="kids-no" onclick="setKids(false)">No</button>
+          </div>
+        </div>
+        <div id="kids-container"></div>
+        <button class="add-btn" id="add-kid-btn" onclick="addKid()" style="display:none">+ Add Kid</button>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goToStep(4)">&larr; Back</button>
+      <button class="btn-next" onclick="goToStep(6)">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step-panel" id="step-6">
+    <h2 class="step-heading">Anything else?</h2>
+    <p class="step-sub">If you have any concerns about travel, accommodation, or anything else — feel free to share. We'll get back to you with solutions.</p>
+    <div class="form-group">
+      <textarea id="s6-notes" placeholder="Write your complete scenario here. We're here to help." rows="6"></textarea>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goToStep(5)">&larr; Back</button>
+      <button class="btn-next" onclick="goToStep(7)">Review &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 7 — REVIEW -->
+  <div class="step-panel" id="step-7">
+    <h2 class="step-heading">Review your RSVP</h2>
+    <p class="step-sub">Please check your details before confirming. You can go back to edit any section.</p>
+    <div id="review-content"></div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goToStep(6)">&larr; Back</button>
+      <button class="btn-submit" onclick="submitRSVP()">Confirm My RSVP ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentStep = 1;
+  let hasCopax = false;
+  let hasKids = false;
+  let adultCount = 0;
+  let kidCount = 0;
+
+  function showError(msg) {
+    const el = document.getElementById('error-box');
+    el.textContent = msg; el.style.display = 'block';
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  function hideError() { document.getElementById('error-box').style.display = 'none'; }
+
+  function goToStep(n) {
+    hideError();
+    if (n > currentStep && !validateStep(currentStep)) return;
+    document.getElementById('step-'+currentStep).classList.remove('active');
+    document.getElementById('si-'+currentStep).classList.remove('active');
+    document.getElementById('si-'+currentStep).classList.add('done');
+    if (n < currentStep) document.getElementById('si-'+currentStep).classList.remove('done');
+    currentStep = n;
+    document.getElementById('step-'+n).classList.add('active');
+    document.getElementById('si-'+n).classList.remove('done');
+    document.getElementById('si-'+n).classList.add('active');
+    if (n === 3) buildTransportStep();
+    if (n === 7) buildReview();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function validateStep(s) {
+    if (s === 1) {
+      const name = document.getElementById('s1-name').value.trim();
+      const age = document.getElementById('s1-age').value.trim();
+      const email = document.getElementById('s1-email').value.trim();
+      if (!name) { showError('Please enter your full name.'); return false; }
+      if (!age || isNaN(age) || +age < 1) { showError('Please enter a valid age.'); return false; }
+      if (!email || !email.includes('@')) { showError('Please enter a valid email.'); return false; }
+      const existing = JSON.parse(localStorage.getItem('rsvp_submissions') || '[]');
+      if (existing.find(r => r.email.toLowerCase() === email.toLowerCase())) {
+        showError('You have already RSVPed with this email. Contact us to make changes.'); return false;
+      }
+    }
+    if (s === 2) {
+      if (!document.getElementById('s2-from').value) { showError('Please select your departure city.'); return false; }
+      if (!document.getElementById('s2-to').value) { showError('Please select your arrival city.'); return false; }
+      if (!document.getElementById('s2-fly-date').value) { showError('Please select your flying date.'); return false; }
+      if (!document.getElementById('s2-land-date').value) { showError('Please select your landing date.'); return false; }
+    }
+    if (s === 4) {
+      if (!document.getElementById('s4-food').value.trim()) { showError("Please describe your food preferences or write 'None'."); return false; }
+    }
+    return true;
+  }
+
+  function buildTransportStep() {
+    const city = document.getElementById('s2-to').value;
+    const el = document.getElementById('transport-content');
+    if (city === 'Jaipur') {
+      el.innerHTML = `<div class="info-box"><span class="info-icon">🚗</span><strong>Great news!</strong> We'll manage your transportation from Jaipur Airport. No action needed from your side!</div>`;
+    } else {
+      el.innerHTML = `<div class="form-group"><label>Travel Assistance from ${city || 'Your City'}</label><p style="font-size:0.8rem;color:#8a7355;margin-bottom:0.8rem;line-height:1.6">You're landing at <strong>${city || 'your destination'}</strong>. If you need assistance reaching our venue, describe your requirements below. <em>Note: Travel costs will be borne by the guest.</em></p><textarea id="s3-transport" placeholder="Describe your travel requirements or concerns here..." rows="5"></textarea></div>`;
+    }
+  }
+
+  function setCopax(val) {
+    hasCopax = val;
+    document.getElementById('copax-yes').className = 'toggle-btn' + (val ? ' selected' : '');
+    document.getElementById('copax-no').className = 'toggle-btn' + (!val ? ' selected' : '');
+    document.getElementById('copax-section').style.display = val ? 'block' : 'none';
+  }
+
+  function setKids(val) {
+    hasKids = val;
+    document.getElementById('kids-yes').className = 'toggle-btn' + (val ? ' selected' : '');
+    document.getElementById('kids-no').className = 'toggle-btn' + (!val ? ' selected' : '');
+    document.getElementById('add-kid-btn').style.display = val ? 'inline-flex' : 'none';
+    if (!val) { document.getElementById('kids-container').innerHTML = ''; kidCount = 0; }
+  }
+
+  function addAdult() {
+    if (adultCount >= 10) { showError('Maximum 10 adults allowed.'); return; }
+    adultCount++;
+    const c = document.getElementById('adults-container');
+    const div = document.createElement('div');
+    div.className = 'passenger-card'; div.id = 'adult-'+adultCount;
+    div.innerHTML = `<div class="card-title">Adult ${adultCount}</div>
+      <button class="remove-btn" onclick="removeCard('adult-${adultCount}')">&times;</button>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name *</label><input type="text" class="ad-name" placeholder="Name"></div>
+        <div class="form-group"><label>Age *</label><input type="number" class="ad-age" placeholder="Age" min="18"></div>
+      </div>
+      <div class="form-group"><label>Food Allergies</label><textarea class="ad-food" placeholder="E.g. Vegetarian, nut allergy, etc. or 'None'" rows="2"></textarea></div>`;
+    c.appendChild(div);
+  }
+
+  function addKid() {
+    if (kidCount >= 4) { showError('Maximum 4 kids allowed.'); return; }
+    kidCount++;
+    const c = document.getElementById('kids-container');
+    const div = document.createElement('div');
+    div.className = 'passenger-card'; div.id = 'kid-'+kidCount;
+    div.innerHTML = `<div class="card-title">Kid ${kidCount}</div>
+      <button class="remove-btn" onclick="removeCard('kid-${kidCount}')">&times;</button>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name *</label><input type="text" class="kd-name" placeholder="Name"></div>
+        <div class="form-group"><label>Age *</label><input type="number" class="kd-age" placeholder="Age" min="0" max="17"></div>
+      </div>
+      <div class="form-group"><label>Food Allergies</label><textarea class="kd-food" placeholder="Any food concerns for this child?" rows="2"></textarea></div>`;
+    c.appendChild(div);
+  }
+
+  function removeCard(id) { const el = document.getElementById(id); if (el) el.remove(); }
+
+  function gatherData() {
+    const adults = [...document.querySelectorAll('#adults-container .passenger-card')].map(c => ({
+      name: c.querySelector('.ad-name').value,
+      age: c.querySelector('.ad-age').value,
+      food: c.querySelector('.ad-food').value, type: 'adult'
+    }));
+    const kids = [...document.querySelectorAll('#kids-container .passenger-card')].map(c => ({
+      name: c.querySelector('.kd-name').value,
+      age: c.querySelector('.kd-age').value,
+      food: c.querySelector('.kd-food').value, type: 'kid'
+    }));
+    const arrCity = document.getElementById('s2-to').value;
+    const transportEl = document.getElementById('s3-transport');
+    return {
+      name: document.getElementById('s1-name').value.trim(),
+      age: document.getElementById('s1-age').value,
+      email: document.getElementById('s1-email').value.trim(),
+      from_city: document.getElementById('s2-from').value,
+      to_city: arrCity,
+      fly_date: document.getElementById('s2-fly-date').value,
+      land_date: document.getElementById('s2-land-date').value,
+      transport_help: arrCity !== 'Jaipur',
+      transport_desc: transportEl ? transportEl.value : '',
+      food: document.getElementById('s4-food').value,
+      adults, kids,
+      notes: document.getElementById('s6-notes').value,
+      submitted_at: new Date().toISOString()
+    };
+  }
+
+  function buildReview() {
+    const d = gatherData();
+    let html = `
+      <div class="review-section">
+        <h3>Personal Details</h3>
+        <div class="review-row"><span class="rk">Name</span><span class="rv">${d.name}</span></div>
+        <div class="review-row"><span class="rk">Age</span><span class="rv">${d.age}</span></div>
+        <div class="review-row"><span class="rk">Email</span><span class="rv">${d.email}</span></div>
+      </div>
+      <div class="review-section">
+        <h3>Travel Details</h3>
+        <div class="review-row"><span class="rk">Flying From</span><span class="rv">${d.from_city}</span></div>
+        <div class="review-row"><span class="rk">Landing At</span><span class="rv">${d.to_city}</span></div>
+        <div class="review-row"><span class="rk">Flying Date</span><span class="rv">${d.fly_date}</span></div>
+        <div class="review-row"><span class="rk">Landing Date</span><span class="rv">${d.land_date}</span></div>
+      </div>
+      <div class="review-section">
+        <h3>Food Preferences</h3>
+        <div class="review-row"><span class="rk">Allergies/Diet</span><span class="rv">${d.food || 'None'}</span></div>
+      </div>`;
+    if (d.adults.length || d.kids.length) {
+      html += `<div class="review-section"><h3>Co-Passengers</h3>`;
+      d.adults.forEach((a,i) => html += `<div class="review-row"><span class="rk">Adult ${i+1}</span><span class="rv">${a.name}, Age ${a.age}</span></div>`);
+      d.kids.forEach((k,i) => html += `<div class="review-row"><span class="rk">Kid ${i+1}</span><span class="rv">${k.name}, Age ${k.age}</span></div>`);
+      html += `</div>`;
+    }
+    if (d.notes) html += `<div class="review-section"><h3>Additional Notes</h3><p style="font-size:0.85rem;line-height:1.7;color:var(--dark)">${d.notes}</p></div>`;
+    document.getElementById('review-content').innerHTML = html;
+  }
+
+  function submitRSVP() {
+    const data = gatherData();
+    const existing = JSON.parse(localStorage.getItem('rsvp_submissions') || '[]');
+    existing.push(data);
+    localStorage.setItem('rsvp_submissions', JSON.stringify(existing));
+    localStorage.setItem('last_rsvp', JSON.stringify(data));
+    window.location.href = 'thankyou.html';
+  }
+</script>
 </body>
 </html>
