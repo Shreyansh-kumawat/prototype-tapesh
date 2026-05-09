@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tapesh & Priya — Wedding 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #b8860b;
+      --secondary: #f5f0e8;
+      --dark: #2c2416;
+      --light: #fdfaf4;
+      --accent: #d4a843;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-sans: 'Montserrat', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #1a1209 0%, #2c2416 40%, #4a3520 100%);
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(28,18,9,0.6) 0%, rgba(28,18,9,0.85) 100%);
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; }
+    .ornament {
+      font-size: 2rem;
+      color: var(--accent);
+      letter-spacing: 0.5rem;
+      opacity: 0.8;
+      margin-bottom: 1rem;
+      animation: fadeDown 1s ease;
+    }
+    .hero-subtitle {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.4rem;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      animation: fadeDown 1s ease 0.2s both;
+    }
+    .couple-name {
+      font-family: var(--font-serif);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .couple-name span { color: var(--accent); font-style: italic; }
+    .ampersand {
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: var(--accent);
+      font-style: italic;
+      display: block;
+      margin: 0.2rem 0;
+    }
+    .wedding-date {
+      margin: 2rem 0;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+    .wedding-date .date-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: rgba(255,255,255,0.85);
+      font-style: italic;
+      letter-spacing: 0.1em;
+    }
+    .divider {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+      margin: 1.5rem auto;
+    }
+    .location-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.3rem;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* COUNTDOWN */
+    .countdown {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin: 2.5rem 0;
+      animation: fadeUp 1s ease 0.7s both;
+    }
+    .countdown-box {
+      text-align: center;
+      min-width: 70px;
+    }
+    .countdown-num {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+    .countdown-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.3rem;
+    }
+    .countdown-sep {
+      font-size: 2rem;
+      color: var(--accent);
+      opacity: 0.4;
+      align-self: center;
+      padding-bottom: 1rem;
+    }
+
+    /* CTA */
+    .cta-btn {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.3rem;
+      text-transform: uppercase;
+      border-radius: 0;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+      animation: fadeUp 1s ease 0.9s both;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: 0.3s;
+    }
+    .cta-btn:hover::before { transform: translateX(0); }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(184,134,11,0.4); }
+
+    /* ABOUT SECTION */
+    .about-section {
+      padding: 6rem 2rem;
+      background: var(--secondary);
+      text-align: center;
+    }
+    .section-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.4rem;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+    .section-body {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: #5a4a30;
+      opacity: 0.85;
+    }
+
+    /* EVENT CARDS */
+    .events-section {
+      padding: 5rem 2rem;
+      background: var(--light);
+    }
+    .events-section h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-align: center;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 3rem auto 0;
+    }
+    .event-card {
+      border: 1px solid rgba(184,134,11,0.2);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      background: #fff;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .event-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+    }
+    .event-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+    .event-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .event-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    .event-card .event-date {
+      font-size: 0.75rem;
+      letter-spacing: 0.2rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .event-card p { font-size: 0.85rem; color: #6b5a3a; line-height: 1.6; }
+
+    /* GALLERY */
+    .gallery-section { padding: 5rem 2rem; background: var(--secondary); }
+    .gallery-section h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-align: center;
+      font-weight: 300;
+      margin-bottom: 3rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      filter: sepia(20%);
+    }
+    .gallery-item:hover img { transform: scale(1.05); filter: sepia(0%); }
+
+    /* FOOTER CTA */
+    .footer-cta {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, var(--dark), #4a3520);
+      text-align: center;
+      color: #fff;
+    }
+    .footer-cta h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    .footer-cta p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2rem;
+      letter-spacing: 0.1em;
+    }
+    .footer-bottom {
+      background: #1a1209;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+    @media (max-width: 600px) {
+      .countdown { gap: 0.8rem; }
+      .countdown-box { min-width: 55px; }
+      .countdown-num { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="ornament">✦ ✦ ✦</div>
+    <p class="hero-subtitle">You are cordially invited to celebrate</p>
+    <h1 class="couple-name">
+      Tapesh
+      <span class="ampersand">&amp;</span>
+      Priya
+    </h1>
+    <div class="wedding-date">
+      <div class="divider"></div>
+      <p class="date-text">25th &amp; 26th November 2025</p>
+      <div class="divider"></div>
+      <p class="location-text">Jaipur, Rajasthan, India</p>
+    </div>
+    <div class="countdown" id="countdown">
+      <div class="countdown-box"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Days</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-box"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Hours</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-box"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">Mins</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-box"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">Secs</span></div>
+    </div>
+    <a href="register.html" class="cta-btn">RSVP Now &rarr;</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <p class="section-tag">Our Story</p>
+  <h2 class="section-title">Two hearts, one beautiful journey</h2>
+  <p class="section-body">We are overjoyed to invite you to witness and celebrate our union. Your presence will make our wedding truly unforgettable. Join us as we begin this new chapter of love, laughter, and lifelong togetherness.</p>
+</section>
+
+<!-- EVENTS -->
+<section class="events-section">
+  <p class="section-tag" style="text-align:center">Schedule</p>
+  <h2>Wedding Events</h2>
+  <div class="events-grid">
+    <div class="event-card">
+      <div class="event-icon">🪔</div>
+      <h3>Sangeet & Mehendi</h3>
+      <p class="event-date">25 November 2025 &bull; Evening</p>
+      <p>An evening of music, dance, and beautiful henna art with close family and friends.</p>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">💐</div>
+      <h3>Wedding Ceremony</h3>
+      <p class="event-date">26 November 2025 &bull; Morning</p>
+      <p>The sacred union ceremony conducted with traditional rituals and heartfelt blessings.</p>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">🥂</div>
+      <h3>Grand Reception</h3>
+      <p class="event-date">26 November 2025 &bull; Evening</p>
+      <p>An elegant reception dinner celebration with dinner, music and memories for a lifetime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <h2>A Glimpse of Love</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=400&q=80" alt="wedding"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=400&q=80" alt="wedding"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=80" alt="wedding"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=400&q=80" alt="wedding"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&q=80" alt="wedding"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80" alt="wedding"></div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <h2>Will you join us?</h2>
+  <p>RSVP before 15th August 2025 &bull; Seats are limited</p>
+  <a href="register.html" class="cta-btn">Confirm Your Attendance</a>
+</section>
+
+<div class="footer-bottom">
+  &copy; 2025 Tapesh &amp; Priya &nbsp;&bull;&nbsp; Made with ♥ in Jaipur
+</div>
+
+<script>
+  // Countdown to Nov 25, 2025
+  const weddingDate = new Date('2025-11-25T00:00:00').getTime();
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = weddingDate - now;
+    if (diff < 0) {
+      document.getElementById('countdown').innerHTML = '<p style="color:var(--accent);font-family:var(--font-serif);font-size:1.5rem;font-style:italic">The big day has arrived! 🎉</p>';
+      return;
+    }
+    document.getElementById('cd-days').textContent = String(Math.floor(diff / (1000*60*60*24))).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(Math.floor((diff%(1000*60*60*24))/(1000*60*60))).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(Math.floor((diff%(1000*60*60))/(1000*60))).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(Math.floor((diff%(1000*60))/1000)).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
