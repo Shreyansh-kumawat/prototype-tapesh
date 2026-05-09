@@ -6,356 +6,350 @@
   <title>RSVP &mdash; Wedding Celebration</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --gold: #b8922a;
-      --gold-light: #d4a843;
-      --gold-pale: #f5edd8;
-      --cream: #faf8f4;
-      --white: #ffffff;
-      --text: #2c2416;
-      --text-mid: #6b5a3e;
-      --text-light: #a89370;
-      --border: #e8dfc8;
-      --border-focus: #b8922a;
-      --bg-input: #fdfaf5;
-      --red: #c0392b;
-      --red-bg: #fdf3f2;
-      --green: #1e6b35;
-      --green-bg: #f0f7f2;
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Inter', system-ui, sans-serif;
-      --radius: 8px;
-      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --gold:#b8922a;--gold-light:#d4a843;--gold-pale:#f5edd8;
+      --cream:#faf8f4;--white:#fff;--text:#2c2416;
+      --text-mid:#6b5a3e;--text-light:#a89370;
+      --border:#e8dfc8;--border-focus:#b8922a;
+      --bg-input:#fdfaf5;--red:#c0392b;--red-bg:#fdf3f2;
+      --green:#1e6b35;
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Inter',system-ui,sans-serif;
+      --r:8px;
+      --sh-sm:0 1px 4px rgba(0,0,0,.06);
+      --sh:0 4px 20px rgba(0,0,0,.08);
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--sans); background: var(--cream); color: var(--text); min-height: 100vh; font-size: 15px; }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--cream);color:var(--text);min-height:100vh;font-size:15px}
 
-    /* NAV */
-    .topnav {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--white); border-bottom: 1px solid var(--border);
-      height: 60px; padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      box-shadow: var(--shadow-sm);
+    /* ── NAV ── */
+    .topnav{
+      position:sticky;top:0;z-index:100;
+      background:var(--white);border-bottom:1px solid var(--border);
+      height:56px;padding:0 1rem;
+      display:flex;align-items:center;justify-content:space-between;
+      box-shadow:var(--sh-sm);
     }
-    .nav-back {
-      display: flex; align-items: center; gap: 6px;
-      text-decoration: none; color: var(--text-mid);
-      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em;
-      transition: color 0.18s;
+    .nav-back{
+      display:flex;align-items:center;gap:5px;
+      text-decoration:none;color:var(--text-mid);
+      font-size:0.75rem;font-weight:500;white-space:nowrap;
+      transition:color .18s;
     }
-    .nav-back:hover { color: var(--gold); }
-    .nav-back svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .nav-center { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; color: var(--text); letter-spacing: 0.02em; }
-    .nav-right { font-size: 0.72rem; color: var(--text-light); font-weight: 400; }
+    .nav-back:hover{color:var(--gold)}
+    .nav-back svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    .nav-center{font-family:var(--serif);font-size:1.35rem;font-weight:500;color:var(--text);letter-spacing:.02em}
+    .nav-right{font-size:0.7rem;color:var(--text-light);white-space:nowrap}
 
-    /* PROGRESS */
-    .progress-bar-wrap { background: var(--white); border-bottom: 1px solid var(--border); padding: 0; }
-    .prog-track { height: 3px; background: var(--border); }
-    .prog-fill { height: 100%; background: var(--gold); transition: width 0.45s ease; }
-    .steps-strip {
-      display: flex; max-width: 780px; margin: 0 auto;
-      padding: 1rem 2rem 0;
-    }
-    .si {
-      flex: 1; display: flex; flex-direction: column; align-items: center;
-      position: relative; cursor: default;
-    }
-    .si::after {
-      content: ''; position: absolute; top: 12px;
-      left: calc(50% + 14px); right: calc(-50% + 14px);
-      height: 1px; background: var(--border); z-index: 0;
-    }
-    .si:last-child::after { display: none; }
-    .si.done::after { background: var(--gold-light); }
-    .si-dot {
-      width: 24px; height: 24px; border-radius: 50%;
-      border: 1.5px solid var(--border); background: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; font-weight: 600; color: var(--text-light);
-      position: relative; z-index: 1; transition: all 0.25s;
-      margin-bottom: 6px;
-    }
-    .si.done .si-dot { background: var(--gold); border-color: var(--gold); color: #fff; }
-    .si.active .si-dot { background: var(--white); border-color: var(--gold); border-width: 2px; color: var(--gold); font-weight: 700; }
-    .si-lbl { font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light); }
-    .si.active .si-lbl { color: var(--gold); font-weight: 600; }
-    .si.done .si-lbl { color: var(--text-mid); }
+    /* ── PROGRESS ── */
+    .progress-bar-wrap{background:var(--white);border-bottom:1px solid var(--border)}
+    .prog-track{height:3px;background:var(--border)}
+    .prog-fill{height:100%;background:var(--gold);transition:width .45s ease}
 
-    /* LAYOUT */
-    .page-wrap {
-      max-width: 1020px; margin: 0 auto; padding: 2.5rem 2rem;
-      display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start;
+    /* Desktop steps strip */
+    .steps-strip{
+      display:flex;max-width:700px;margin:0 auto;
+      padding:.9rem 1rem 0;
     }
-    @media (max-width: 860px) { .page-wrap { grid-template-columns: 1fr; } .sidebar { display: none; } }
+    .si{
+      flex:1;display:flex;flex-direction:column;align-items:center;
+      position:relative;
+    }
+    .si::after{
+      content:'';position:absolute;top:11px;
+      left:calc(50% + 13px);right:calc(-50% + 13px);
+      height:1px;background:var(--border);z-index:0;
+    }
+    .si:last-child::after{display:none}
+    .si.done::after{background:var(--gold-light)}
+    .si-dot{
+      width:22px;height:22px;border-radius:50%;
+      border:1.5px solid var(--border);background:var(--white);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.58rem;font-weight:600;color:var(--text-light);
+      position:relative;z-index:1;transition:all .25s;
+      margin-bottom:5px;flex-shrink:0;
+    }
+    .si.done .si-dot{background:var(--gold);border-color:var(--gold);color:#fff}
+    .si.active .si-dot{background:var(--white);border-color:var(--gold);border-width:2px;color:var(--gold);font-weight:700}
+    .si-lbl{font-size:.52rem;letter-spacing:.07em;text-transform:uppercase;color:var(--text-light)}
+    .si.active .si-lbl{color:var(--gold);font-weight:600}
+    .si.done .si-lbl{color:var(--text-mid)}
 
-    /* ERROR */
-    .err-box {
-      background: var(--red-bg); border: 1px solid #f5c6c2;
-      border-left: 3px solid var(--red); border-radius: var(--radius);
-      padding: 0.8rem 1rem; margin-bottom: 1.2rem;
-      font-size: 0.82rem; color: var(--red);
-      display: none; align-items: center; gap: 0.5rem;
-    }
-    .err-box.show { display: flex; }
-    .err-box svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; flex-shrink: 0; }
-
-    /* FORM CARD */
-    .form-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 12px; box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .form-card-head {
-      padding: 1.8rem 2rem 0;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.4rem;
-      margin-bottom: 0;
-    }
-    .step-num {
-      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
-    }
-    .step-title {
-      font-family: var(--serif); font-size: 1.9rem; font-weight: 500;
-      color: var(--text); line-height: 1.15; margin-bottom: 0.4rem;
-    }
-    .step-desc {
-      font-size: 0.82rem; color: var(--text-light); line-height: 1.7;
-    }
-    .form-card-body { padding: 1.8rem 2rem; }
-    @media (max-width: 500px) {
-      .form-card-head, .form-card-body { padding-left: 1.2rem; padding-right: 1.2rem; }
+    /* Mobile: hide labels, compress dots */
+    @media(max-width:480px){
+      .steps-strip{padding:.7rem .5rem 0}
+      .si-lbl{display:none}
+      .si-dot{width:20px;height:20px;font-size:.52rem}
+      .si::after{top:10px;left:calc(50% + 11px);right:calc(-50% + 11px)}
     }
 
-    /* STEP PANELS */
-    .step-panel { display: none; animation: fadeUp 0.28s ease; }
-    .step-panel.active { display: block; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    /* ── LAYOUT ── */
+    .page-wrap{
+      max-width:1020px;margin:0 auto;padding:2rem 1.5rem;
+      display:grid;grid-template-columns:1fr 290px;gap:2rem;align-items:start;
+    }
+    @media(max-width:860px){.page-wrap{grid-template-columns:1fr}.sidebar{display:none}}
+    @media(max-width:480px){.page-wrap{padding:1.2rem .75rem}}
 
-    /* FIELDS */
-    .field { margin-bottom: 1.4rem; }
-    .field label {
-      display: block; font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-mid); margin-bottom: 0.45rem;
+    /* ── ERROR ── */
+    .err-box{
+      background:var(--red-bg);border:1px solid #f5c6c2;
+      border-left:3px solid var(--red);border-radius:var(--r);
+      padding:.75rem 1rem;margin-bottom:1rem;
+      font-size:.82rem;color:var(--red);
+      display:none;align-items:center;gap:.5rem;
     }
-    .field input, .field textarea {
-      width: 100%; padding: 0.75rem 0.9rem;
-      border: 1.5px solid var(--border); background: var(--bg-input);
-      font-family: var(--sans); font-size: 0.88rem; color: var(--text);
-      border-radius: var(--radius); outline: none;
-      transition: border-color 0.18s, box-shadow 0.18s;
-    }
-    .field input:focus, .field textarea:focus {
-      border-color: var(--border-focus);
-      background: var(--white);
-      box-shadow: 0 0 0 3px rgba(184,146,42,0.1);
-    }
-    .field input::placeholder, .field textarea::placeholder { color: #c5b898; }
-    .field textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
-    .field-hint { font-size: 0.72rem; color: var(--text-light); margin-top: 0.3rem; line-height: 1.5; }
+    .err-box.show{display:flex}
+    .err-box svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;flex-shrink:0}
 
-    /* CUSTOM SELECT */
-    .csel { position: relative; }
-    .csel-btn {
-      width: 100%; padding: 0.75rem 2.5rem 0.75rem 0.9rem;
-      border: 1.5px solid var(--border); background: var(--bg-input);
-      font-family: var(--sans); font-size: 0.88rem; color: var(--text);
-      border-radius: var(--radius); cursor: pointer; text-align: left;
-      display: flex; align-items: center; gap: 0.5rem;
-      transition: border-color 0.18s, box-shadow 0.18s;
-      position: relative; user-select: none;
+    /* ── FORM CARD ── */
+    .form-card{
+      background:var(--white);border:1px solid var(--border);
+      border-radius:12px;box-shadow:var(--sh);overflow:hidden;
     }
-    .csel-btn.open, .csel-btn:focus {
-      border-color: var(--border-focus); background: var(--white);
-      box-shadow: 0 0 0 3px rgba(184,146,42,0.1);
+    .form-card-head{
+      padding:1.5rem 1.5rem 1.2rem;
+      border-bottom:1px solid var(--border);
     }
-    .csel-placeholder { color: #c5b898; }
-    .csel-chevron {
-      position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
-      pointer-events: none; transition: transform 0.2s;
-    }
-    .csel-chevron svg { width: 12px; height: 12px; stroke: var(--text-light); stroke-width: 2; fill: none; stroke-linecap: round; }
-    .csel-btn.open .csel-chevron { transform: translateY(-50%) rotate(180deg); }
-    .csel-drop {
-      position: absolute; top: calc(100% + 5px); left: 0; right: 0; z-index: 400;
-      background: var(--white); border: 1.5px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-      max-height: 250px; display: none; flex-direction: column; overflow: hidden;
-    }
-    .csel-drop.open { display: flex; }
-    .csel-search {
-      padding: 0.6rem 0.9rem; border: none; border-bottom: 1px solid var(--border);
-      font-family: var(--sans); font-size: 0.83rem; color: var(--text);
-      outline: none; background: #fffdf9; flex-shrink: 0;
-    }
-    .csel-list { overflow-y: auto; }
-    .csel-group { padding: 0.35rem 0.9rem; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); background: #faf8f4; border-bottom: 1px solid var(--border); }
-    .csel-opt {
-      padding: 0.6rem 0.9rem; font-size: 0.86rem; cursor: pointer;
-      display: flex; align-items: center; gap: 0.6rem;
-      transition: background 0.12s; border-bottom: 1px solid rgba(0,0,0,0.025);
-    }
-    .csel-opt:hover { background: var(--gold-pale); }
-    .csel-opt.sel { background: var(--gold-pale); font-weight: 500; }
-    .csel-opt .co-sub { font-size: 0.72rem; color: var(--text-light); margin-left: auto; }
-    .csel-empty { padding: 0.9rem; text-align: center; font-size: 0.8rem; color: var(--text-light); }
+    @media(max-width:480px){.form-card-head{padding:1.2rem 1rem 1rem}}
+    .step-num{font-size:.63rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+    .step-title{font-family:var(--serif);font-size:clamp(1.5rem,4vw,1.9rem);font-weight:500;color:var(--text);line-height:1.15;margin-bottom:.35rem}
+    .step-desc{font-size:.82rem;color:var(--text-light);line-height:1.7}
 
-    /* TOGGLE */
-    .tog-wrap { display: flex; gap: 0.5rem; }
-    .tog {
-      flex: 1; padding: 0.65rem 0.5rem;
-      border: 1.5px solid var(--border); background: var(--bg-input);
-      font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
-      color: var(--text-light); border-radius: var(--radius);
-      cursor: pointer; text-align: center; transition: all 0.18s;
-    }
-    .tog:hover { border-color: var(--gold-light); color: var(--text-mid); }
-    .tog.on { background: var(--gold-pale); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+    .form-card-body{padding:1.5rem}
+    @media(max-width:480px){.form-card-body{padding:1rem}}
 
-    /* INFO BOXES */
-    .info-box {
-      display: flex; gap: 0.9rem; align-items: flex-start;
-      background: var(--gold-pale); border: 1px solid #e0c878;
-      border-radius: var(--radius); padding: 1.1rem 1.2rem;
-      font-size: 0.84rem; line-height: 1.7; color: var(--text-mid); margin-bottom: 1rem;
-    }
-    .info-box .ib-ico svg { width: 18px; height: 18px; stroke: var(--gold); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; margin-top: 2px; }
-    .info-note {
-      display: flex; gap: 0.7rem; align-items: flex-start;
-      background: #f7f5f0; border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 0.85rem 1rem;
-      font-size: 0.78rem; line-height: 1.65; color: var(--text-light); margin-top: 0.8rem;
-    }
-    .info-note svg { width: 14px; height: 14px; stroke: var(--text-light); stroke-width: 1.8; fill: none; stroke-linecap: round; flex-shrink: 0; margin-top: 2px; }
+    /* ── PANELS ── */
+    .step-panel{display:none;animation:fadeUp .28s ease}
+    .step-panel.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    /* PAX CARDS */
-    .pax-card {
-      border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1.2rem; margin-bottom: 0.8rem; position: relative;
-      background: var(--bg-input);
+    /* ── FIELDS ── */
+    .field{margin-bottom:1.3rem}
+    .field label{
+      display:block;font-size:.68rem;font-weight:600;
+      letter-spacing:.12em;text-transform:uppercase;
+      color:var(--text-mid);margin-bottom:.42rem;
     }
-    .pax-title {
-      font-family: var(--serif); font-size: 1rem; font-weight: 500;
-      color: var(--text); margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.5rem;
+    .field input,.field textarea{
+      width:100%;padding:.72rem .85rem;
+      border:1.5px solid var(--border);background:var(--bg-input);
+      font-family:var(--sans);font-size:.88rem;color:var(--text);
+      border-radius:var(--r);outline:none;
+      transition:border-color .18s,box-shadow .18s;
+      -webkit-appearance:none;
     }
-    .pax-badge {
-      width: 20px; height: 20px; border-radius: 50%; background: var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--sans); font-size: 0.6rem; font-weight: 700; color: #fff;
+    .field input:focus,.field textarea:focus{
+      border-color:var(--border-focus);background:var(--white);
+      box-shadow:0 0 0 3px rgba(184,146,42,.1);
     }
-    .pax-rm {
-      position: absolute; top: 1rem; right: 1rem;
-      width: 26px; height: 26px; border-radius: 50%;
-      background: #fff; border: 1px solid #ecd8d8; color: #b05050;
-      cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-    }
-    .pax-rm:hover { background: #fdf0f0; border-color: #d08080; }
-    .pax-rm svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; }
-    .add-btn {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.5rem 1rem; margin-top: 0.3rem;
-      border: 1.5px dashed var(--border); background: none;
-      color: var(--text-mid); font-family: var(--sans); font-size: 0.76rem;
-      font-weight: 500; border-radius: var(--radius); cursor: pointer;
-      transition: all 0.18s;
-    }
-    .add-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-pale); }
-    .add-btn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+    .field input::placeholder,.field textarea::placeholder{color:#c5b898}
+    .field textarea{resize:vertical;min-height:110px;line-height:1.6}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+    @media(max-width:520px){.field-row{grid-template-columns:1fr}}
+    .field-hint{font-size:.7rem;color:var(--text-light);margin-top:.28rem;line-height:1.5}
 
-    /* SECTION LABEL */
-    .sec-label {
-      font-family: var(--serif); font-size: 1.05rem; font-weight: 500;
-      color: var(--text); margin: 1.4rem 0 0.8rem;
-      display: flex; align-items: center; gap: 0.7rem;
+    /* ── CUSTOM SELECT ── */
+    .csel{position:relative}
+    .csel-btn{
+      width:100%;padding:.72rem 2.4rem .72rem .85rem;
+      border:1.5px solid var(--border);background:var(--bg-input);
+      font-family:var(--sans);font-size:.88rem;color:var(--text);
+      border-radius:var(--r);cursor:pointer;text-align:left;
+      display:flex;align-items:center;gap:.5rem;
+      transition:border-color .18s,box-shadow .18s;
+      position:relative;user-select:none;
     }
-    .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .csel-btn.open,.csel-btn:focus{
+      border-color:var(--border-focus);background:var(--white);
+      box-shadow:0 0 0 3px rgba(184,146,42,.1);
+    }
+    .csel-placeholder{color:#c5b898}
+    .csel-chevron{
+      position:absolute;right:.8rem;top:50%;transform:translateY(-50%);
+      pointer-events:none;transition:transform .2s;
+    }
+    .csel-chevron svg{width:11px;height:11px;stroke:var(--text-light);stroke-width:2;fill:none;stroke-linecap:round}
+    .csel-btn.open .csel-chevron{transform:translateY(-50%) rotate(180deg)}
+    .csel-drop{
+      position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:400;
+      background:var(--white);border:1.5px solid var(--border);
+      border-radius:var(--r);box-shadow:var(--sh);
+      max-height:240px;display:none;flex-direction:column;overflow:hidden;
+    }
+    .csel-drop.open{display:flex}
+    .csel-search{
+      padding:.55rem .85rem;border:none;border-bottom:1px solid var(--border);
+      font-family:var(--sans);font-size:.83rem;color:var(--text);
+      outline:none;background:#fffdf9;flex-shrink:0;
+    }
+    .csel-list{overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .csel-group{padding:.32rem .85rem;font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-light);background:#faf8f4;border-bottom:1px solid var(--border)}
+    .csel-opt{
+      padding:.58rem .85rem;font-size:.85rem;cursor:pointer;
+      display:flex;align-items:center;gap:.55rem;
+      transition:background .12s;border-bottom:1px solid rgba(0,0,0,.025);
+    }
+    .csel-opt:hover{background:var(--gold-pale)}
+    .csel-opt.sel{background:var(--gold-pale);font-weight:500}
+    .csel-opt .co-sub{font-size:.7rem;color:var(--text-light);margin-left:auto}
+    .csel-empty{padding:.85rem;text-align:center;font-size:.8rem;color:var(--text-light)}
 
-    /* NAV BUTTONS */
-    .nav-btns {
-      display: flex; gap: 0.7rem; padding: 1.2rem 2rem;
-      border-top: 1px solid var(--border); background: #fdfaf6;
+    /* ── TOGGLE ── */
+    .tog-wrap{display:flex;gap:.5rem}
+    .tog{
+      flex:1;padding:.62rem .5rem;
+      border:1.5px solid var(--border);background:var(--bg-input);
+      font-family:var(--sans);font-size:.76rem;font-weight:500;
+      color:var(--text-light);border-radius:var(--r);
+      cursor:pointer;text-align:center;transition:all .18s;
+      -webkit-tap-highlight-color:transparent;
     }
-    @media (max-width: 500px) { .nav-btns { padding: 1rem 1.2rem; } }
-    .btn-back {
-      padding: 0.75rem 1.3rem;
-      border: 1.5px solid var(--border); background: var(--white);
-      color: var(--text-mid); cursor: pointer;
-      font-family: var(--sans); font-size: 0.76rem; font-weight: 500;
-      border-radius: var(--radius); transition: all 0.18s;
-      display: flex; align-items: center; gap: 0.4rem;
-    }
-    .btn-back:hover { border-color: var(--gold-light); color: var(--gold); }
-    .btn-back svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .btn-next {
-      flex: 1; padding: 0.8rem 1.2rem;
-      background: var(--gold); color: var(--white);
-      border: none; cursor: pointer;
-      font-family: var(--sans); font-size: 0.76rem; font-weight: 600;
-      letter-spacing: 0.08em; border-radius: var(--radius);
-      transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-    }
-    .btn-next:hover { background: var(--gold-light); box-shadow: 0 4px 16px rgba(184,146,42,0.25); }
-    .btn-next svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s; }
-    .btn-next:hover svg { transform: translateX(3px); }
-    .btn-submit {
-      flex: 1; padding: 0.82rem 1.2rem;
-      background: var(--green); color: var(--white);
-      border: none; cursor: pointer;
-      font-family: var(--sans); font-size: 0.76rem; font-weight: 600;
-      letter-spacing: 0.08em; border-radius: var(--radius);
-      transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-    }
-    .btn-submit:hover { background: #25874a; box-shadow: 0 4px 16px rgba(30,107,53,0.25); }
-    .btn-submit svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .tog:hover{border-color:var(--gold-light);color:var(--text-mid)}
+    .tog.on{background:var(--gold-pale);border-color:var(--gold);color:var(--gold);font-weight:600}
 
-    /* REVIEW */
-    .rev-block { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 0.9rem; }
-    .rev-head {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.7rem 1rem; background: #fdfaf6; border-bottom: 1px solid var(--border);
+    /* ── INFO BOXES ── */
+    .info-box{
+      display:flex;gap:.8rem;align-items:flex-start;
+      background:var(--gold-pale);border:1px solid #e0c878;
+      border-radius:var(--r);padding:1rem 1.1rem;
+      font-size:.83rem;line-height:1.7;color:var(--text-mid);margin-bottom:.9rem;
     }
-    .rev-head-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 500; color: var(--text); }
-    .rev-edit {
-      font-size: 0.68rem; font-weight: 500; color: var(--gold);
-      background: none; border: 1px solid rgba(184,146,42,0.3); padding: 0.2rem 0.6rem;
-      border-radius: 4px; cursor: pointer; transition: all 0.15s;
-      display: flex; align-items: center; gap: 0.25rem;
+    .info-box .ib-ico svg{width:18px;height:18px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-top:2px;flex-shrink:0}
+    .info-note{
+      display:flex;gap:.65rem;align-items:flex-start;
+      background:#f7f5f0;border:1px solid var(--border);
+      border-radius:var(--r);padding:.8rem .95rem;
+      font-size:.78rem;line-height:1.65;color:var(--text-light);margin-top:.8rem;
     }
-    .rev-edit:hover { background: var(--gold-pale); }
-    .rev-edit svg { width: 10px; height: 10px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
-    .rev-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.5rem 1rem; font-size: 0.83rem;
-      border-bottom: 1px solid rgba(0,0,0,0.035);
-    }
-    .rev-row:last-child { border-bottom: none; }
-    .rk { color: var(--text-light); font-size: 0.76rem; }
-    .rv { font-weight: 500; color: var(--text); text-align: right; flex: 0 0 60%; word-break: break-word; }
+    .info-note svg{width:14px;height:14px;stroke:var(--text-light);stroke-width:1.8;fill:none;stroke-linecap:round;flex-shrink:0;margin-top:2px}
 
-    /* SIDEBAR */
-    .sidebar { position: sticky; top: 76px; }
-    .sb-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); }
-    .sb-img { width: 100%; height: 170px; object-fit: cover; display: block; }
-    .sb-body { padding: 1.3rem; }
-    .sb-name { font-family: var(--serif); font-size: 1.6rem; font-weight: 500; color: var(--text); margin-bottom: 0.15rem; }
-    .sb-sub { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-light); margin-bottom: 1.1rem; }
-    .sb-rows { display: flex; flex-direction: column; gap: 0.7rem; }
-    .sb-row { display: flex; align-items: center; gap: 0.7rem; font-size: 0.8rem; color: var(--text-mid); }
-    .sb-ico { width: 28px; height: 28px; flex-shrink: 0; background: var(--gold-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .sb-ico svg { width: 13px; height: 13px; stroke: var(--gold); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .sb-sep { height: 1px; background: var(--border); margin: 1.1rem 0; }
-    .sb-contact { font-size: 0.73rem; color: var(--text-light); text-align: center; line-height: 1.7; }
-    .sb-contact a { color: var(--gold); text-decoration: none; }
-    .sb-contact a:hover { text-decoration: underline; }
+    /* ── PAX CARDS ── */
+    .pax-card{
+      border:1px solid var(--border);border-radius:var(--r);
+      padding:1.1rem;margin-bottom:.75rem;position:relative;
+      background:var(--bg-input);
+    }
+    .pax-title{
+      font-family:var(--serif);font-size:1rem;font-weight:500;
+      color:var(--text);margin-bottom:.9rem;
+      display:flex;align-items:center;gap:.5rem;
+    }
+    .pax-badge{
+      width:20px;height:20px;border-radius:50%;background:var(--gold);
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--sans);font-size:.58rem;font-weight:700;color:#fff;
+    }
+    .pax-rm{
+      position:absolute;top:.9rem;right:.9rem;
+      width:26px;height:26px;border-radius:50%;
+      background:#fff;border:1px solid #ecd8d8;color:#b05050;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;
+    }
+    .pax-rm:hover{background:#fdf0f0;border-color:#d08080}
+    .pax-rm svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round}
+    .add-btn{
+      display:inline-flex;align-items:center;gap:.4rem;
+      padding:.48rem .9rem;margin-top:.25rem;
+      border:1.5px dashed var(--border);background:none;
+      color:var(--text-mid);font-family:var(--sans);font-size:.75rem;
+      font-weight:500;border-radius:var(--r);cursor:pointer;
+      transition:all .18s;
+    }
+    .add-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-pale)}
+    .add-btn svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round}
+
+    /* ── SECTION LABEL ── */
+    .sec-label{
+      font-family:var(--serif);font-size:1rem;font-weight:500;
+      color:var(--text);margin:1.3rem 0 .75rem;
+      display:flex;align-items:center;gap:.6rem;
+    }
+    .sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+    /* ── NAV BUTTONS ── */
+    .nav-btns{
+      display:flex;gap:.6rem;padding:1rem 1.5rem;
+      border-top:1px solid var(--border);background:#fdfaf6;
+    }
+    @media(max-width:480px){.nav-btns{padding:.85rem 1rem;gap:.5rem}}
+    .btn-back{
+      padding:.7rem 1.1rem;
+      border:1.5px solid var(--border);background:var(--white);
+      color:var(--text-mid);cursor:pointer;
+      font-family:var(--sans);font-size:.75rem;font-weight:500;
+      border-radius:var(--r);transition:all .18s;
+      display:flex;align-items:center;gap:.35rem;white-space:nowrap;
+    }
+    .btn-back:hover{border-color:var(--gold-light);color:var(--gold)}
+    .btn-back svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .btn-next{
+      flex:1;padding:.75rem 1rem;
+      background:var(--gold);color:var(--white);
+      border:none;cursor:pointer;
+      font-family:var(--sans);font-size:.75rem;font-weight:600;
+      letter-spacing:.07em;border-radius:var(--r);
+      transition:all .2s;
+      display:flex;align-items:center;justify-content:center;gap:.4rem;
+      white-space:nowrap;
+    }
+    .btn-next:hover{background:var(--gold-light);box-shadow:0 4px 16px rgba(184,146,42,.25)}
+    .btn-next svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+    .btn-next:hover svg{transform:translateX(3px)}
+    .btn-submit{
+      flex:1;padding:.78rem 1rem;
+      background:var(--green);color:var(--white);
+      border:none;cursor:pointer;
+      font-family:var(--sans);font-size:.75rem;font-weight:600;
+      letter-spacing:.07em;border-radius:var(--r);
+      transition:all .2s;
+      display:flex;align-items:center;justify-content:center;gap:.4rem;
+      white-space:nowrap;
+    }
+    .btn-submit:hover{background:#25874a;box-shadow:0 4px 16px rgba(30,107,53,.25)}
+    .btn-submit svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+    /* ── REVIEW ── */
+    .rev-block{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:.85rem}
+    .rev-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.65rem .9rem;background:#fdfaf6;border-bottom:1px solid var(--border);
+    }
+    .rev-head-title{font-family:var(--serif);font-size:.95rem;font-weight:500;color:var(--text)}
+    .rev-edit{
+      font-size:.65rem;font-weight:500;color:var(--gold);
+      background:none;border:1px solid rgba(184,146,42,.3);padding:.18rem .55rem;
+      border-radius:4px;cursor:pointer;transition:all .15s;
+      display:flex;align-items:center;gap:.25rem;white-space:nowrap;
+    }
+    .rev-edit:hover{background:var(--gold-pale)}
+    .rev-edit svg{width:10px;height:10px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+    .rev-row{
+      display:flex;justify-content:space-between;align-items:baseline;
+      padding:.45rem .9rem;font-size:.82rem;
+      border-bottom:1px solid rgba(0,0,0,.03);
+    }
+    .rev-row:last-child{border-bottom:none}
+    .rk{color:var(--text-light);font-size:.74rem;flex-shrink:0;margin-right:.5rem}
+    .rv{font-weight:500;color:var(--text);text-align:right;word-break:break-word}
+
+    /* ── SIDEBAR ── */
+    .sidebar{position:sticky;top:72px}
+    .sb-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--sh-sm)}
+    .sb-img{width:100%;height:160px;object-fit:cover;display:block}
+    .sb-body{padding:1.2rem}
+    .sb-name{font-family:var(--serif);font-size:1.5rem;font-weight:500;color:var(--text);margin-bottom:.12rem}
+    .sb-sub{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-light);margin-bottom:1rem}
+    .sb-rows{display:flex;flex-direction:column;gap:.65rem}
+    .sb-row{display:flex;align-items:center;gap:.65rem;font-size:.8rem;color:var(--text-mid)}
+    .sb-ico{width:26px;height:26px;flex-shrink:0;background:var(--gold-pale);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .sb-ico svg{width:12px;height:12px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .sb-sep{height:1px;background:var(--border);margin:1rem 0}
+    .sb-contact{font-size:.72rem;color:var(--text-light);text-align:center;line-height:1.7}
+    .sb-contact a{color:var(--gold);text-decoration:none}
+    .sb-contact a:hover{text-decoration:underline}
   </style>
 </head>
 <body>
@@ -402,12 +396,12 @@
           <p class="step-desc">Let us know who you are. Your confirmation will be sent to the email you provide below.</p>
         </div>
         <div class="form-card-body">
-          <div class="field"><label>Full Name</label><input type="text" id="s1-name" placeholder="e.g. Rahul Sharma"></div>
+          <div class="field"><label>Full Name</label><input type="text" id="s1-name" placeholder="e.g. Rahul Sharma" autocomplete="name"></div>
           <div class="field-row">
-            <div class="field"><label>Age</label><input type="number" id="s1-age" placeholder="28" min="1" max="120"></div>
+            <div class="field"><label>Age</label><input type="number" id="s1-age" placeholder="28" min="1" max="120" inputmode="numeric"></div>
             <div class="field">
               <label>Email Address</label>
-              <input type="email" id="s1-email" placeholder="you@example.com">
+              <input type="email" id="s1-email" placeholder="you@example.com" autocomplete="email" inputmode="email">
               <p class="field-hint">Confirmation sent here</p>
             </div>
           </div>
@@ -422,11 +416,11 @@
         <div class="form-card-head">
           <div class="step-num">Step 2 of 7</div>
           <h2 class="step-title">Travel Details</h2>
-          <p class="step-desc">Tell us your journey so we can plan accordingly. International guests are most welcome!</p>
+          <p class="step-desc">Tell us your journey so we can plan accordingly.</p>
         </div>
         <div class="form-card-body">
           <div class="field">
-            <label>Travelling From &mdash; Country</label>
+            <label>Country You Are Travelling From</label>
             <div class="csel" id="csel-country">
               <button type="button" class="csel-btn" id="csel-country-btn" onclick="toggleDrop('csel-country')">
                 <span id="csel-country-flag"></span>
@@ -434,21 +428,21 @@
                 <span class="csel-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
               </button>
               <div class="csel-drop" id="csel-country-drop">
-                <input class="csel-search" placeholder="Search country..." oninput="filterDrop('csel-country', this.value)" id="csel-country-q">
+                <input class="csel-search" placeholder="Search country..." oninput="filterDrop('csel-country',this.value)" id="csel-country-q">
                 <div class="csel-list" id="csel-country-list"></div>
               </div>
             </div>
           </div>
           <div class="field"><label>Departure City</label><input type="text" id="s2-from" placeholder="e.g. Mumbai, London, Dubai"></div>
           <div class="field">
-            <label>Landing At &mdash; Indian City</label>
+            <label>Arrival City in India</label>
             <div class="csel" id="csel-city">
               <button type="button" class="csel-btn" id="csel-city-btn" onclick="toggleDrop('csel-city')">
                 <span id="csel-city-text" class="csel-placeholder">Select arrival city</span>
                 <span class="csel-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
               </button>
               <div class="csel-drop" id="csel-city-drop">
-                <input class="csel-search" placeholder="Search city..." oninput="filterDrop('csel-city', this.value)" id="csel-city-q">
+                <input class="csel-search" placeholder="Search city..." oninput="filterDrop('csel-city',this.value)" id="csel-city-q">
                 <div class="csel-list" id="csel-city-list"></div>
               </div>
             </div>
@@ -469,7 +463,7 @@
         <div class="form-card-head">
           <div class="step-num">Step 3 of 7</div>
           <h2 class="step-title">Getting Here</h2>
-          <p class="step-desc">Based on your arrival city, here is what we&rsquo;ve prepared for you.</p>
+          <p class="step-desc">Based on your arrival city, here is what we&rsquo;ve arranged for you.</p>
         </div>
         <div class="form-card-body"><div id="transport-content"></div></div>
         <div class="nav-btns">
@@ -483,7 +477,7 @@
         <div class="form-card-head">
           <div class="step-num">Step 4 of 7</div>
           <h2 class="step-title">Food Preferences</h2>
-          <p class="step-desc">Your comfort matters to us. Please share any dietary requirements or allergies.</p>
+          <p class="step-desc">Please share any dietary requirements or allergies.</p>
         </div>
         <div class="form-card-body">
           <div class="field">
@@ -519,7 +513,7 @@
               <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               Add Adult
             </button>
-            <div class="sec-label" style="margin-top:1.5rem">Kids</div>
+            <div class="sec-label" style="margin-top:1.4rem">Kids</div>
             <div class="field">
               <label>Bringing kids along?</label>
               <div class="tog-wrap">
@@ -550,7 +544,7 @@
         <div class="form-card-body">
           <div class="field">
             <label>Message (Optional)</label>
-            <textarea id="s6-notes" placeholder="Write anything you&rsquo;d like us to know..." rows="7"></textarea>
+            <textarea id="s6-notes" placeholder="Write anything you'd like us to know..." rows="6"></textarea>
           </div>
         </div>
         <div class="nav-btns">
@@ -564,7 +558,7 @@
         <div class="form-card-head">
           <div class="step-num">Step 7 of 7</div>
           <h2 class="step-title">Review &amp; Confirm</h2>
-          <p class="step-desc">Please review your details below. Hit confirm to lock in your RSVP.</p>
+          <p class="step-desc">Please review your details below before confirming.</p>
         </div>
         <div class="form-card-body"><div id="review-body"></div></div>
         <div class="nav-btns">
@@ -598,7 +592,7 @@
 </div>
 
 <script>
-const COUNTRIES = [
+const COUNTRIES=[
   {f:'🇮🇳',n:'India',c:'IN',g:'South Asia'},{f:'🇦🇪',n:'UAE',c:'AE',g:'Middle East'},
   {f:'🇺🇸',n:'United States',c:'US',g:'Americas'},{f:'🇬🇧',n:'United Kingdom',c:'GB',g:'Europe'},
   {f:'🇨🇦',n:'Canada',c:'CA',g:'Americas'},{f:'🇦🇺',n:'Australia',c:'AU',g:'Oceania'},
@@ -618,217 +612,198 @@ const COUNTRIES = [
   {f:'🇧🇷',n:'Brazil',c:'BR',g:'Americas'},{f:'🇲🇽',n:'Mexico',c:'MX',g:'Americas'},
   {f:'🌍',n:'Other',c:'OT',g:'Other'}
 ];
-const CITIES = [
+const CITIES=[
   {n:'Jaipur',s:'Rajasthan',r:'jaipur'},{n:'Delhi',s:'Delhi NCR',r:'other'},
   {n:'Mumbai',s:'Maharashtra',r:'other'},{n:'Bangalore',s:'Karnataka',r:'other'},
   {n:'Hyderabad',s:'Telangana',r:'other'},{n:'Chennai',s:'Tamil Nadu',r:'other'},
   {n:'Kolkata',s:'West Bengal',r:'other'},{n:'Pune',s:'Maharashtra',r:'other'},
   {n:'Ahmedabad',s:'Gujarat',r:'other'},{n:'Lucknow',s:'Uttar Pradesh',r:'other'},
-  {n:'Chandigarh',s:'Punjab / Haryana',r:'other'},{n:'Kochi',s:'Kerala',r:'other'},
+  {n:'Chandigarh',s:'Punjab/Haryana',r:'other'},{n:'Kochi',s:'Kerala',r:'other'},
   {n:'Nagpur',s:'Maharashtra',r:'other'},{n:'Goa',s:'Goa',r:'other'},
   {n:'Indore',s:'Madhya Pradesh',r:'other'},{n:'Jodhpur',s:'Rajasthan',r:'other'},
   {n:'Udaipur',s:'Rajasthan',r:'other'},{n:'Varanasi',s:'Uttar Pradesh',r:'other'},
   {n:'Surat',s:'Gujarat',r:'other'},{n:'Other',s:'Any city',r:'other'}
 ];
 
-const drops = {};
-function initDrop(id, items, isCountry) {
-  drops[id] = { items, isCountry, sel: null };
-  renderList(id, items);
+const drops={};
+function initDrop(id,items,isC){
+  drops[id]={items,isC,sel:null};
+  renderList(id,items);
 }
-function renderList(id, items) {
-  const list = document.getElementById(id + '-list');
-  const isC = drops[id].isCountry;
-  if (!items.length) { list.innerHTML = '<div class="csel-empty">No results found</div>'; return; }
-  if (isC) {
-    const groups = {};
-    items.forEach(c => { (groups[c.g] = groups[c.g] || []).push(c); });
-    list.innerHTML = Object.keys(groups).map(g =>
-      `<div class="csel-group">${g}</div>` +
-      groups[g].map(c => `<div class="csel-opt${drops[id].sel&&drops[id].sel.c===c.c?' sel':''}" onclick="pickOpt('${id}','${c.c}')">${c.f} ${c.n}</div>`).join('')
+function renderList(id,items){
+  const list=document.getElementById(id+'-list');
+  const isC=drops[id].isC;
+  if(!items.length){list.innerHTML='<div class="csel-empty">No results found</div>';return;}
+  if(isC){
+    const groups={};
+    items.forEach(c=>{(groups[c.g]=groups[c.g]||[]).push(c);});
+    list.innerHTML=Object.keys(groups).map(g=>
+      `<div class="csel-group">${g}</div>`+
+      groups[g].map(c=>`<div class="csel-opt${drops[id].sel&&drops[id].sel.c===c.c?' sel':''}" onclick="pickOpt('${id}','${c.c}')">${c.f} ${c.n}</div>`).join('')
     ).join('');
-  } else {
-    list.innerHTML = items.map(c =>
+  }else{
+    list.innerHTML=items.map(c=>
       `<div class="csel-opt${drops[id].sel&&drops[id].sel.n===c.n?' sel':''}" onclick="pickOpt('${id}','${c.n}')">${c.n}<span class="co-sub">${c.s}</span></div>`
     ).join('');
   }
 }
-function filterDrop(id, q) {
-  const f = q.trim().toLowerCase();
-  renderList(id, f ? drops[id].items.filter(c => c.n.toLowerCase().includes(f) || (c.g||'').toLowerCase().includes(f)) : drops[id].items);
+function filterDrop(id,q){
+  const f=q.trim().toLowerCase();
+  renderList(id,f?drops[id].items.filter(c=>c.n.toLowerCase().includes(f)||(c.g||'').toLowerCase().includes(f)):drops[id].items);
 }
-function pickOpt(id, val) {
-  const isC = drops[id].isCountry;
-  const item = isC ? COUNTRIES.find(c => c.c === val) : CITIES.find(c => c.n === val);
-  if (!item) return;
-  drops[id].sel = item;
-  const txtEl = document.getElementById(id + '-text');
-  txtEl.className = '';
-  if (isC) { document.getElementById(id + '-flag').textContent = item.f + ' '; txtEl.textContent = item.n; }
-  else txtEl.textContent = item.n;
-  closeDrop(id); renderList(id, drops[id].items);
-  if (id === 'csel-city') buildTransport();
+function pickOpt(id,val){
+  const isC=drops[id].isC;
+  const item=isC?COUNTRIES.find(c=>c.c===val):CITIES.find(c=>c.n===val);
+  if(!item)return;
+  drops[id].sel=item;
+  const txtEl=document.getElementById(id+'-text');
+  txtEl.className='';
+  if(isC){document.getElementById(id+'-flag').textContent=item.f+' ';txtEl.textContent=item.n;}
+  else txtEl.textContent=item.n;
+  closeDrop(id);renderList(id,drops[id].items);
+  if(id==='csel-city')buildTransport();
 }
-function toggleDrop(id) {
-  const isOpen = document.getElementById(id + '-drop').classList.contains('open');
+function toggleDrop(id){
+  const isOpen=document.getElementById(id+'-drop').classList.contains('open');
   closeAllDrops();
-  if (!isOpen) {
-    document.getElementById(id + '-drop').classList.add('open');
-    document.getElementById(id + '-btn').classList.add('open');
-    setTimeout(() => { const q = document.getElementById(id + '-q'); if (q) q.focus(); }, 40);
+  if(!isOpen){
+    document.getElementById(id+'-drop').classList.add('open');
+    document.getElementById(id+'-btn').classList.add('open');
+    setTimeout(()=>{const q=document.getElementById(id+'-q');if(q)q.focus();},40);
   }
 }
-function closeDrop(id) {
-  document.getElementById(id + '-drop').classList.remove('open');
-  document.getElementById(id + '-btn').classList.remove('open');
+function closeDrop(id){
+  document.getElementById(id+'-drop').classList.remove('open');
+  document.getElementById(id+'-btn').classList.remove('open');
 }
-function closeAllDrops() { ['csel-country','csel-city'].forEach(closeDrop); }
-document.addEventListener('click', e => { if (!e.target.closest('.csel')) closeAllDrops(); });
+function closeAllDrops(){['csel-country','csel-city'].forEach(closeDrop);}
+document.addEventListener('click',e=>{if(!e.target.closest('.csel'))closeAllDrops();});
 
-function buildTransport() {
-  const sel = drops['csel-city'] && drops['csel-city'].sel;
-  const el = document.getElementById('transport-content');
-  if (!sel) { el.innerHTML = '<div class="info-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>Select your arrival city in Step 2 to see transport guidance.</span></div>'; return; }
-  if (sel.r === 'jaipur') {
-    el.innerHTML = `
-      <div class="info-box"><div class="ib-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-      <div><strong>You&rsquo;re landing in Jaipur &mdash; perfect!</strong><br>Since you&rsquo;re arriving directly in Jaipur, you can make your own way to the venue. It&rsquo;s a short cab or auto ride from Jaipur Airport.</div></div>
-      <div class="info-note"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span>Exact venue address will be shared closer to the date. Any questions? Write to <strong>contact@bride-groom.com</strong></span></div>`;
-  } else {
-    el.innerHTML = `
-      <div class="info-box"><div class="ib-ico"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-      <div><strong>Arriving at ${sel.n} &mdash; we&rsquo;ll guide you!</strong><br>You&rsquo;re landing at <strong>${sel.n}</strong>. Our team will reach out with onward travel options to Jaipur. Please share your requirements below.</div></div>
-      <div class="field"><label>Onward travel requirements from ${sel.n}</label>
-      <textarea id="s3-transport" rows="4" placeholder="e.g. Need help with train/flight to Jaipur, group travel options, pickup from Jaipur station, etc."></textarea>
-      <p class="field-hint">Note: Onward travel cost is borne by the guest. We&rsquo;ll share the best available options.</p></div>`;
+function buildTransport(){
+  const sel=drops['csel-city']&&drops['csel-city'].sel;
+  const el=document.getElementById('transport-content');
+  if(!sel){el.innerHTML='<div class="info-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>Select your arrival city in Step 2 to see transport guidance.</span></div>';return;}
+  if(sel.r==='jaipur'){
+    el.innerHTML=`<div class="info-box"><div class="ib-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><strong>You're landing in Jaipur &mdash; perfect!</strong><br>You can make your own way to the venue. It's a short cab or auto ride from Jaipur Airport.</div></div><div class="info-note"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Exact venue address will be shared closer to the date.</span></div>`;
+  }else{
+    el.innerHTML=`<div class="info-box"><div class="ib-ico"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><strong>Arriving at ${sel.n}</strong><br>Our team will reach out with onward travel options to Jaipur.</div></div><div class="field"><label>Onward travel requirements from ${sel.n}</label><textarea id="s3-transport" rows="4" placeholder="e.g. Need help with train/flight to Jaipur, pickup from Jaipur station, etc."></textarea><p class="field-hint">Onward travel cost is borne by the guest.</p></div>`;
   }
 }
 
-let cur = 1, hasCopax = false, hasKids = false, adultCnt = 0, kidCnt = 0;
-const TOTAL = 7;
-function showErr(msg) { const b = document.getElementById('err-box'); document.getElementById('err-msg').textContent = msg; b.classList.add('show'); b.scrollIntoView({behavior:'smooth',block:'center'}); }
-function hideErr() { document.getElementById('err-box').classList.remove('show'); }
-function go(n) {
+let cur=1,adultCnt=0,kidCnt=0;
+const TOTAL=7;
+function showErr(msg){const b=document.getElementById('err-box');document.getElementById('err-msg').textContent=msg;b.classList.add('show');b.scrollIntoView({behavior:'smooth',block:'center'});}
+function hideErr(){document.getElementById('err-box').classList.remove('show');}
+function go(n){
   hideErr();
-  if (n > cur && !validate(cur)) return;
-  document.getElementById('step-' + cur).classList.remove('active');
-  const si = document.getElementById('si-' + cur); si.classList.remove('active');
-  if (n > cur) si.classList.add('done'); else si.classList.remove('done');
-  cur = n;
-  document.getElementById('step-' + n).classList.add('active');
-  const ni = document.getElementById('si-' + n); ni.classList.remove('done'); ni.classList.add('active');
-  document.getElementById('prog-fill').style.width = (cur / TOTAL * 100) + '%';
-  document.getElementById('nav-step-lbl').textContent = 'Step ' + cur + ' of ' + TOTAL;
-  if (n === 3) buildTransport();
-  if (n === 7) buildReview();
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  if(n>cur&&!validate(cur))return;
+  document.getElementById('step-'+cur).classList.remove('active');
+  const si=document.getElementById('si-'+cur);si.classList.remove('active');
+  if(n>cur)si.classList.add('done');else si.classList.remove('done');
+  cur=n;
+  document.getElementById('step-'+n).classList.add('active');
+  const ni=document.getElementById('si-'+n);ni.classList.remove('done');ni.classList.add('active');
+  document.getElementById('prog-fill').style.width=(cur/TOTAL*100)+'%';
+  document.getElementById('nav-step-lbl').textContent='Step '+cur+' of '+TOTAL;
+  if(n===3)buildTransport();
+  if(n===7)buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-function validate(s) {
-  if (s === 1) {
-    const nm = document.getElementById('s1-name').value.trim();
-    const ag = document.getElementById('s1-age').value;
-    const em = document.getElementById('s1-email').value.trim();
-    if (!nm) { showErr('Please enter your full name.'); return false; }
-    if (!ag || +ag < 1) { showErr('Please enter a valid age.'); return false; }
-    if (!em || !em.includes('@')) { showErr('Please enter a valid email address.'); return false; }
-    const ex = JSON.parse(localStorage.getItem('rsvp_submissions') || '[]');
-    if (ex.find(r => r.email.toLowerCase() === em.toLowerCase())) { showErr('You have already RSVPed with this email.'); return false; }
+function validate(s){
+  if(s===1){
+    const nm=document.getElementById('s1-name').value.trim();
+    const ag=document.getElementById('s1-age').value;
+    const em=document.getElementById('s1-email').value.trim();
+    if(!nm){showErr('Please enter your full name.');return false;}
+    if(!ag||+ag<1){showErr('Please enter a valid age.');return false;}
+    if(!em||!em.includes('@')){showErr('Please enter a valid email address.');return false;}
+    const ex=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
+    if(ex.find(r=>r.email.toLowerCase()===em.toLowerCase())){showErr('You have already RSVPed with this email.');return false;}
   }
-  if (s === 2) {
-    if (!drops['csel-country'] || !drops['csel-country'].sel) { showErr('Please select your country.'); return false; }
-    if (!document.getElementById('s2-from').value.trim()) { showErr('Please enter your departure city.'); return false; }
-    if (!drops['csel-city'] || !drops['csel-city'].sel) { showErr('Please select your arrival city in India.'); return false; }
-    if (!document.getElementById('s2-fdate').value) { showErr('Please pick your departure date.'); return false; }
-    if (!document.getElementById('s2-ldate').value) { showErr('Please pick your arrival date.'); return false; }
+  if(s===2){
+    if(!drops['csel-country']||!drops['csel-country'].sel){showErr('Please select your country.');return false;}
+    if(!document.getElementById('s2-from').value.trim()){showErr('Please enter your departure city.');return false;}
+    if(!drops['csel-city']||!drops['csel-city'].sel){showErr('Please select your arrival city in India.');return false;}
+    if(!document.getElementById('s2-fdate').value){showErr('Please pick your departure date.');return false;}
+    if(!document.getElementById('s2-ldate').value){showErr('Please pick your arrival date.');return false;}
   }
-  if (s === 4 && !document.getElementById('s4-food').value.trim()) { showErr("Please fill food preferences or write 'None'."); return false; }
+  if(s===4&&!document.getElementById('s4-food').value.trim()){showErr("Please fill food preferences or write 'None'.");return false;}
   return true;
 }
-function setCopax(v) {
-  hasCopax = v;
-  document.getElementById('cx-yes').className = 'tog' + (v ? ' on' : '');
-  document.getElementById('cx-no').className = 'tog' + (v ? '' : ' on');
-  document.getElementById('copax-section').style.display = v ? 'block' : 'none';
+function setCopax(v){
+  document.getElementById('cx-yes').className='tog'+(v?' on':'');
+  document.getElementById('cx-no').className='tog'+(v?'':' on');
+  document.getElementById('copax-section').style.display=v?'block':'none';
 }
-function setKids(v) {
-  hasKids = v;
-  document.getElementById('kd-yes').className = 'tog' + (v ? ' on' : '');
-  document.getElementById('kd-no').className = 'tog' + (v ? '' : ' on');
-  document.getElementById('add-kid-btn').style.display = v ? 'inline-flex' : 'none';
-  if (!v) { document.getElementById('kids-wrap').innerHTML = ''; kidCnt = 0; }
+function setKids(v){
+  document.getElementById('kd-yes').className='tog'+(v?' on':'');
+  document.getElementById('kd-no').className='tog'+(v?'':' on');
+  document.getElementById('add-kid-btn').style.display=v?'inline-flex':'none';
+  if(!v){document.getElementById('kids-wrap').innerHTML='';kidCnt=0;}
 }
-function addAdult() {
-  if (adultCnt >= 10) { showErr('Max 10 adults.'); return; }
+function addAdult(){
+  if(adultCnt>=10){showErr('Max 10 adults.');return;}
   adultCnt++;
-  const w = document.getElementById('adults-wrap');
-  const d = document.createElement('div'); d.className = 'pax-card'; d.id = 'a' + adultCnt;
-  d.innerHTML = `<div class="pax-title"><span class="pax-badge">${adultCnt}</span> Adult ${adultCnt}</div>
-    <button class="pax-rm" onclick="document.getElementById('a${adultCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="field-row"><div class="field"><label>Name</label><input type="text" class="an" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="aa" placeholder="Age" min="18"></div></div>
-    <div class="field"><label>Food Allergies</label><textarea class="af" rows="2" placeholder="Any dietary needs or 'None'"></textarea></div>`;
+  const w=document.getElementById('adults-wrap');
+  const d=document.createElement('div');d.className='pax-card';d.id='a'+adultCnt;
+  d.innerHTML=`<div class="pax-title"><span class="pax-badge">${adultCnt}</span> Adult ${adultCnt}</div><button class="pax-rm" onclick="document.getElementById('a${adultCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="field-row"><div class="field"><label>Name</label><input type="text" class="an" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="aa" placeholder="Age" min="18" inputmode="numeric"></div></div><div class="field"><label>Food Allergies</label><textarea class="af" rows="2" placeholder="Any dietary needs or 'None'"></textarea></div>`;
   w.appendChild(d);
 }
-function addKid() {
-  if (kidCnt >= 4) { showErr('Max 4 kids.'); return; }
+function addKid(){
+  if(kidCnt>=4){showErr('Max 4 kids.');return;}
   kidCnt++;
-  const w = document.getElementById('kids-wrap');
-  const d = document.createElement('div'); d.className = 'pax-card'; d.id = 'k' + kidCnt;
-  d.innerHTML = `<div class="pax-title"><span class="pax-badge">${kidCnt}</span> Kid ${kidCnt}</div>
-    <button class="pax-rm" onclick="document.getElementById('k${kidCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="field-row"><div class="field"><label>Name</label><input type="text" class="kn" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="ka" placeholder="Age" min="0" max="17"></div></div>
-    <div class="field"><label>Food Allergies</label><textarea class="kf" rows="2" placeholder="Any food concerns?"></textarea></div>`;
+  const w=document.getElementById('kids-wrap');
+  const d=document.createElement('div');d.className='pax-card';d.id='k'+kidCnt;
+  d.innerHTML=`<div class="pax-title"><span class="pax-badge">${kidCnt}</span> Kid ${kidCnt}</div><button class="pax-rm" onclick="document.getElementById('k${kidCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="field-row"><div class="field"><label>Name</label><input type="text" class="kn" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="ka" placeholder="Age" min="0" max="17" inputmode="numeric"></div></div><div class="field"><label>Food Allergies</label><textarea class="kf" rows="2" placeholder="Any food concerns?"></textarea></div>`;
   w.appendChild(d);
 }
-function gather() {
-  const adults = [...document.querySelectorAll('#adults-wrap .pax-card')].map(c => ({name:c.querySelector('.an')?.value,age:c.querySelector('.aa')?.value,food:c.querySelector('.af')?.value}));
-  const kids = [...document.querySelectorAll('#kids-wrap .pax-card')].map(c => ({name:c.querySelector('.kn')?.value,age:c.querySelector('.ka')?.value,food:c.querySelector('.kf')?.value}));
-  const cSel = drops['csel-country']?.sel;
-  const ciSel = drops['csel-city']?.sel;
-  return {
-    name: document.getElementById('s1-name').value.trim(),
-    age: document.getElementById('s1-age').value,
-    email: document.getElementById('s1-email').value.trim(),
-    from_country: cSel?.n || '',
-    from_city: document.getElementById('s2-from').value.trim(),
-    to_city: ciSel?.n || '',
-    fly_date: document.getElementById('s2-fdate').value,
-    land_date: document.getElementById('s2-ldate').value,
-    transport: document.getElementById('s3-transport')?.value || '',
-    food: document.getElementById('s4-food').value,
-    adults, kids,
-    notes: document.getElementById('s6-notes').value,
-    submitted_at: new Date().toISOString()
+function gather(){
+  const adults=[...document.querySelectorAll('#adults-wrap .pax-card')].map(c=>({name:c.querySelector('.an')?.value,age:c.querySelector('.aa')?.value,food:c.querySelector('.af')?.value}));
+  const kids=[...document.querySelectorAll('#kids-wrap .pax-card')].map(c=>({name:c.querySelector('.kn')?.value,age:c.querySelector('.ka')?.value,food:c.querySelector('.kf')?.value}));
+  return{
+    name:document.getElementById('s1-name').value.trim(),
+    age:document.getElementById('s1-age').value,
+    email:document.getElementById('s1-email').value.trim(),
+    from_country:drops['csel-country']?.sel?.n||'',
+    from_city:document.getElementById('s2-from').value.trim(),
+    to_city:drops['csel-city']?.sel?.n||'',
+    fly_date:document.getElementById('s2-fdate').value,
+    land_date:document.getElementById('s2-ldate').value,
+    transport:document.getElementById('s3-transport')?.value||'',
+    food:document.getElementById('s4-food').value,
+    adults,kids,
+    notes:document.getElementById('s6-notes').value,
+    submitted_at:new Date().toISOString()
   };
 }
-function buildReview() {
-  const d = gather();
-  const eb = (s) => `<button class="rev-edit" onclick="go(${s})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>`;
-  const bl = (t, rows, s) => `<div class="rev-block"><div class="rev-head"><span class="rev-head-title">${t}</span>${eb(s)}</div>${rows}</div>`;
-  const rw = (k, v) => `<div class="rev-row"><span class="rk">${k}</span><span class="rv">${v || '&mdash;'}</span></div>`;
-  let h = bl('Personal Details', rw('Name', d.name) + rw('Age', d.age) + rw('Email', d.email), 1);
-  h += bl('Travel', rw('Country', d.from_country) + rw('Departure City', d.from_city) + rw('Arriving At', d.to_city) + rw('Departure', d.fly_date) + rw('Arrival', d.land_date), 2);
-  h += bl('Food', rw('Preferences', d.food || 'None'), 4);
-  if (d.adults.length || d.kids.length) {
-    let pr = '';
-    d.adults.forEach((a, i) => pr += rw('Adult ' + (i+1), a.name + ', Age ' + a.age));
-    d.kids.forEach((k, i) => pr += rw('Kid ' + (i+1), k.name + ', Age ' + k.age));
-    h += bl('Co-Passengers', pr, 5);
+function buildReview(){
+  const d=gather();
+  const eb=s=>`<button class="rev-edit" onclick="go(${s})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>`;
+  const bl=(t,rows,s)=>`<div class="rev-block"><div class="rev-head"><span class="rev-head-title">${t}</span>${eb(s)}</div>${rows}</div>`;
+  const rw=(k,v)=>`<div class="rev-row"><span class="rk">${k}</span><span class="rv">${v||'&mdash;'}</span></div>`;
+  let h=bl('Personal Details',rw('Name',d.name)+rw('Age',d.age)+rw('Email',d.email),1);
+  h+=bl('Travel',rw('Country',d.from_country)+rw('Departure City',d.from_city)+rw('Arriving At',d.to_city)+rw('Departure',d.fly_date)+rw('Arrival',d.land_date),2);
+  h+=bl('Food',rw('Preferences',d.food||'None'),4);
+  if(d.adults.length||d.kids.length){
+    let pr='';
+    d.adults.forEach((a,i)=>pr+=rw('Adult '+(i+1),a.name+', Age '+a.age));
+    d.kids.forEach((k,i)=>pr+=rw('Kid '+(i+1),k.name+', Age '+k.age));
+    h+=bl('Co-Passengers',pr,5);
   }
-  if (d.notes) h += bl('Notes', `<div style="padding:0.6rem 1rem;font-size:0.83rem;line-height:1.7;color:var(--text-mid)">${d.notes}</div>`, 6);
-  document.getElementById('review-body').innerHTML = h;
+  if(d.notes)h+=bl('Notes',`<div style="padding:.55rem .9rem;font-size:.82rem;line-height:1.7;color:var(--text-mid)">${d.notes}</div>`,6);
+  document.getElementById('review-body').innerHTML=h;
 }
-function submitRSVP() {
-  const data = gather();
-  const all = JSON.parse(localStorage.getItem('rsvp_submissions') || '[]');
+function submitRSVP(){
+  const data=gather();
+  const all=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
   all.push(data);
-  localStorage.setItem('rsvp_submissions', JSON.stringify(all));
-  localStorage.setItem('last_rsvp', JSON.stringify(data));
-  window.location.href = 'thankyou.html';
+  localStorage.setItem('rsvp_submissions',JSON.stringify(all));
+  localStorage.setItem('last_rsvp',JSON.stringify(data));
+  window.location.href='thankyou.html';
 }
 
-initDrop('csel-country', COUNTRIES, true);
-initDrop('csel-city', CITIES, false);
+initDrop('csel-country',COUNTRIES,true);
+initDrop('csel-city',CITIES,false);
 </script>
 </body>
 </html>
