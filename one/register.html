@@ -8,129 +8,367 @@
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-      --gold:#c9a84c;--gold-light:#f0d080;--cream:#faf7f2;
-      --dark:#0d0d0d;--dark2:#1a1510;--text:#3a2e1e;
+      --gold:#c9a84c;--gold-light:#f0d080;--gold-dark:#8a6820;
+      --cream:#faf7f2;--dark:#0d0d0d;--dark2:#1a1510;--text:#3a2e1e;
       --serif:'Playfair Display',serif;--script:'Great Vibes',cursive;--sans:'Inter',sans-serif;
-      --border:rgba(201,168,76,0.25);--input-bg:#ffffff;
+      --border:rgba(201,168,76,0.22);--input-bg:#ffffff;
+      --shadow:0 2px 24px rgba(26,21,16,0.07);
     }
     html{scroll-behavior:smooth}
     body{font-family:var(--sans);background:var(--cream);color:var(--text);min-height:100vh}
 
-    /* SVG icon base */
-    .ico{display:inline-flex;align-items:center;justify-content:center}
-    .ico svg{stroke-linecap:round;stroke-linejoin:round;fill:none}
-
-    .topnav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
-    .nav-back{display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--text);font-size:0.75rem;font-weight:500;letter-spacing:0.1rem;transition:color 0.2s}
+    /* ─── TOPNAV ─── */
+    .topnav{
+      position:sticky;top:0;z-index:200;
+      background:rgba(26,21,16,0.97);backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(201,168,76,0.15);
+      padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:62px;
+    }
+    .nav-back{
+      display:flex;align-items:center;gap:0.5rem;
+      text-decoration:none;color:rgba(255,255,255,0.55);
+      font-size:0.68rem;font-weight:500;letter-spacing:0.12rem;text-transform:uppercase;
+      transition:color 0.2s;
+    }
     .nav-back:hover{color:var(--gold)}
-    .nav-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .nav-brand{font-family:var(--script);font-size:1.6rem;color:var(--gold)}
-    .nav-steps{font-size:0.65rem;color:#aaa;letter-spacing:0.1rem}
+    .nav-back svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .nav-brand{font-family:var(--script);font-size:1.7rem;color:var(--gold);letter-spacing:0.02em}
+    .nav-badge{
+      font-size:0.6rem;color:rgba(255,255,255,0.35);letter-spacing:0.12rem;text-transform:uppercase;
+      border:1px solid rgba(201,168,76,0.2);padding:0.3rem 0.8rem;border-radius:20px;
+    }
 
-    .progress-wrap{background:#fff;border-bottom:1px solid var(--border);padding:1.2rem 2rem 0}
-    .steps-row{display:flex;max-width:760px;margin:0 auto}
+    /* ─── PROGRESS ─── */
+    .progress-wrap{
+      background:var(--dark2);
+      border-bottom:1px solid rgba(201,168,76,0.1);
+      padding:1.5rem 2.5rem 0;
+    }
+    .steps-row{display:flex;max-width:820px;margin:0 auto}
     .step-item{flex:1;text-align:center;position:relative}
-    .step-item::after{content:'';position:absolute;top:14px;left:50%;right:-50%;height:2px;background:#e8e0d0;z-index:0}
+    .step-item::after{
+      content:'';position:absolute;top:13px;left:55%;right:-45%;height:1px;
+      background:rgba(255,255,255,0.08);z-index:0;
+    }
     .step-item:last-child::after{display:none}
-    .step-item.done::after,.step-item.active::after{background:var(--gold)}
-    .step-dot{width:28px;height:28px;border-radius:50%;border:2px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:600;color:#ccc;margin:0 auto 0.5rem;position:relative;z-index:1;transition:all 0.3s}
-    .step-item.done .step-dot{background:var(--gold);border-color:var(--gold);color:#fff}
-    .step-item.active .step-dot{background:var(--dark2);border-color:var(--dark2);color:var(--gold);box-shadow:0 0 0 4px rgba(201,168,76,0.15)}
-    .step-lbl{font-size:0.55rem;letter-spacing:0.1rem;text-transform:uppercase;color:#bbb}
+    .step-item.done::after{background:var(--gold);opacity:0.5}
+    .step-item.active::after{background:linear-gradient(to right,var(--gold),rgba(255,255,255,0.08));opacity:0.7}
+    .step-dot{
+      width:26px;height:26px;border-radius:50%;
+      border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.58rem;font-weight:600;color:rgba(255,255,255,0.25);
+      margin:0 auto 0.6rem;position:relative;z-index:1;transition:all 0.35s;
+    }
+    .step-item.done .step-dot{
+      background:var(--gold);border-color:var(--gold);color:var(--dark2);
+    }
+    .step-item.active .step-dot{
+      background:transparent;border-color:var(--gold);color:var(--gold);
+      box-shadow:0 0 0 4px rgba(201,168,76,0.12),0 0 16px rgba(201,168,76,0.2);
+    }
+    .step-lbl{font-size:0.5rem;letter-spacing:0.1rem;text-transform:uppercase;color:rgba(255,255,255,0.2)}
     .step-item.active .step-lbl{color:var(--gold);font-weight:600}
-    .step-item.done .step-lbl{color:var(--gold)}
-    .progress-bar-track{height:3px;background:#f0ece4;max-width:760px;margin:0 auto;position:relative;overflow:hidden}
-    .progress-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--gold-light));transition:width 0.5s ease}
+    .step-item.done .step-lbl{color:rgba(201,168,76,0.6)}
+    .prog-track{height:2px;background:rgba(255,255,255,0.06);max-width:820px;margin:1.2rem auto 0;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(to right,var(--gold-dark),var(--gold),var(--gold-light));transition:width 0.5s cubic-bezier(.4,0,.2,1)}
 
-    .page-body{display:grid;grid-template-columns:1fr 340px;gap:0;max-width:1100px;margin:0 auto;padding:3rem 2rem;align-items:start}
-    @media(max-width:900px){.page-body{grid-template-columns:1fr}.sidebar-info{display:none}}
-    .form-area{padding-right:3rem}
-    @media(max-width:900px){.form-area{padding-right:0}}
+    /* ─── LAYOUT ─── */
+    .page-wrap{
+      display:grid;grid-template-columns:1fr 320px;gap:2.5rem;
+      max-width:1060px;margin:0 auto;padding:3rem 2.5rem;
+      align-items:start;
+    }
+    @media(max-width:880px){.page-wrap{grid-template-columns:1fr}.sidebar{display:none}}
 
-    .step-panel{display:none;animation:panelIn 0.35s ease}
+    /* ─── FORM CARD ─── */
+    .form-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      padding:2.5rem 2.5rem 2rem;
+    }
+    @media(max-width:600px){.form-card{padding:1.8rem 1.4rem 1.4rem}}
+
+    /* ─── STEP PANEL ─── */
+    .step-panel{display:none;animation:panelIn 0.32s cubic-bezier(.4,0,.2,1)}
     .step-panel.active{display:block}
-    @keyframes panelIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes panelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-    .step-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:400;color:var(--dark);margin-bottom:0.4rem}
+    .step-eyebrow{
+      font-size:0.58rem;letter-spacing:0.4rem;text-transform:uppercase;
+      color:var(--gold);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;
+    }
+    .step-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--gold);opacity:0.6}
+    .step-title{
+      font-family:var(--serif);font-size:clamp(1.7rem,3vw,2.2rem);
+      font-weight:400;color:var(--dark);margin-bottom:0.5rem;line-height:1.2;
+    }
     .step-title em{font-style:italic;color:var(--gold)}
-    .step-desc{font-size:0.82rem;color:#9a8870;line-height:1.7;margin-bottom:2.5rem}
+    .step-desc{font-size:0.8rem;color:#a09070;line-height:1.75;margin-bottom:2.2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(201,168,76,0.1)}
 
-    .field{margin-bottom:1.6rem}
-    .field label{display:block;font-size:0.65rem;font-weight:600;letter-spacing:0.18rem;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem}
-    .field input,.field select,.field textarea{width:100%;padding:0.85rem 1.1rem;border:1.5px solid var(--border);background:var(--input-bg);font-family:var(--sans);font-size:0.88rem;color:var(--text);border-radius:4px;outline:none;transition:border-color 0.25s,box-shadow 0.25s;appearance:none}
-    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.12)}
-    .field textarea{resize:vertical;min-height:110px;line-height:1.6}
-    .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer}
+    /* ─── FIELDS ─── */
+    .field{margin-bottom:1.5rem;position:relative}
+    .field label{
+      display:block;font-size:0.6rem;font-weight:600;
+      letter-spacing:0.2rem;text-transform:uppercase;
+      color:var(--gold-dark);margin-bottom:0.55rem;
+    }
+    .field input,.field textarea{
+      width:100%;padding:0.82rem 1rem;
+      border:1.5px solid rgba(201,168,76,0.2);
+      background:#fdfcf9;font-family:var(--sans);font-size:0.875rem;
+      color:var(--dark);border-radius:6px;outline:none;
+      transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;
+    }
+    .field input:focus,.field textarea:focus{
+      border-color:var(--gold);background:#fff;
+      box-shadow:0 0 0 3px rgba(201,168,76,0.1);
+    }
+    .field textarea{resize:vertical;min-height:110px;line-height:1.65}
     .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
     @media(max-width:500px){.field-row{grid-template-columns:1fr}}
-    .field-hint{font-size:0.72rem;color:#b0a08a;margin-top:0.35rem;line-height:1.5}
+    .field-hint{font-size:0.7rem;color:#c0ad90;margin-top:0.35rem;line-height:1.5}
+    .field-hint strong{color:#8a7050}
 
-    .info-box{display:flex;gap:1rem;align-items:flex-start;background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02));border:1.5px solid rgba(201,168,76,0.25);border-left:4px solid var(--gold);padding:1.3rem 1.5rem;border-radius:4px;font-size:0.85rem;line-height:1.7;color:#6b5030}
-    .info-box .ib-icon{flex-shrink:0;margin-top:2px}
-    .info-box .ib-icon svg{width:22px;height:22px;stroke:var(--gold);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    /* ─── CUSTOM SELECT ─── */
+    .csel-wrap{position:relative}
+    .csel-trigger{
+      width:100%;padding:0.82rem 2.8rem 0.82rem 1rem;
+      border:1.5px solid rgba(201,168,76,0.2);background:#fdfcf9;
+      font-family:var(--sans);font-size:0.875rem;color:var(--dark);
+      border-radius:6px;cursor:pointer;text-align:left;
+      display:flex;align-items:center;gap:0.6rem;
+      transition:border-color 0.2s,box-shadow 0.2s;
+      user-select:none;position:relative;
+    }
+    .csel-trigger:focus,.csel-trigger.open{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1);background:#fff}
+    .csel-trigger .csel-flag{font-size:1.1rem;line-height:1}
+    .csel-trigger .csel-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .csel-trigger .csel-placeholder{color:#b0a080}
+    .csel-arrow{
+      position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);
+      pointer-events:none;transition:transform 0.25s;
+    }
+    .csel-arrow svg{width:12px;height:12px;stroke:var(--gold);stroke-width:2;fill:none;stroke-linecap:round}
+    .csel-trigger.open .csel-arrow{transform:translateY(-50%) rotate(180deg)}
+    .csel-dropdown{
+      position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:500;
+      background:#fff;border:1.5px solid rgba(201,168,76,0.25);border-radius:8px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);overflow:hidden;
+      max-height:260px;display:none;flex-direction:column;
+    }
+    .csel-dropdown.open{display:flex}
+    .csel-search{
+      padding:0.7rem 1rem;
+      border:none;border-bottom:1px solid rgba(201,168,76,0.12);
+      font-family:var(--sans);font-size:0.82rem;color:var(--dark);
+      outline:none;background:#fffdf8;
+    }
+    .csel-list{overflow-y:auto;flex:1}
+    .csel-opt{
+      padding:0.65rem 1rem;cursor:pointer;font-size:0.85rem;
+      display:flex;align-items:center;gap:0.7rem;
+      transition:background 0.15s;
+      border-bottom:1px solid rgba(0,0,0,0.03);
+    }
+    .csel-opt:hover{background:rgba(201,168,76,0.07)}
+    .csel-opt.selected{background:rgba(201,168,76,0.1);color:var(--gold-dark);font-weight:600}
+    .csel-opt .co-flag{font-size:1.1rem;line-height:1}
+    .csel-opt .co-name{flex:1}
+    .csel-opt .co-sub{font-size:0.7rem;color:#b0a080}
+    .csel-opt.group-head{
+      padding:0.4rem 1rem;font-size:0.58rem;letter-spacing:0.2rem;
+      text-transform:uppercase;color:var(--gold);font-weight:600;
+      background:rgba(201,168,76,0.04);cursor:default;pointer-events:none;
+    }
+    .csel-empty{padding:1rem;text-align:center;font-size:0.8rem;color:#bbb}
 
-    .toggle-wrap{display:flex;gap:0.8rem}
-    .tog{flex:1;padding:0.75rem;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-family:var(--sans);font-size:0.75rem;font-weight:500;letter-spacing:0.1rem;text-transform:uppercase;color:#aaa;border-radius:4px;transition:all 0.25s;text-align:center}
-    .tog.on{background:var(--dark2);border-color:var(--dark2);color:var(--gold)}
+    /* ─── TOGGLE ─── */
+    .toggle-wrap{display:flex;gap:0.6rem}
+    .tog{
+      flex:1;padding:0.7rem 0.5rem;
+      border:1.5px solid rgba(201,168,76,0.2);background:#fdfcf9;
+      cursor:pointer;font-family:var(--sans);font-size:0.7rem;
+      font-weight:500;letter-spacing:0.08rem;text-transform:uppercase;
+      color:#b0a080;border-radius:6px;transition:all 0.22s;text-align:center;
+    }
+    .tog:hover{border-color:rgba(201,168,76,0.4);color:var(--gold-dark)}
+    .tog.on{background:var(--dark2);border-color:var(--dark2);color:var(--gold);box-shadow:0 2px 12px rgba(26,21,16,0.15)}
 
-    .pax-card{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:1rem;position:relative}
-    .pax-title{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
-    .pax-title::before{content:'';display:block;width:3px;height:16px;background:var(--gold)}
-    .pax-remove{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:#fff5f5;border:1px solid #ffcccc;color:#e05555;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-    .pax-remove:hover{background:#ffe0e0}
-    .pax-remove svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
-    .add-pax-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border:1.5px dashed var(--gold);background:none;color:var(--gold);cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.15rem;text-transform:uppercase;border-radius:4px;transition:all 0.25s;margin-top:0.5rem}
-    .add-pax-btn:hover{background:rgba(201,168,76,0.06)}
-    .add-pax-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+    /* ─── PAX CARDS ─── */
+    .pax-card{
+      background:linear-gradient(135deg,#fdfcf9,#faf7f2);
+      border:1.5px solid rgba(201,168,76,0.18);
+      border-radius:8px;padding:1.4rem;margin-bottom:0.8rem;position:relative;
+    }
+    .pax-title{
+      font-family:var(--serif);font-size:0.95rem;font-weight:400;
+      color:var(--dark);margin-bottom:1rem;
+      display:flex;align-items:center;gap:0.6rem;
+    }
+    .pax-title .pax-num{
+      width:22px;height:22px;background:var(--gold);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--sans);font-size:0.58rem;font-weight:700;color:var(--dark2);
+    }
+    .pax-remove{
+      position:absolute;top:1rem;right:1rem;width:26px;height:26px;
+      border-radius:50%;background:#fff;border:1px solid #f0d0d0;color:#c05050;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;
+    }
+    .pax-remove:hover{background:#fff0f0;border-color:#e08080}
+    .pax-remove svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round}
+    .add-pax-btn{
+      display:inline-flex;align-items:center;gap:0.5rem;
+      padding:0.55rem 1.1rem;
+      border:1.5px dashed rgba(201,168,76,0.4);
+      background:none;color:var(--gold-dark);
+      cursor:pointer;font-family:var(--sans);font-size:0.68rem;
+      font-weight:500;letter-spacing:0.12rem;text-transform:uppercase;
+      border-radius:6px;transition:all 0.22s;margin-top:0.4rem;
+    }
+    .add-pax-btn:hover{background:rgba(201,168,76,0.06);border-color:var(--gold)}
+    .add-pax-btn svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round}
 
-    .review-block{margin-bottom:1.5rem}
-    .review-block h4{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--gold);margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-    .review-block h4 button{font-family:var(--sans);font-size:0.6rem;letter-spacing:0.15rem;text-transform:uppercase;color:#aaa;background:none;border:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;gap:0.3rem}
-    .review-block h4 button:hover{color:var(--gold)}
-    .review-block h4 button svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .review-row{display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.83rem;border-bottom:1px solid rgba(0,0,0,0.04)}
-    .rk{color:#a08060}.rv{font-weight:500;color:var(--dark);text-align:right;flex:0 0 55%}
+    /* ─── INFO / ALERT BOXES ─── */
+    .info-box{
+      display:flex;gap:1rem;align-items:flex-start;
+      background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.01));
+      border:1.5px solid rgba(201,168,76,0.2);border-left:3px solid var(--gold);
+      padding:1.2rem 1.4rem;border-radius:8px;
+      font-size:0.83rem;line-height:1.75;color:#6b5030;margin-bottom:1rem;
+    }
+    .info-box .ib-icon{flex-shrink:0;margin-top:1px}
+    .info-box .ib-icon svg{width:20px;height:20px;stroke:var(--gold);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .info-box strong{color:var(--dark)}
+    .info-note{
+      display:flex;gap:0.8rem;align-items:flex-start;
+      background:rgba(26,21,16,0.03);border:1px solid rgba(26,21,16,0.08);
+      padding:1rem 1.2rem;border-radius:8px;
+      font-size:0.78rem;line-height:1.7;color:#8a7a60;margin-top:0.8rem;
+    }
+    .info-note svg{width:16px;height:16px;stroke:#a08060;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:2px}
+    .err-box{
+      background:#fff5f5;border:1.5px solid #ffdada;
+      border-left:3px solid #e05555;
+      color:#c03030;padding:0.85rem 1.2rem;border-radius:8px;
+      font-size:0.8rem;margin-bottom:1.5rem;
+      display:none;align-items:center;gap:0.6rem;
+    }
+    .err-box.show{display:flex}
+    .err-box svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;flex-shrink:0}
 
-    .nav-btns{display:flex;gap:1rem;margin-top:2.5rem}
-    .btn-back{padding:0.85rem 1.8rem;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.15rem;text-transform:uppercase;border-radius:4px;transition:all 0.25s;display:flex;align-items:center;gap:0.4rem}
-    .btn-back:hover{border-color:var(--gold);color:var(--gold)}
-    .btn-back svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .btn-next{flex:1;padding:0.9rem 2rem;background:var(--dark2);color:var(--gold);border:none;cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:600;letter-spacing:0.2rem;text-transform:uppercase;border-radius:4px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
-    .btn-next:hover{background:#2a1f0a;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
-    .btn-next svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.3s}
+    /* ─── NAV BUTTONS ─── */
+    .nav-btns{display:flex;gap:0.8rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,0.1)}
+    .btn-back{
+      padding:0.82rem 1.5rem;border:1.5px solid rgba(201,168,76,0.2);background:#fff;
+      color:#a08060;cursor:pointer;font-family:var(--sans);font-size:0.68rem;
+      font-weight:500;letter-spacing:0.15rem;text-transform:uppercase;
+      border-radius:6px;transition:all 0.22s;display:flex;align-items:center;gap:0.4rem;
+    }
+    .btn-back:hover{border-color:var(--gold);color:var(--gold-dark)}
+    .btn-back svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .btn-next{
+      flex:1;padding:0.9rem 1.5rem;
+      background:linear-gradient(135deg,var(--dark2),#251a08);
+      color:var(--gold);border:none;cursor:pointer;
+      font-family:var(--sans);font-size:0.72rem;font-weight:600;
+      letter-spacing:0.2rem;text-transform:uppercase;
+      border-radius:6px;transition:all 0.3s;
+      display:flex;align-items:center;justify-content:center;gap:0.5rem;
+      box-shadow:0 2px 16px rgba(26,21,16,0.2);
+    }
+    .btn-next:hover{background:linear-gradient(135deg,#251a08,#30200a);box-shadow:0 6px 24px rgba(26,21,16,0.3);transform:translateY(-1px)}
+    .btn-next svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.25s}
     .btn-next:hover svg{transform:translateX(3px)}
-    .btn-submit{flex:1;padding:1rem 2rem;background:linear-gradient(135deg,#1a6b2a,#2a9c40);color:#fff;border:none;cursor:pointer;font-family:var(--sans);font-size:0.72rem;font-weight:600;letter-spacing:0.2rem;text-transform:uppercase;border-radius:4px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
-    .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(26,107,42,0.3)}
+    .btn-submit{
+      flex:1;padding:0.95rem 1.5rem;
+      background:linear-gradient(135deg,#1a5c2a,#237a38);
+      color:#fff;border:none;cursor:pointer;
+      font-family:var(--sans);font-size:0.72rem;font-weight:600;
+      letter-spacing:0.2rem;text-transform:uppercase;
+      border-radius:6px;transition:all 0.3s;
+      display:flex;align-items:center;justify-content:center;gap:0.5rem;
+      box-shadow:0 2px 16px rgba(26,92,42,0.2);
+    }
+    .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(26,92,42,0.35)}
     .btn-submit svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
-    .err-box{background:#fff5f5;border:1.5px solid #ffcccc;color:#d03030;padding:0.9rem 1.2rem;border-radius:4px;font-size:0.8rem;margin-bottom:1.5rem;display:none;align-items:center;gap:0.5rem}
-    .err-box.show{display:flex}
-    .err-box svg{width:16px;height:16px;stroke:#d03030;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    /* ─── REVIEW ─── */
+    .review-block{margin-bottom:1.2rem;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+    .review-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0.85rem 1.2rem;
+      background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(201,168,76,0.01));
+      border-bottom:1px solid var(--border);
+    }
+    .review-head-title{font-family:var(--serif);font-size:0.9rem;font-weight:400;color:var(--dark)}
+    .review-edit-btn{
+      font-family:var(--sans);font-size:0.58rem;letter-spacing:0.15rem;
+      text-transform:uppercase;color:var(--gold-dark);background:none;
+      border:1px solid rgba(201,168,76,0.3);padding:0.25rem 0.7rem;
+      border-radius:4px;cursor:pointer;transition:all 0.2s;
+      display:flex;align-items:center;gap:0.3rem;
+    }
+    .review-edit-btn:hover{background:rgba(201,168,76,0.08);border-color:var(--gold)}
+    .review-edit-btn svg{width:10px;height:10px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .review-rows{padding:0.5rem 0}
+    .review-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:0.45rem 1.2rem;font-size:0.82rem;
+      border-bottom:1px solid rgba(0,0,0,0.03);
+    }
+    .review-row:last-child{border-bottom:none}
+    .rk{color:#a08060;font-size:0.75rem}.rv{font-weight:500;color:var(--dark);text-align:right;flex:0 0 60%;word-break:break-word}
 
-    .sidebar-info{position:sticky;top:100px;background:#fff;border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
-    .sidebar-img{width:100%;height:200px;object-fit:cover;display:block}
-    .sidebar-body{padding:1.5rem}
-    .sb-title{font-family:var(--script);font-size:2rem;color:var(--gold);margin-bottom:0.3rem}
-    .sb-date{font-size:0.7rem;letter-spacing:0.2rem;text-transform:uppercase;color:#bbb;margin-bottom:1.2rem}
-    .sb-items{display:flex;flex-direction:column;gap:0.8rem}
-    .sb-item{display:flex;align-items:center;gap:0.8rem;font-size:0.8rem;color:#6b5a40}
-    .sb-item .si-icon{width:32px;height:32px;background:rgba(201,168,76,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .sb-item .si-icon svg{width:15px;height:15px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .sb-divider{height:1px;background:var(--border);margin:1rem 0}
-    .sb-note{font-size:0.75rem;color:#aaa;line-height:1.6;text-align:center}
+    /* ─── SIDEBAR ─── */
+    .sidebar{position:sticky;top:80px}
+    .sb-card{
+      background:#fff;border:1px solid var(--border);
+      border-radius:12px;overflow:hidden;box-shadow:var(--shadow);
+    }
+    .sb-img{width:100%;height:180px;object-fit:cover;display:block;filter:saturate(0.9)}
+    .sb-body{padding:1.4rem}
+    .sb-name{font-family:var(--script);font-size:1.9rem;color:var(--gold);margin-bottom:0.2rem}
+    .sb-subtitle{font-size:0.6rem;letter-spacing:0.25rem;text-transform:uppercase;color:#ccc;margin-bottom:1.3rem}
+    .sb-list{display:flex;flex-direction:column;gap:0.75rem}
+    .sb-row{display:flex;align-items:center;gap:0.8rem;font-size:0.78rem;color:#6b5a40}
+    .sb-icon{
+      width:30px;height:30px;flex-shrink:0;
+      background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.15);
+      border-radius:50%;display:flex;align-items:center;justify-content:center;
+    }
+    .sb-icon svg{width:13px;height:13px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .sb-sep{height:1px;background:var(--border);margin:1.2rem 0}
+    .sb-contact{font-size:0.72rem;color:#bbb;text-align:center;line-height:1.7}
+    .sb-contact a{color:var(--gold-dark);text-decoration:none}
+
+    /* ─── SECTION DIVIDER ─── */
+    .sec-divider{
+      display:flex;align-items:center;gap:0.8rem;
+      margin:1.5rem 0 1rem;
+    }
+    .sec-divider .sd-label{
+      font-family:var(--serif);font-size:0.9rem;font-style:italic;color:var(--dark);white-space:nowrap;
+    }
+    .sec-divider::before,.sec-divider::after{content:'';flex:1;height:1px;background:rgba(201,168,76,0.15)}
   </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="topnav">
   <a href="index1.html" class="nav-back">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    Back to Home
+    Home
   </a>
   <span class="nav-brand">Bride &amp; Groom</span>
-  <span class="nav-steps" id="nav-step-count">Step 1 of 7</span>
+  <span class="nav-badge" id="nav-step-count">Step 1 of 7</span>
 </nav>
 
+<!-- PROGRESS -->
 <div class="progress-wrap">
   <div class="steps-row">
     <div class="step-item active" id="si-1"><div class="step-dot">1</div><div class="step-lbl">You</div></div>
@@ -141,104 +379,143 @@
     <div class="step-item" id="si-6"><div class="step-dot">6</div><div class="step-lbl">Notes</div></div>
     <div class="step-item" id="si-7">
       <div class="step-dot">
-        <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="11" height="11" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="step-lbl">Review</div>
     </div>
   </div>
-  <div class="progress-bar-track"><div class="progress-bar-fill" id="prog-fill" style="width:14%"></div></div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:14%"></div></div>
 </div>
 
-<div class="page-body">
-  <div class="form-area">
+<!-- BODY -->
+<div class="page-wrap">
+  <div>
     <div class="err-box" id="err-box">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <span id="err-msg"></span>
     </div>
 
-    <!-- STEP 1 -->
-    <div class="step-panel active" id="step-1">
-      <h2 class="step-title">About <em>You</em></h2>
-      <p class="step-desc">Let us know who you are. We'll use your email to send a confirmation.</p>
-      <div class="field"><label>Full Name</label><input type="text" id="s1-name" placeholder="e.g. Rahul Sharma"></div>
-      <div class="field-row">
-        <div class="field"><label>Age</label><input type="number" id="s1-age" placeholder="e.g. 28" min="1" max="120"></div>
-        <div class="field"><label>Email Address</label><input type="email" id="s1-email" placeholder="you@example.com"><p class="field-hint">We'll send your RSVP confirmation here</p></div>
-      </div>
-      <div class="nav-btns"><div></div>
-        <button class="btn-next" onclick="go(2)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-      </div>
-    </div>
+    <div class="form-card">
 
-    <!-- STEP 2 -->
-    <div class="step-panel" id="step-2">
-      <h2 class="step-title">Your <em>Travel</em></h2>
-      <p class="step-desc">Help us understand your journey to Jaipur so we can plan accordingly.</p>
-      <div class="field"><label>Flying From (Departure City)</label>
-        <select id="s2-from"><option value="">Select your city</option>
-          <option>Mumbai</option><option>Delhi</option><option>Bangalore</option><option>Chennai</option><option>Hyderabad</option><option>Kolkata</option><option>Pune</option><option>Ahmedabad</option><option>Surat</option><option>Lucknow</option><option>Chandigarh</option><option>Kochi</option><option>Goa</option><option>Nagpur</option><option>Other</option>
-        </select>
-      </div>
-      <div class="field"><label>Landing At (Arrival City)</label>
-        <select id="s2-to"><option value="">Select arrival city</option>
-          <option>Jaipur</option><option>Delhi</option><option>Mumbai</option><option>Chennai</option><option>Bangalore</option><option>Hyderabad</option><option>Kolkata</option><option>Other</option>
-        </select>
-      </div>
-      <div class="field-row">
-        <div class="field"><label>Date of Flying</label><input type="date" id="s2-fdate"></div>
-        <div class="field"><label>Date of Landing</label><input type="date" id="s2-ldate"></div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="go(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
-        <button class="btn-next" onclick="go(3)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-      </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="step-panel" id="step-3">
-      <h2 class="step-title">Transport <em>Help</em></h2>
-      <p class="step-desc">Based on where you're landing, here's what we've arranged for you.</p>
-      <div id="transport-content"></div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="go(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
-        <button class="btn-next" onclick="go(4)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-      </div>
-    </div>
-
-    <!-- STEP 4 -->
-    <div class="step-panel" id="step-4">
-      <h2 class="step-title">Food <em>Preferences</em></h2>
-      <p class="step-desc">Your comfort matters to us. Tell us about any dietary needs or allergies.</p>
-      <div class="field"><label>Dietary Restrictions / Allergies</label><textarea id="s4-food" placeholder="E.g. Vegetarian, nut allergy, gluten-free. Write 'None' if no restrictions." rows="5"></textarea></div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="go(3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
-        <button class="btn-next" onclick="go(5)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-      </div>
-    </div>
-
-    <!-- STEP 5 -->
-    <div class="step-panel" id="step-5">
-      <h2 class="step-title">Co-<em>Passengers</em></h2>
-      <p class="step-desc">Is anyone joining you? Add their details here.</p>
-      <div class="field"><label>Is anyone travelling with you?</label>
-        <div class="toggle-wrap">
-          <button class="tog" id="cx-yes" onclick="setCopax(true)">Yes, adding guests</button>
-          <button class="tog on" id="cx-no" onclick="setCopax(false)">No, just me</button>
+      <!-- STEP 1 -->
+      <div class="step-panel active" id="step-1">
+        <div class="step-eyebrow">Step 1</div>
+        <h2 class="step-title">About <em>You</em></h2>
+        <p class="step-desc">Let us know who you are. We&rsquo;ll send your confirmation to the email you provide.</p>
+        <div class="field"><label>Full Name</label><input type="text" id="s1-name" placeholder="e.g. Rahul Sharma"></div>
+        <div class="field-row">
+          <div class="field"><label>Age</label><input type="number" id="s1-age" placeholder="e.g. 28" min="1" max="120"></div>
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="s1-email" placeholder="you@example.com">
+            <p class="field-hint">Confirmation will be sent here</p>
+          </div>
+        </div>
+        <div class="nav-btns"><div></div>
+          <button class="btn-next" onclick="go(2)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
         </div>
       </div>
-      <div id="copax-section" style="display:none">
-        <div style="margin-bottom:2rem">
-          <div style="font-family:var(--serif);font-size:1.1rem;color:var(--dark);margin-bottom:1rem;font-style:italic">Adults</div>
+
+      <!-- STEP 2 -->
+      <div class="step-panel" id="step-2">
+        <div class="step-eyebrow">Step 2</div>
+        <h2 class="step-title">Your <em>Travel</em></h2>
+        <p class="step-desc">Tell us your journey details so we can plan accordingly. International guests are most welcome!</p>
+
+        <div class="field">
+          <label>Travelling From &mdash; Country</label>
+          <div class="csel-wrap" id="from-country-wrap">
+            <button type="button" class="csel-trigger" id="from-country-btn" onclick="toggleDrop('from-country')">
+              <span class="csel-flag" id="from-country-flag"></span>
+              <span class="csel-text csel-placeholder" id="from-country-text">Select country</span>
+              <span class="csel-arrow"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round"/></svg></span>
+            </button>
+            <div class="csel-dropdown" id="from-country-drop">
+              <input class="csel-search" placeholder="Search country..." oninput="filterDrop('from-country',this.value)" id="from-country-search">
+              <div class="csel-list" id="from-country-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Departure City</label>
+          <input type="text" id="s2-from" placeholder="e.g. Mumbai, London, Dubai">
+        </div>
+
+        <div class="field">
+          <label>Landing At &mdash; Indian City</label>
+          <div class="csel-wrap" id="to-city-wrap">
+            <button type="button" class="csel-trigger" id="to-city-btn" onclick="toggleDrop('to-city')">
+              <span class="csel-text csel-placeholder" id="to-city-text">Select arrival city</span>
+              <span class="csel-arrow"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round"/></svg></span>
+            </button>
+            <div class="csel-dropdown" id="to-city-drop">
+              <input class="csel-search" placeholder="Search city..." oninput="filterDrop('to-city',this.value)" id="to-city-search">
+              <div class="csel-list" id="to-city-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field"><label>Date of Departure</label><input type="date" id="s2-fdate"></div>
+          <div class="field"><label>Date of Arrival (India)</label><input type="date" id="s2-ldate"></div>
+        </div>
+
+        <div class="nav-btns">
+          <button class="btn-back" onclick="go(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+          <button class="btn-next" onclick="go(3)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-panel" id="step-3">
+        <div class="step-eyebrow">Step 3</div>
+        <h2 class="step-title">Getting <em>Here</em></h2>
+        <p class="step-desc">We&rsquo;ve put together guidance based on where you&rsquo;re landing.</p>
+        <div id="transport-content"></div>
+        <div class="nav-btns">
+          <button class="btn-back" onclick="go(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+          <button class="btn-next" onclick="go(4)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-panel" id="step-4">
+        <div class="step-eyebrow">Step 4</div>
+        <h2 class="step-title">Food <em>Preferences</em></h2>
+        <p class="step-desc">Your comfort matters to us. Please share any dietary needs or allergies.</p>
+        <div class="field">
+          <label>Dietary Restrictions / Allergies</label>
+          <textarea id="s4-food" placeholder="E.g. Vegetarian, nut allergy, gluten-free&#10;Write 'None' if you have no restrictions." rows="5"></textarea>
+        </div>
+        <div class="nav-btns">
+          <button class="btn-back" onclick="go(3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+          <button class="btn-next" onclick="go(5)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-panel" id="step-5">
+        <div class="step-eyebrow">Step 5</div>
+        <h2 class="step-title">Co-<em>Passengers</em></h2>
+        <p class="step-desc">Is anyone travelling with you? Add their details so we can plan for everyone.</p>
+        <div class="field">
+          <label>Is anyone travelling with you?</label>
+          <div class="toggle-wrap">
+            <button class="tog" id="cx-yes" onclick="setCopax(true)">Yes, adding guests</button>
+            <button class="tog on" id="cx-no" onclick="setCopax(false)">Just me</button>
+          </div>
+        </div>
+        <div id="copax-section" style="display:none">
+          <div class="sec-divider"><span class="sd-label">Adults</span></div>
           <div id="adults-wrap"></div>
           <button class="add-pax-btn" onclick="addAdult()">
             <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Add Adult
           </button>
-        </div>
-        <div style="height:1px;background:var(--border);margin:1.5rem 0"></div>
-        <div>
-          <div style="font-family:var(--serif);font-size:1.1rem;color:var(--dark);margin-bottom:1rem;font-style:italic">Kids</div>
-          <div class="field"><label>Are you bringing kids?</label>
+          <div class="sec-divider" style="margin-top:1.8rem"><span class="sd-label">Kids</span></div>
+          <div class="field">
+            <label>Bringing kids along?</label>
             <div class="toggle-wrap">
               <button class="tog" id="kd-yes" onclick="setKids(true)">Yes</button>
               <button class="tog on" id="kd-no" onclick="setKids(false)">No</button>
@@ -250,155 +527,377 @@
             Add Kid
           </button>
         </div>
+        <div class="nav-btns">
+          <button class="btn-back" onclick="go(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+          <button class="btn-next" onclick="go(6)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
       </div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="go(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
-        <button class="btn-next" onclick="go(6)">Continue <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-      </div>
-    </div>
 
-    <!-- STEP 6 -->
-    <div class="step-panel" id="step-6">
-      <h2 class="step-title">Anything <em>Else?</em></h2>
-      <p class="step-desc">Got questions about travel, stay, or anything at all? We're here to help.</p>
-      <div class="field"><label>Open Message (Optional)</label><textarea id="s6-notes" placeholder="Write anything &mdash; accommodation queries, special needs, or just a warm message for the couple" rows="7"></textarea></div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="go(5)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
-        <button class="btn-next" onclick="go(7)">Review RSVP <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      <!-- STEP 6 -->
+      <div class="step-panel" id="step-6">
+        <div class="step-eyebrow">Step 6</div>
+        <h2 class="step-title">Anything <em>Else?</em></h2>
+        <p class="step-desc">Questions about accommodation, special requirements, or just a warm note for the couple &mdash; all welcome here.</p>
+        <div class="field">
+          <label>Message (Optional)</label>
+          <textarea id="s6-notes" placeholder="Write anything you'd like us to know..." rows="7"></textarea>
+        </div>
+        <div class="nav-btns">
+          <button class="btn-back" onclick="go(5)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+          <button class="btn-next" onclick="go(7)">Review RSVP <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
       </div>
-    </div>
 
-    <!-- STEP 7 -->
-    <div class="step-panel" id="step-7">
-      <h2 class="step-title">Review &amp; <em>Confirm</em></h2>
-      <p class="step-desc">Everything looks good? Hit confirm to lock in your spot!</p>
-      <div id="review-body"></div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="go(6)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Edit</button>
-        <button class="btn-submit" onclick="submitRSVP()">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Confirm My RSVP
-        </button>
+      <!-- STEP 7 -->
+      <div class="step-panel" id="step-7">
+        <div class="step-eyebrow">Step 7</div>
+        <h2 class="step-title">Review &amp; <em>Confirm</em></h2>
+        <p class="step-desc">Everything looks good? Hit confirm to lock in your spot!</p>
+        <div id="review-body"></div>
+        <div class="nav-btns">
+          <button class="btn-back" onclick="go(6)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Edit</button>
+          <button class="btn-submit" onclick="submitRSVP()">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirm My RSVP
+          </button>
+        </div>
       </div>
-    </div>
+
+    </div><!-- /form-card -->
   </div>
 
-  <aside class="sidebar-info">
-    <img class="sidebar-img" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&q=80" alt="wedding">
-    <div class="sidebar-body">
-      <div class="sb-title">Bride &amp; Groom</div>
-      <div class="sb-date">25 &ndash; 26 November 2025</div>
-      <div class="sb-items">
-        <div class="sb-item">
-          <div class="si-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          <div>25&ndash;26 November 2025</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-card">
+      <img class="sb-img" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&q=80" alt="wedding">
+      <div class="sb-body">
+        <div class="sb-name">Bride &amp; Groom</div>
+        <div class="sb-subtitle">Wedding Celebration 2025</div>
+        <div class="sb-list">
+          <div class="sb-row">
+            <div class="sb-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div>25 &ndash; 26 November 2025</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+            <div>Jaipur, Rajasthan, India</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div>RSVP by 15 August 2025</div>
+          </div>
         </div>
-        <div class="sb-item">
-          <div class="si-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-          <div>Jaipur, Rajasthan</div>
-        </div>
-        <div class="sb-item">
-          <div class="si-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div>RSVP by 15 August 2025</div>
-        </div>
+        <div class="sb-sep"></div>
+        <div class="sb-contact">Questions? Reach us at<br><a href="mailto:contact@bride-groom.com">contact@bride-groom.com</a></div>
       </div>
-      <div class="sb-divider"></div>
-      <p class="sb-note">For queries: <strong>contact@bride-groom.com</strong></p>
     </div>
   </aside>
 </div>
 
 <script>
-  let cur=1,hasCopax=false,hasKids=false,adultCnt=0,kidCnt=0;
-  const TOTAL=7;
-  function showErr(msg){const b=document.getElementById('err-box');document.getElementById('err-msg').textContent=msg;b.classList.add('show');b.scrollIntoView({behavior:'smooth',block:'center'})}
-  function hideErr(){document.getElementById('err-box').classList.remove('show')}
-  function go(n){
-    hideErr();
-    if(n>cur&&!validate(cur))return;
-    document.getElementById('step-'+cur).classList.remove('active');
-    const si=document.getElementById('si-'+cur);si.classList.remove('active');
-    if(n>cur)si.classList.add('done');else si.classList.remove('done');
-    cur=n;
-    document.getElementById('step-'+n).classList.add('active');
-    const ni=document.getElementById('si-'+n);ni.classList.remove('done');ni.classList.add('active');
-    document.getElementById('prog-fill').style.width=(cur/TOTAL*100)+'%';
-    document.getElementById('nav-step-count').textContent='Step '+cur+' of '+TOTAL;
-    if(n===3)buildTransport();
-    if(n===7)buildReview();
-    window.scrollTo({top:0,behavior:'smooth'});
+// ─── DATA ───
+const COUNTRIES=[
+  {f:'🇮🇳',n:'India',c:'IN',g:'South Asia'},
+  {f:'🇦🇪',n:'UAE',c:'AE',g:'Middle East'},
+  {f:'🇺🇸',n:'United States',c:'US',g:'Americas'},
+  {f:'🇬🇧',n:'United Kingdom',c:'GB',g:'Europe'},
+  {f:'🇨🇦',n:'Canada',c:'CA',g:'Americas'},
+  {f:'🇦🇺',n:'Australia',c:'AU',g:'Oceania'},
+  {f:'🇸🇬',n:'Singapore',c:'SG',g:'Southeast Asia'},
+  {f:'🇳🇿',n:'New Zealand',c:'NZ',g:'Oceania'},
+  {f:'🇩🇪',n:'Germany',c:'DE',g:'Europe'},
+  {f:'🇫🇷',n:'France',c:'FR',g:'Europe'},
+  {f:'🇮🇹',n:'Italy',c:'IT',g:'Europe'},
+  {f:'🇳🇱',n:'Netherlands',c:'NL',g:'Europe'},
+  {f:'🇨🇭',n:'Switzerland',c:'CH',g:'Europe'},
+  {f:'🇳🇴',n:'Norway',c:'NO',g:'Europe'},
+  {f:'🇸🇪',n:'Sweden',c:'SE',g:'Europe'},
+  {f:'🇸🇦',n:'Saudi Arabia',c:'SA',g:'Middle East'},
+  {f:'🇶🇦',n:'Qatar',c:'QA',g:'Middle East'},
+  {f:'🇰🇼',n:'Kuwait',c:'KW',g:'Middle East'},
+  {f:'🇧🇭',n:'Bahrain',c:'BH',g:'Middle East'},
+  {f:'🇴🇲',n:'Oman',c:'OM',g:'Middle East'},
+  {f:'🇲🇾',n:'Malaysia',c:'MY',g:'Southeast Asia'},
+  {f:'🇹🇭',n:'Thailand',c:'TH',g:'Southeast Asia'},
+  {f:'🇯🇵',n:'Japan',c:'JP',g:'East Asia'},
+  {f:'🇨🇳',n:'China',c:'CN',g:'East Asia'},
+  {f:'🇰🇷',n:'South Korea',c:'KR',g:'East Asia'},
+  {f:'🇵🇰',n:'Pakistan',c:'PK',g:'South Asia'},
+  {f:'🇧🇩',n:'Bangladesh',c:'BD',g:'South Asia'},
+  {f:'🇱🇰',n:'Sri Lanka',c:'LK',g:'South Asia'},
+  {f:'🇳🇵',n:'Nepal',c:'NP',g:'South Asia'},
+  {f:'🇿🇦',n:'South Africa',c:'ZA',g:'Africa'},
+  {f:'🇰🇪',n:'Kenya',c:'KE',g:'Africa'},
+  {f:'🇳🇬',n:'Nigeria',c:'NG',g:'Africa'},
+  {f:'🇧🇷',n:'Brazil',c:'BR',g:'Americas'},
+  {f:'🇲🇽',n:'Mexico',c:'MX',g:'Americas'},
+  {f:'🌍',n:'Other',c:'OT',g:'Other'},
+];
+
+const INDIAN_CITIES=[
+  {n:'Jaipur',s:'Rajasthan — Direct to venue city',r:'jaipur'},
+  {n:'Delhi',s:'Delhi NCR',r:'other'},
+  {n:'Mumbai',s:'Maharashtra',r:'other'},
+  {n:'Bangalore',s:'Karnataka',r:'other'},
+  {n:'Hyderabad',s:'Telangana',r:'other'},
+  {n:'Chennai',s:'Tamil Nadu',r:'other'},
+  {n:'Kolkata',s:'West Bengal',r:'other'},
+  {n:'Pune',s:'Maharashtra',r:'other'},
+  {n:'Ahmedabad',s:'Gujarat',r:'other'},
+  {n:'Lucknow',s:'Uttar Pradesh',r:'other'},
+  {n:'Chandigarh',s:'Punjab/Haryana',r:'other'},
+  {n:'Kochi',s:'Kerala',r:'other'},
+  {n:'Nagpur',s:'Maharashtra',r:'other'},
+  {n:'Goa',s:'Goa',r:'other'},
+  {n:'Indore',s:'Madhya Pradesh',r:'other'},
+  {n:'Bhopal',s:'Madhya Pradesh',r:'other'},
+  {n:'Surat',s:'Gujarat',r:'other'},
+  {n:'Varanasi',s:'Uttar Pradesh',r:'other'},
+  {n:'Jodhpur',s:'Rajasthan',r:'other'},
+  {n:'Udaipur',s:'Rajasthan',r:'other'},
+  {n:'Other',s:'Any other city',r:'other'},
+];
+
+// ─── CUSTOM SELECT ───
+const dropData={};
+function buildDrop(id,items,isCountry){
+  dropData[id]={items,isCountry,selected:null};
+  const list=document.getElementById(id+'-list');
+  renderList(id,items);
+}
+function renderList(id,items){
+  const list=document.getElementById(id+'-list');
+  const isCountry=dropData[id].isCountry;
+  if(!items.length){list.innerHTML='<div class="csel-empty">No results found</div>';return}
+  if(isCountry){
+    const groups={};
+    items.forEach(c=>{if(!groups[c.g])groups[c.g]=[];groups[c.g].push(c)})
+    let html='';
+    Object.keys(groups).forEach(g=>{
+      html+=`<div class="csel-opt group-head">${g}</div>`;
+      groups[g].forEach(c=>{
+        const sel=dropData[id].selected&&dropData[id].selected.c===c.c?'selected':'';
+        html+=`<div class="csel-opt ${sel}" onclick="selectOpt('${id}','${c.c}')">
+          <span class="co-flag">${c.f}</span>
+          <span class="co-name">${c.n}</span>
+        </div>`;
+      });
+    });
+    list.innerHTML=html;
+  } else {
+    let html='';
+    items.forEach(c=>{
+      const sel=dropData[id].selected&&dropData[id].selected.n===c.n?'selected':'';
+      html+=`<div class="csel-opt ${sel}" onclick="selectOpt('${id}','${c.n}')">
+        <span class="co-name">${c.n}</span>
+        <span class="co-sub">${c.s||''}</span>
+      </div>`;
+    });
+    list.innerHTML=html;
   }
-  function validate(s){
-    if(s===1){
-      const name=document.getElementById('s1-name').value.trim();
-      const age=document.getElementById('s1-age').value;
-      const email=document.getElementById('s1-email').value.trim();
-      if(!name){showErr('Please enter your full name.');return false}
-      if(!age||+age<1){showErr('Please enter a valid age.');return false}
-      if(!email||!email.includes('@')){showErr('Please enter a valid email address.');return false}
-      const existing=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
-      if(existing.find(r=>r.email.toLowerCase()===email.toLowerCase())){showErr('You have already RSVPed with this email.');return false}
-    }
-    if(s===2){
-      if(!document.getElementById('s2-from').value){showErr('Please select your departure city.');return false}
-      if(!document.getElementById('s2-to').value){showErr('Please select your arrival city.');return false}
-      if(!document.getElementById('s2-fdate').value){showErr('Please pick your flying date.');return false}
-      if(!document.getElementById('s2-ldate').value){showErr('Please pick your landing date.');return false}
-    }
-    if(s===4){if(!document.getElementById('s4-food').value.trim()){showErr("Please fill food preferences or write 'None'.");return false}}
-    return true;
+}
+function filterDrop(id,q){
+  const all=dropData[id].items;
+  const f=q.trim().toLowerCase();
+  const filtered=f?all.filter(c=>((c.n||'').toLowerCase().includes(f)||(c.g||'').toLowerCase().includes(f))):all;
+  renderList(id,filtered);
+}
+function selectOpt(id,val){
+  const isCountry=dropData[id].isCountry;
+  let item;
+  if(isCountry) item=COUNTRIES.find(c=>c.c===val);
+  else item=INDIAN_CITIES.find(c=>c.n===val);
+  if(!item)return;
+  dropData[id].selected=item;
+  const btn=document.getElementById(id+'-btn');
+  const textEl=document.getElementById(id+'-text');
+  textEl.className='csel-text';
+  if(isCountry){
+    const flagEl=document.getElementById(id+'-flag');
+    if(flagEl)flagEl.textContent=item.f;
+    textEl.textContent=item.n;
+  } else {
+    textEl.textContent=item.n;
   }
-  function buildTransport(){
-    const city=document.getElementById('s2-to').value;
-    const el=document.getElementById('transport-content');
-    if(city==='Jaipur'){
-      el.innerHTML=`<div class="info-box"><div class="ib-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><strong>Great news!</strong> We'll arrange your pickup from Jaipur Airport. No action needed &mdash; just share your flight details and we'll have someone waiting!</div></div>`
-    } else {
-      el.innerHTML=`<div class="field"><label>Assistance from ${city||'your arrival city'}</label><p class="field-hint" style="margin-bottom:0.8rem">You're landing at <strong>${city}</strong>. Describe your needs below. <em>(Travel costs borne by the guest.)</em></p><textarea id="s3-transport" placeholder="Describe your requirements here..." rows="5"></textarea></div>`
-    }
+  closeDrop(id);
+  renderList(id,dropData[id].items);
+  if(id==='to-city')buildTransport();
+}
+function toggleDrop(id){
+  const drop=document.getElementById(id+'-drop');
+  const btn=document.getElementById(id+'-btn');
+  const isOpen=drop.classList.contains('open');
+  closeAllDrops();
+  if(!isOpen){drop.classList.add('open');btn.classList.add('open');setTimeout(()=>document.getElementById(id+'-search')&&document.getElementById(id+'-search').focus(),50)}
+}
+function closeDrop(id){
+  const drop=document.getElementById(id+'-drop');
+  const btn=document.getElementById(id+'-btn');
+  if(drop)drop.classList.remove('open');
+  if(btn)btn.classList.remove('open');
+}
+function closeAllDrops(){['from-country','to-city'].forEach(closeDrop)}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.csel-wrap'))closeAllDrops();
+});
+
+// ─── TRANSPORT ───
+function buildTransport(){
+  const sel=dropData['to-city']&&dropData['to-city'].selected;
+  const el=document.getElementById('transport-content');
+  if(!sel){el.innerHTML='<div class="info-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>Please select your arrival city in Step 2 first.</span></div>';return}
+  if(sel.r==='jaipur'){
+    el.innerHTML=`
+      <div class="info-box">
+        <div class="ib-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+        <div>
+          <strong>You&rsquo;re landing in Jaipur &mdash; perfect!</strong><br>
+          Since you&rsquo;re arriving directly in Jaipur, you can make your own way to the venue.
+          The venue is conveniently located within the city &mdash; a short cab or auto ride from the airport.
+        </div>
+      </div>
+      <div class="info-note">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Exact venue address will be shared closer to the date. For questions, contact us at <strong>contact@bride-groom.com</strong></span>
+      </div>
+    `;
+  } else {
+    const city=sel.n;
+    el.innerHTML=`
+      <div class="info-box">
+        <div class="ib-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div>
+          <strong>Arriving at ${city} &mdash; we&rsquo;ve got you covered!</strong><br>
+          You&rsquo;re landing at <strong>${city}</strong>, not Jaipur. No worries &mdash; we&rsquo;ll guide you from there.
+          Please share your requirements below and our team will reach out with the best onward travel options.
+        </div>
+      </div>
+      <div class="field" style="margin-top:1rem">
+        <label>Your onward travel needs from ${city}</label>
+        <textarea id="s3-transport" rows="4" placeholder="E.g. Need help booking a train / flight to Jaipur, looking for group travel options, need pickup from Jaipur railway station, etc."></textarea>
+        <p class="field-hint"><strong>Note:</strong> Onward travel arrangements &amp; costs are borne by the guest. We&rsquo;ll share the best options available.</p>
+      </div>
+    `;
   }
-  function setCopax(v){hasCopax=v;document.getElementById('cx-yes').className='tog'+(v?' on':'');document.getElementById('cx-no').className='tog'+(v?'':' on');document.getElementById('copax-section').style.display=v?'block':'none'}
-  function setKids(v){hasKids=v;document.getElementById('kd-yes').className='tog'+(v?' on':'');document.getElementById('kd-no').className='tog'+(v?'':' on');document.getElementById('add-kid-btn').style.display=v?'inline-flex':'none';if(!v){document.getElementById('kids-wrap').innerHTML='';kidCnt=0}}
-  function addAdult(){
-    if(adultCnt>=10){showErr('Max 10 adults.');return}
-    adultCnt++;
-    const w=document.getElementById('adults-wrap');
-    const d=document.createElement('div');d.className='pax-card';d.id='a'+adultCnt;
-    d.innerHTML=`<div class="pax-title">Adult ${adultCnt}</div>
-      <button class="pax-remove" onclick="document.getElementById('a${adultCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <div class="field-row"><div class="field"><label>Name</label><input type="text" class="an" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="aa" placeholder="Age" min="18"></div></div>
-      <div class="field"><label>Food Allergies</label><textarea class="af" rows="2" placeholder="Vegetarian, nut allergy, etc. or 'None'"></textarea></div>`;
-    w.appendChild(d);
+}
+
+// ─── STEPS ───
+let cur=1,hasCopax=false,hasKids=false,adultCnt=0,kidCnt=0;
+const TOTAL=7;
+function showErr(msg){const b=document.getElementById('err-box');document.getElementById('err-msg').textContent=msg;b.classList.add('show');b.scrollIntoView({behavior:'smooth',block:'center'})}
+function hideErr(){document.getElementById('err-box').classList.remove('show')}
+function go(n){
+  hideErr();
+  if(n>cur&&!validate(cur))return;
+  document.getElementById('step-'+cur).classList.remove('active');
+  const si=document.getElementById('si-'+cur);si.classList.remove('active');
+  if(n>cur)si.classList.add('done');else si.classList.remove('done');
+  cur=n;
+  document.getElementById('step-'+n).classList.add('active');
+  const ni=document.getElementById('si-'+n);ni.classList.remove('done');ni.classList.add('active');
+  document.getElementById('prog-fill').style.width=(cur/TOTAL*100)+'%';
+  document.getElementById('nav-step-count').textContent='Step '+cur+' of '+TOTAL;
+  if(n===3)buildTransport();
+  if(n===7)buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function validate(s){
+  if(s===1){
+    const name=document.getElementById('s1-name').value.trim();
+    const age=document.getElementById('s1-age').value;
+    const email=document.getElementById('s1-email').value.trim();
+    if(!name){showErr('Please enter your full name.');return false}
+    if(!age||+age<1){showErr('Please enter a valid age.');return false}
+    if(!email||!email.includes('@')){showErr('Please enter a valid email address.');return false}
+    const existing=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
+    if(existing.find(r=>r.email.toLowerCase()===email.toLowerCase())){showErr('You have already RSVPed with this email.');return false}
   }
-  function addKid(){
-    if(kidCnt>=4){showErr('Max 4 kids.');return}
-    kidCnt++;
-    const w=document.getElementById('kids-wrap');
-    const d=document.createElement('div');d.className='pax-card';d.id='k'+kidCnt;
-    d.innerHTML=`<div class="pax-title">Kid ${kidCnt}</div>
-      <button class="pax-remove" onclick="document.getElementById('k${kidCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <div class="field-row"><div class="field"><label>Name</label><input type="text" class="kn" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="ka" placeholder="Age" min="0" max="17"></div></div>
-      <div class="field"><label>Food Allergies</label><textarea class="kf" rows="2" placeholder="Any food concerns?"></textarea></div>`;
-    w.appendChild(d);
+  if(s===2){
+    if(!dropData['from-country']||!dropData['from-country'].selected){showErr('Please select your country.');return false}
+    const fromCity=document.getElementById('s2-from').value.trim();
+    if(!fromCity){showErr('Please enter your departure city.');return false}
+    if(!dropData['to-city']||!dropData['to-city'].selected){showErr('Please select your arrival city in India.');return false}
+    if(!document.getElementById('s2-fdate').value){showErr('Please pick your departure date.');return false}
+    if(!document.getElementById('s2-ldate').value){showErr('Please pick your arrival date.');return false}
   }
-  function gather(){
-    const adults=[...document.querySelectorAll('#adults-wrap .pax-card')].map(c=>({name:c.querySelector('.an')?.value,age:c.querySelector('.aa')?.value,food:c.querySelector('.af')?.value,type:'adult'}));
-    const kids=[...document.querySelectorAll('#kids-wrap .pax-card')].map(c=>({name:c.querySelector('.kn')?.value,age:c.querySelector('.ka')?.value,food:c.querySelector('.kf')?.value,type:'kid'}));
-    const arrCity=document.getElementById('s2-to').value;
-    const tEl=document.getElementById('s3-transport');
-    return{name:document.getElementById('s1-name').value.trim(),age:document.getElementById('s1-age').value,email:document.getElementById('s1-email').value.trim(),from_city:document.getElementById('s2-from').value,to_city:arrCity,fly_date:document.getElementById('s2-fdate').value,land_date:document.getElementById('s2-ldate').value,transport_help:arrCity!=='Jaipur',transport_desc:tEl?tEl.value:'',food:document.getElementById('s4-food').value,adults,kids,notes:document.getElementById('s6-notes').value,submitted_at:new Date().toISOString()}
+  if(s===4){if(!document.getElementById('s4-food').value.trim()){showErr("Please fill food preferences or write 'None'.");return false}}
+  return true;
+}
+function setCopax(v){hasCopax=v;document.getElementById('cx-yes').className='tog'+(v?' on':'');document.getElementById('cx-no').className='tog'+(v?'':' on');document.getElementById('copax-section').style.display=v?'block':'none'}
+function setKids(v){hasKids=v;document.getElementById('kd-yes').className='tog'+(v?' on':'');document.getElementById('kd-no').className='tog'+(v?'':' on');document.getElementById('add-kid-btn').style.display=v?'inline-flex':'none';if(!v){document.getElementById('kids-wrap').innerHTML='';kidCnt=0}}
+function addAdult(){
+  if(adultCnt>=10){showErr('Max 10 adults.');return}
+  adultCnt++;
+  const w=document.getElementById('adults-wrap');
+  const d=document.createElement('div');d.className='pax-card';d.id='a'+adultCnt;
+  d.innerHTML=`<div class="pax-title"><span class="pax-num">${adultCnt}</span>Adult ${adultCnt}</div>
+    <button class="pax-remove" onclick="document.getElementById('a${adultCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="field-row"><div class="field"><label>Name</label><input type="text" class="an" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="aa" placeholder="Age" min="18"></div></div>
+    <div class="field"><label>Food Allergies</label><textarea class="af" rows="2" placeholder="Any dietary needs or 'None'"></textarea></div>`;
+  w.appendChild(d);
+}
+function addKid(){
+  if(kidCnt>=4){showErr('Max 4 kids.');return}
+  kidCnt++;
+  const w=document.getElementById('kids-wrap');
+  const d=document.createElement('div');d.className='pax-card';d.id='k'+kidCnt;
+  d.innerHTML=`<div class="pax-title"><span class="pax-num">${kidCnt}</span>Kid ${kidCnt}</div>
+    <button class="pax-remove" onclick="document.getElementById('k${kidCnt}').remove()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="field-row"><div class="field"><label>Name</label><input type="text" class="kn" placeholder="Full name"></div><div class="field"><label>Age</label><input type="number" class="ka" placeholder="Age" min="0" max="17"></div></div>
+    <div class="field"><label>Food Allergies</label><textarea class="kf" rows="2" placeholder="Any food concerns?"></textarea></div>`;
+  w.appendChild(d);
+}
+function gather(){
+  const adults=[...document.querySelectorAll('#adults-wrap .pax-card')].map(c=>({name:c.querySelector('.an')?.value,age:c.querySelector('.aa')?.value,food:c.querySelector('.af')?.value,type:'adult'}));
+  const kids=[...document.querySelectorAll('#kids-wrap .pax-card')].map(c=>({name:c.querySelector('.kn')?.value,age:c.querySelector('.ka')?.value,food:c.querySelector('.kf')?.value,type:'kid'}));
+  const arrSel=dropData['to-city']&&dropData['to-city'].selected;
+  const countrySel=dropData['from-country']&&dropData['from-country'].selected;
+  const tEl=document.getElementById('s3-transport');
+  return{
+    name:document.getElementById('s1-name').value.trim(),
+    age:document.getElementById('s1-age').value,
+    email:document.getElementById('s1-email').value.trim(),
+    from_country:countrySel?countrySel.n:'',
+    from_city:document.getElementById('s2-from').value.trim(),
+    to_city:arrSel?arrSel.n:'',
+    fly_date:document.getElementById('s2-fdate').value,
+    land_date:document.getElementById('s2-ldate').value,
+    transport_desc:tEl?tEl.value:'',
+    food:document.getElementById('s4-food').value,
+    adults,kids,
+    notes:document.getElementById('s6-notes').value,
+    submitted_at:new Date().toISOString()
   }
-  function buildReview(){
-    const d=gather();
-    const editBtn=(s,label)=>`<button onclick="go(${s})"><svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ${label}</button>`;
-    let html=`<div class="review-block"><h4>Personal Details ${editBtn(1,'Edit')}<div class="review-row"><span class="rk">Name</span><span class="rv">${d.name}</span></div><div class="review-row"><span class="rk">Age</span><span class="rv">${d.age}</span></div><div class="review-row"><span class="rk">Email</span><span class="rv">${d.email}</span></div></h4></div>`;
-    html+=`<div class="review-block"><h4>Travel ${editBtn(2,'Edit')}<div class="review-row"><span class="rk">Flying From</span><span class="rv">${d.from_city}</span></div><div class="review-row"><span class="rk">Landing At</span><span class="rv">${d.to_city}</span></div><div class="review-row"><span class="rk">Flying Date</span><span class="rv">${d.fly_date}</span></div><div class="review-row"><span class="rk">Landing Date</span><span class="rv">${d.land_date}</span></div></h4></div>`;
-    html+=`<div class="review-block"><h4>Food ${editBtn(4,'Edit')}<div class="review-row"><span class="rk">Preferences</span><span class="rv">${d.food||'None'}</span></div></h4></div>`;
-    if(d.adults.length||d.kids.length){html+=`<div class="review-block"><h4>Co-Passengers ${editBtn(5,'Edit')}`;d.adults.forEach((a,i)=>html+=`<div class="review-row"><span class="rk">Adult ${i+1}</span><span class="rv">${a.name}, Age ${a.age}</span></div>`);d.kids.forEach((k,i)=>html+=`<div class="review-row"><span class="rk">Kid ${i+1}</span><span class="rv">${k.name}, Age ${k.age}</span></div>`);html+=`</h4></div>`}
-    if(d.notes)html+=`<div class="review-block"><h4>Message ${editBtn(6,'Edit')}<p style="font-size:0.85rem;line-height:1.7;color:#6b5040;margin-top:0.5rem">${d.notes}</p></h4></div>`;
-    document.getElementById('review-body').innerHTML=html;
+}
+function buildReview(){
+  const d=gather();
+  const editBtn=(s)=>`<button class="review-edit-btn" onclick="go(${s})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>`;
+  const block=(title,rows,step)=>`<div class="review-block"><div class="review-head"><span class="review-head-title">${title}</span>${editBtn(step)}</div><div class="review-rows">${rows}</div></div>`;
+  const row=(k,v)=>`<div class="review-row"><span class="rk">${k}</span><span class="rv">${v||'&mdash;'}</span></div>`;
+  let html=block('Personal Details',row('Name',d.name)+row('Age',d.age)+row('Email',d.email),1);
+  html+=block('Travel',row('Country',d.from_country)+row('Departure City',d.from_city)+row('Arriving At',d.to_city)+row('Departure Date',d.fly_date)+row('Arrival Date',d.land_date),2);
+  html+=block('Food',row('Preferences',d.food||'None'),4);
+  if(d.adults.length||d.kids.length){
+    let prows='';
+    d.adults.forEach((a,i)=>prows+=row('Adult '+(i+1),a.name+', Age '+a.age));
+    d.kids.forEach((k,i)=>prows+=row('Kid '+(i+1),k.name+', Age '+k.age));
+    html+=block('Co-Passengers',prows,5);
   }
-  function submitRSVP(){const data=gather();const all=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');all.push(data);localStorage.setItem('rsvp_submissions',JSON.stringify(all));localStorage.setItem('last_rsvp',JSON.stringify(data));window.location.href='thankyou.html'}
+  if(d.notes)html+=block('Message',`<div style="padding:0.7rem 1.2rem;font-size:0.83rem;line-height:1.75;color:#6b5040">${d.notes}</div>`,6);
+  document.getElementById('review-body').innerHTML=html;
+}
+function submitRSVP(){
+  const data=gather();
+  const all=JSON.parse(localStorage.getItem('rsvp_submissions')||'[]');
+  all.push(data);
+  localStorage.setItem('rsvp_submissions',JSON.stringify(all));
+  localStorage.setItem('last_rsvp',JSON.stringify(data));
+  window.location.href='thankyou.html';
+}
+
+// ─── INIT DROPDOWNS ───
+buildDrop('from-country',COUNTRIES,true);
+buildDrop('to-city',INDIAN_CITIES,false);
 </script>
 </body>
 </html>
